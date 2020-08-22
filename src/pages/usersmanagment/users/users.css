@@ -1,0 +1,27 @@
+.filter{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.custom_text_width {
+    width: 20% !important;
+}
+@media(max-width:400px){
+    .filter{
+      display: block;
+    }
+    .custom_text_width {
+        width: 100% !important;
+    }
+    .bottom_text{
+        margin-bottom: 10px;
+    }
+  }
+  @media(max-width:1024px){
+    .custom_text_width {
+        width: 100% !important;
+    }
+    .bottom_text{
+        margin-right: 10px;
+    }
+  }

@@ -1,0 +1,48 @@
+.img-upload input {
+    display:none;
+}
+img.pic {
+    width: 100px;
+    border-radius: 60px;
+}
+.imag i.fa.fa-upload.fa-lg {
+    font-size: 38px;
+}
+input#profile {
+    pointer-events: none;
+}
+
+img.picture {
+    height: 75px;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.fa .fa-remove .fa-lg .cursor {
+    cursor: pointer;
+}
+
+.form-control.profile_search{
+    display: inline-block; 
+    width: calc(100% - 240px); 
+    margin-left: 20px;
+}
+
+@media(max-width: 768px)  {
+    .form-control.profile_search{
+        display: block; 
+        margin-left: 0;
+        width: 100%;
+    }
+
+    button.mt-0.btn.btn-primary.btn-sm {
+        margin-left: 0px;
+        margin-top: 5px !important;
+    }
+}
+
+.btn-primary {
+    color: rgb(238, 162, 24);
+    background-color: #000!important;
+    font-size: 16px !important;
+}

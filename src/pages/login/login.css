@@ -1,0 +1,47 @@
+@keyframes spinners {
+	to {transform: rotate(360deg);}
+  }
+   
+  .spinners:before {
+	content: '';
+	box-sizing: border-box;
+	position: absolute;
+	top: 50%;
+	left: 265px;
+	width: 15px;
+	height: 15px;
+	margin-top: -7px;
+	margin-left: -10px;
+	border-radius: 50%;
+	border: 2px solid #ffffff;
+	border-top-color: #000000;
+	animation: spinners .8s linear infinite;
+	filter: blur(0px);
+  }
+
+  .spinners {
+	background: rgb(238, 162, 24) !important;
+  }
+
+  .spinerButton {
+	text-align: center;
+    position: relative;
+	background: rgb(238, 162, 24) !important;
+    
+  }
+
+  .spinerButton:focus {
+	outline: none;
+  }
+
+  .right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 35px !important;
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 12px 12px;
+}

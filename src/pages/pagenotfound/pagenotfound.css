@@ -1,0 +1,44 @@
+.main-box-404 {
+  margin: 0;
+  padding: 0;
+  font-family: 'montserrat', sans-serif;
+  min-height: 100vh;
+  background-image: linear-gradient(125deg, #6a89cc, #b8e994);
+}
+
+.page-404 {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: #343434;
+}
+
+.page-404 h1 {
+  font-size: 160px;
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: 20px;
+  background-image: url(https://images.unsplash.com/photo-1570449880379-6a018f613286?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80);
+  background-position: 100px center;
+  background-repeat: no-repeat;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+}
+
+.page-404 a {
+  text-decoration: none;
+  background: rgb(238, 162, 24);
+  color: black;
+  padding: 12px 24px;
+  display: inline-block;
+  border-radius: 25px;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: background 0.4s linear;
+  font-weight: 600;
+}
