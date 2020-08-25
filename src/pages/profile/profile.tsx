@@ -83,6 +83,7 @@ class Profile extends React.Component<{ history: any }> {
     file2true: this.profileState.file2true,
     updateTrue: this.profileState.updateTrue,
     userid: this.profileState.userid,
+    cityname: this.profileState.cityname
   };
 
   constructor(props: any) {
@@ -103,6 +104,7 @@ class Profile extends React.Component<{ history: any }> {
     this.removeProofIcon = this.removeProofIcon.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.getUserById = this.getUserById.bind(this);
+    this.getCityById = this.getCityById.bind(this);
   }
 
   handleChange(checked: boolean) {
@@ -169,6 +171,9 @@ class Profile extends React.Component<{ history: any }> {
             zipcode: this.state.zipcode = getProfile.resultObject.zipCode,
             isOpen: this.state.isOpen = getProfile.resultObject.isActive,
           });
+          if(this.state.city) {
+            this.getCityById(this.state.city)
+          }
         } else {
           const msg1 = getProfile.message;
           utils.showError(msg1);
@@ -177,6 +182,28 @@ class Profile extends React.Component<{ history: any }> {
         const msg1 = "Internal server error";
         utils.showError(msg1);
       }
+    }
+  }
+
+  async getCityById(id:any) {
+    const obj = {
+      id:id
+    }
+    const getCityById: any = await LocationAPI.getCityById(obj);
+    console.log("getCityById", getCityById);
+
+    if (getCityById) {
+      if (getCityById.status === 200) {
+        this.setState({
+          cityname: this.state.cityname = getCityById.resultObject.cityName
+        });
+      } else {
+        const msg1 = getCityById.message;
+        utils.showError(msg1);
+      }
+    } else {
+      const msg1 = "Internal server error";
+      utils.showError(msg1);
     }
   }
 
@@ -626,7 +653,7 @@ class Profile extends React.Component<{ history: any }> {
                               name="city"
                               onChange={this.onItemSelect}
                             >
-                              <option value="">Select City</option>
+                              <option value={this.state.city}>{this.state.cityname}</option>
                               {this.state.citydata.length > 0
                                 ? this.state.citydata.map(
                                     (data: any, index: any) => (

@@ -214,7 +214,8 @@ export default {
       file2: "",
       file2true: false,
       updateTrue:false,
-      userid:0
+      userid:0,
+      cityname:''
     },
     profile: {
       updateprofile:'Update Profile',
