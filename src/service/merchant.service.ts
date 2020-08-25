@@ -22,6 +22,10 @@ export default {
         return await WebReqUrl.post(Constant.apiMerchantUrl + apiUrl.merchantController.getMerchant, data);
     },
     getMerchantById: async function (data: any) {
-        return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.merchantController.getMerchantById + data);
-    }   
+        return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.merchantController.getMerchantById + data.id);
+    },
+    updateMerchant: async function (data: any) {
+        return await WebReqUrl.post(Constant.apiMerchantUrl + apiUrl.merchantController.merchantProfile, data);
+    },
+    
 }

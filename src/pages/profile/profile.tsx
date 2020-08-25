@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import utils from "../../utils";
 import {
   Button,
@@ -9,25 +10,33 @@ import {
   Col,
   FormGroup,
   Label,
+  CustomInput,
+  Form,
   Row,
 } from "reactstrap";
-import "./profile.css";
+// import "./merchant.css";
 import NavBar from "../navbar/navbar";
-import { API, RoleAPI } from "../../service/index.service";
+import API from "../../service/merchant.service";
+import Switch from "react-switch";
 import constant from "../../constant/constant";
-// import EventEmitter from '../../event';
+import { Editor } from "@tinymce/tinymce-react";
 import {
-  profileGetRequest,
-} from "../../modelController/index";
+  merchantCreateRequest,
+  merchantUpdateRequest,
+} from "../../modelController/merchantModel";
+import { LocationAPI, MerchantAPI } from "../../service/index.service";
+import { profileGetRequest } from "../../modelController";
 
 interface User {
   merchantID: number;
 }
 
-class Profile extends React.Component {
+class Profile extends React.Component<{ history: any }> {
   profileState = constant.profilePage.state;
   state = {
     selectedFile: this.profileState.selectedFile,
+    selectedProofFile: this.profileState.selectedProofFile,
+    selectedDocumentFile: this.profileState.selectedDocumentFile,
     firstname: this.profileState.firstname,
     firstnameerror: this.profileState.firstnameerror,
     lastname: this.profileState.lastname,
@@ -36,29 +45,90 @@ class Profile extends React.Component {
     emailerror: this.profileState.emailerror,
     mobilenumber: this.profileState.mobilenumber,
     mobilenumbererror: this.profileState.mobilenumbererror,
+    shopname: this.profileState.shopname,
+    shopnamerror: this.profileState.shopnamerror,
+    address: this.profileState.address,
+    addresserror: this.profileState.addresserror,
+    city: this.profileState.city,
+    cityerror: this.profileState.cityerror,
+    user: this.profileState.user,
+    usererror: this.profileState.usererror,
+    zipcode: this.profileState.zipcode,
+    zipcodeerror: this.profileState.zipcodeerror,
+    latitude: this.profileState.latitude,
+    latitudeerror: this.profileState.latitudeerror,
+    longitude: this.profileState.longitude,
+    longitudeerror: this.profileState.longitudeerror,
+    website: this.profileState.website,
+    shoppingpolicy: this.profileState.shoppingpolicy,
+    shoppingpolicyerror: this.profileState.shoppingpolicyerror,
+    refundpolicy: this.profileState.refundpolicy,
+    refundpolicyerror: this.profileState.refundpolicyerror,
+    cancellationpolicy: this.profileState.cancellationpolicy,
+    cancellationpolicyerror: this.profileState.cancellationpolicyerror,
+    isOpen: this.profileState.isOpen,
+    checked: this.profileState.checked,
     selectedFileerror: this.profileState.selectedFileerror,
-    role: this.profileState.role,
-    roleerror: this.profileState.roleerror,
-    roleid: this.profileState.roleid,
-    roleiderror: this.profileState.roleiderror,
-    userid: this.profileState.userid,
-    userrole: this.profileState.userrole,
-    updateTrue: this.profileState.updateTrue,
+    selectedProofFileerror: this.profileState.selectedProofFileerror,
+    selectedDocumentFileerror: this.profileState.selectedDocumentFileerror,
+    password: this.profileState.password,
+    passworderror: this.profileState.passworderror,
+    citydata: this.profileState.citydata,
+    type: this.profileState.type,
+    file: this.profileState.file,
     filetrue: this.profileState.filetrue,
-    file: this.profileState.file
+    file1: this.profileState.file1,
+    file1true: this.profileState.file1true,
+    file2: this.profileState.file2,
+    file2true: this.profileState.file2true,
+    updateTrue: this.profileState.updateTrue,
+    userid: this.profileState.userid,
   };
 
   constructor(props: any) {
     super(props);
-    this.Profile = this.Profile.bind(this);
+    this.onItemSelect = this.onItemSelect.bind(this);
     this.handleChangeEvent = this.handleChangeEvent.bind(this);
-    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.removeIcon = this.removeIcon.bind(this);
+    this.updateMerchant = this.updateMerchant.bind(this);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.onChangeIDProof = this.onChangeIDProof.bind(this);
+    this.onChangeDocumentHandler = this.onChangeDocumentHandler.bind(this);
+    this.onUserSelect = this.onUserSelect.bind(this);
+    this.handleEditorChange = this.handleEditorChange.bind(this);
+    this.handleEditorMainChange = this.handleEditorMainChange.bind(this);
+    this.handleEditorUpChange = this.handleEditorUpChange.bind(this);
+    this.removeDocumentIcon = this.removeDocumentIcon.bind(this);
+    this.removeProofIcon = this.removeProofIcon.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.getUserById = this.getUserById.bind(this);
+  }
+
+  handleChange(checked: boolean) {
+    this.setState({ isOpen: this.state.isOpen = checked });
   }
 
   async componentDidMount() {
-    document.title = constant.profileTitle + utils.getAppName();
-    this.getUserRole();
+    document.title =
+      constant.merchantPage.title.addMerchantTitle + utils.getAppName();
+
+    const getCity = await LocationAPI.getCity();
+    console.log("getCity", getCity);
+
+    if (getCity) {
+      if (getCity.status === 200) {
+        this.setState({
+          citydata: this.state.citydata = getCity.resultObject,
+        });
+      } else {
+        const msg1 = getCity.message;
+        utils.showError(msg1);
+      }
+    } else {
+      const msg1 = "Internal server error";
+      utils.showError(msg1);
+    }
     this.getUserById();
   }
 
@@ -69,8 +139,7 @@ class Profile extends React.Component {
       const obj: profileGetRequest = {
         id: profile.merchantID,
       };
-      JSON.parse(user);
-      const getProfile = await API.getProfile(obj);
+      const getProfile = await API.getMerchantById(obj);
       console.log("getprofile", getProfile);
 
       if (getProfile) {
@@ -78,12 +147,27 @@ class Profile extends React.Component {
           this.setState({
             updateTrue: this.state.updateTrue = true,
             filetrue: this.state.filetrue = true,
-            userid: this.state.userid = getProfile.resultObject.userId,
+            userid: this.state.userid = getProfile.resultObject.merchantID,
             firstname: this.state.firstname = getProfile.resultObject.firstName,
             lastname: this.state.lastname = getProfile.resultObject.lastName,
-            mobilenumber: this.state.mobilenumber = getProfile.resultObject.phone,
-            selectedFile: this.state.selectedFile = getProfile.resultObject.photo,
-            file: this.state.file = getProfile.resultObject.photoPath
+            mobilenumber: this.state.mobilenumber =
+              getProfile.resultObject.phone,
+            selectedFile: this.state.selectedFile =
+              getProfile.resultObject.photoPath,
+            file: this.state.file = getProfile.resultObject.photoPath,
+            email: this.state.email = getProfile.resultObject.email,
+            address: this.state.address = getProfile.resultObject.address,
+            latitude: this.state.latitude = getProfile.resultObject.latitude,
+            longitude: this.state.longitude = getProfile.resultObject.longitude,
+            shopname: this.state.shopname = getProfile.resultObject.shopname,
+            // selectedDocumentFile:this.state.selectedDocumentFile = getProfile.resultObject.merchantDocument,
+            // file2:this.state.file2 = getProfile.resultObject.merchantDocument,
+            // selectedProofFile:this.state.selectedProofFile = getProfile.resultObject.merchantIDPoof,
+            // file1:this.state.file1 = getProfile.resultObject.merchantIDPoof,
+            city: this.state.city = getProfile.resultObject.cityID,
+            website: this.state.website = getProfile.resultObject.website,
+            zipcode: this.state.zipcode = getProfile.resultObject.zipCode,
+            isOpen: this.state.isOpen = getProfile.resultObject.isActive,
           });
         } else {
           const msg1 = getProfile.message;
@@ -96,45 +180,146 @@ class Profile extends React.Component {
     }
   }
 
-  async getUserRole() {
-    const getUserRole = await RoleAPI.getUserRole();
-    console.log("getUserRole", getUserRole);
-
-    if (getUserRole) {
-      if (getUserRole.resultObject != null) {
-        this.setState({
-          userrole: this.state.userrole = getUserRole.resultObject
-        })
-
-      } else {
-        const msg1 = getUserRole.explanation;
-        utils.showError(msg1);
-      }
-    } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
-    }
+  onUserSelect(event: any) {
+    this.setState({
+      user: this.state.user = event.target.value,
+    });
   }
 
   onItemSelect(event: any) {
-    if (event.target.value === "User") {
+    this.setState({
+      city: this.state.city = event.target.value,
+    });
+  }
+
+  onChangeHandler(event: any) {
+    if (this.state.filetrue === true) {
       this.setState({
-        role: this.state.role = event.target.value,
-        roleid: this.state.roleid = 1,
+        filetrue: this.state.filetrue = false,
+        selectedFile: this.state.selectedFile = event.target.files,
       });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file: reader.result,
+        });
+      };
     } else {
       this.setState({
-        role: this.state.role = event.target.value,
-        roleid: this.state.roleid = 2,
+        selectedFile: this.state.selectedFile = event.target.files,
       });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file: reader.result,
+        });
+      };
     }
   }
+
+  onChangeIDProof(event: any) {
+    if (this.state.file1true === true) {
+      this.setState({
+        file1true: this.state.file1true = false,
+        selectedProofFile: this.state.selectedProofFile = event.target.files,
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file1: reader.result,
+        });
+      };
+    } else {
+      this.setState({
+        selectedProofFile: this.state.selectedProofFile = event.target.files,
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file1: reader.result,
+        });
+      };
+    }
+  }
+
+  onChangeDocumentHandler(event: any) {
+    if (this.state.file2true === true) {
+      this.setState({
+        file2true: this.state.file2true = false,
+        selectedDocumentFile: this.state.selectedDocumentFile =
+          event.target.files,
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file2: reader.result,
+        });
+      };
+    } else {
+      this.setState({
+        selectedDocumentFile: this.state.selectedDocumentFile =
+          event.target.files,
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file2: reader.result,
+        });
+      };
+    }
+  }
+
+  handleClick = () =>
+    this.setState(({ type }: any) => ({
+      type: type === "password" ? "text" : "password",
+    }));
+
+  handleEditorChange = (content: any, editor: any) => {
+    console.log("handleEditorChange Content was updated:", content);
+    this.setState({
+      refundpolicy: this.state.refundpolicy = content,
+    });
+  };
+
+  handleEditorMainChange = (content: any, editor: any) => {
+    console.log("handleEditorMainChange Content was updated:", content);
+    this.setState({
+      shoppingpolicy: this.state.shoppingpolicy = content,
+    });
+  };
+
+  handleEditorUpChange = (content: any, editor: any) => {
+    console.log("handleEditorMainChange Content was updated:", content);
+    this.setState({
+      cancellationpolicy: this.state.cancellationpolicy = content,
+    });
+  };
 
   validate() {
     let firstnameerror = "";
     let lastnameerror = "";
+    let emailerror = "";
     let mobilenumbererror = "";
     let selectedFileerror = "";
+    let selectedDocumentFileerror = "";
+    let selectedProofFileerror = "";
+    let latitudeerror = "";
+    let longitudeerror = "";
+    let shopnamerror = "";
+    let shoppingpolicyerror = "";
+    let refundpolicyerror = "";
+    let cancellationpolicyerror = "";
+    let usererror = "";
+    let cityerror = "";
+    let addresserror = "";
+    let zipcodeerror = "";
+    let passworderror = "";
 
     if (!this.state.firstname) {
       firstnameerror = "please enter firstname";
@@ -144,26 +329,96 @@ class Profile extends React.Component {
       lastnameerror = "please enter lastname";
     }
 
+    if (!this.state.zipcode) {
+      zipcodeerror = "please enter zipcode";
+    }
+
+    if (!this.state.address) {
+      addresserror = "please enter address";
+    }
+
+    const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!this.state.email) {
+      emailerror = "please enter email";
+    } else if (!reg.test(this.state.email)) {
+      emailerror = "please enter valid email";
+    }
 
     if (!this.state.mobilenumber) {
       mobilenumbererror = "please enter mobile number";
     }
 
+    if (!this.state.password) {
+      passworderror = "please enter password";
+    }
+
+    if (!this.state.selectedDocumentFile) {
+      selectedDocumentFileerror = "please select document image";
+    }
+
     if (!this.state.selectedFile) {
-      selectedFileerror = "please select file";
+      selectedFileerror = "please select shop image";
+    }
+
+    if (!this.state.selectedProofFile) {
+      selectedProofFileerror = "please select proof image";
+    }
+
+    if (!this.state.latitude) {
+      latitudeerror = "please enter latitude";
+    }
+
+    if (!this.state.longitude) {
+      longitudeerror = "please enter longitude";
+    }
+
+    if (!this.state.shopname) {
+      shopnamerror = "please enter shop name";
+    }
+
+    if (!this.state.shoppingpolicy) {
+      shoppingpolicyerror = "please enter shopping policy";
+    }
+
+    if (!this.state.refundpolicy) {
+      refundpolicyerror = "please enter refund policy";
+    }
+
+    if (!this.state.cancellationpolicy) {
+      cancellationpolicyerror = "please enter cancellation policy";
+    }
+
+    // if (!this.state.user) {
+    //   usererror = "please select user";
+    // }
+
+    if (!this.state.city) {
+      cityerror = "please select city";
     }
 
     if (
       firstnameerror ||
       lastnameerror ||
+      addresserror ||
+      zipcodeerror ||
+      emailerror ||
       mobilenumbererror ||
-      selectedFileerror
+      latitudeerror ||
+      longitudeerror ||
+      shopnamerror ||
+      cityerror
     ) {
       this.setState({
         firstnameerror,
         lastnameerror,
+        addresserror,
+        zipcodeerror,
+        emailerror,
         mobilenumbererror,
-        selectedFileerror
+        latitudeerror,
+        longitudeerror,
+        shopnamerror,
+        cityerror
       });
       return false;
     }
@@ -177,42 +432,59 @@ class Profile extends React.Component {
     this.setState(state);
   }
 
-  async Profile() {
+  async updateMerchant() {
     const isValid = this.validate();
     if (isValid) {
       this.setState({
         firstnameerror: "",
         lastnameerror: "",
+        emailerror: "",
         mobilenumbererror: "",
-        selectedFileerror: ""
+        addresserror: "",
+        zipcodeerror: "",
+        latitudeerror: "",
+        longitudeerror: "",
+        shopnamerror: "",
+        cityerror: ""
       });
       if (
         this.state.firstname &&
         this.state.lastname &&
+        this.state.email &&
         this.state.mobilenumber &&
-        this.state.selectedFile
+        this.state.latitude &&
+        this.state.longitude &&
+        this.state.city && this.state.address && this.state.zipcode && this.state.shopname
       ) {
-
         let formData = new FormData();
-        console.log('File in formData: ', this.state.selectedFile[0]);
-        formData.append('Id', this.state.userid.toString());
-        formData.append('FirstName', this.state.firstname);
-        formData.append('LastName', this.state.lastname);
-        formData.append('phone', this.state.mobilenumber.toString());
-        formData.append('files', this.state.selectedFile[0]);
-        formData.append('userId', '0');
+        formData.append("Id", this.state.userid.toString());
+        formData.append("FirstName", this.state.firstname);
+        formData.append("LastName", this.state.lastname);
+        formData.append("ShopName", this.state.shopname);
+        formData.append("Email", this.state.email);
+        formData.append("Phone", this.state.mobilenumber.toString());
+        formData.append("Address", this.state.address);
+        formData.append("CityId", this.state.city);
+        formData.append("ZipCode", this.state.zipcode);
+        formData.append("Latitude", this.state.latitude);
+        formData.append("Longitude", this.state.longitude);
+        formData.append("Website", this.state.website);
+        formData.append("MerchantIDPoof", this.state.selectedProofFile[0]);
+        formData.append("MerchantDocument", this.state.selectedDocumentFile[0]);
+        formData.append("ShippingPolicy", this.state.shoppingpolicy);
+        formData.append("RefundPolicy", this.state.refundpolicy);
+        formData.append("CancellationPolicy", this.state.cancellationpolicy);
+        formData.append("files", this.state.selectedFile[0]);
+        formData.append("UserId", "0");
 
-        const updateProfile = await API.updateProfile(formData);
-        console.log("updateProfile", updateProfile);
-
-        if (updateProfile) {
-          if (updateProfile.status === 200) {
-            const msg = updateProfile.message;
-            this.getUserById();
+        const updateMerchant = await API.updateMerchant(formData);
+        console.log("updateMerchant", updateMerchant);
+        if (updateMerchant) {
+          if (updateMerchant.status === 200) {
+            const msg = updateMerchant.message;
             utils.showSuccess(msg);
-            // EventEmitter.dispatch('imageUpload', this.state.file);
           } else {
-            const msg1 = updateProfile.message;
+            const msg1 = updateMerchant.message;
             utils.showError(msg1);
           }
         } else {
@@ -223,36 +495,21 @@ class Profile extends React.Component {
     }
   }
 
-  onChangeHandler(event: any) {
-    if (this.state.filetrue === true) {
-      this.setState({
-        filetrue: this.state.filetrue = false,
-        selectedFile: this.state.selectedFile = event.target.files
-      })
-      const reader = new FileReader()
-      reader.readAsDataURL(event.target.files[0])
-      reader.onloadend = ev => {
-        this.setState({
-          file: reader.result
-        })
-      }
-    } else {
-      this.setState({
-        selectedFile: this.state.selectedFile = event.target.files
-      })
-      const reader = new FileReader()
-      reader.readAsDataURL(event.target.files[0])
-      reader.onloadend = ev => {
-        this.setState({
-          file: reader.result
-        })
-      }
-    }
-  }
-
   removeIcon() {
     this.setState({
-      file: this.state.file = '',
+      file: this.state.file = "",
+    });
+  }
+
+  removeDocumentIcon() {
+    this.setState({
+      file2: this.state.file2 = "",
+    });
+  }
+
+  removeProofIcon() {
+    this.setState({
+      file1: this.state.file1 = "",
     });
   }
 
@@ -265,64 +522,22 @@ class Profile extends React.Component {
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
                 <Card>
                   <CardHeader>
-                    <strong>{constant.profilePage.profile.profile}</strong>
+                    <Row>
+                      <Col xs="12" sm="6" md="9" lg="9" xl="9">
+                        <h1>{constant.profilePage.profile.updateprofile}</h1>
+                      </Col>
+                    </Row>
                   </CardHeader>
                   <CardBody>
                     <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <FormGroup className="img-upload">
-                          {this.state.file !== '' ? (
-                            <div className="img-size">
-                              {this.state.file ? (
-                                <div>
-                                  {this.state.filetrue === true ? (
-                                    <img
-                                      className="picture"
-                                      src={constant.filepath + this.state.file}
-                                    />
-                                  ) : (
-                                      <img
-                                        className="picture"
-                                        src={this.state.file}
-                                      />
-                                    )}
-                                  <i
-                                    className="fa fa-times cursor"
-                                    onClick={() => this.removeIcon()}
-                                  ></i>
-                                </div>
-                              ) : null}
-                            </div>
-                          ) : (
-                              <div className="">
-                                <p>
-                                  <b>{constant.profilePage.profile.userimage}</b>
-                                </p>
-                                <Label className="imag" for="file-input">
-                                  <i
-                                    className="fa fa-upload fa-lg"
-                                    style={{ color: "#20a8d8" }}
-                                  ></i>
-                                </Label>
-                                <Input
-                                  id="file-input"
-                                  type="file"
-                                  className="form-control"
-                                  name="file"
-                                  onChange={this.onChangeHandler.bind(this)}
-                                />
-                              </div>
-                            )}
-                          <div className="text-danger">
-                            {this.state.selectedFileerror}
-                          </div>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
                         <FormGroup>
-                          <Label htmlFor="first_name">{constant.profilePage.profile.firstname}</Label>
+                          <Label htmlFor="first_name">
+                            {
+                              constant.merchantPage.merchantTableColumn
+                                .Firstname
+                            }
+                          </Label>
                           <Input
                             type="text"
                             id="first_name"
@@ -338,9 +553,11 @@ class Profile extends React.Component {
                           </div>
                         </FormGroup>
                       </Col>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
                         <FormGroup>
-                          <Label htmlFor="last_name">{constant.profilePage.profile.lastname}</Label>
+                          <Label htmlFor="last_name">
+                            {constant.merchantPage.merchantTableColumn.lastname}
+                          </Label>
                           <Input
                             type="text"
                             id="last_name"
@@ -356,12 +573,33 @@ class Profile extends React.Component {
                           </div>
                         </FormGroup>
                       </Col>
-                    </Row>
-
-                    <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
                         <FormGroup>
-                          <Label htmlFor="mobile_no">{constant.profilePage.profile.mobilenumber}</Label>
+                          <Label htmlFor="email">
+                            {constant.merchantPage.merchantTableColumn.email}
+                          </Label>
+                          <Input
+                            type="email"
+                            id="email"
+                            name="email"
+                            className="form-control"
+                            value={this.state.email}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your email"
+                            required
+                          />
+                          <div className="mb-4 text-danger">
+                            {this.state.emailerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup>
+                          <Label htmlFor="mobile_no">
+                            {constant.merchantPage.merchantTableColumn.phone}
+                          </Label>
                           <Input
                             type="text"
                             id="mobile_no"
@@ -376,14 +614,390 @@ class Profile extends React.Component {
                           </div>
                         </FormGroup>
                       </Col>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <Form>
+                          <FormGroup>
+                            <Label for="exampleCustomSelect">
+                              {constant.merchantPage.merchantTableColumn.city}
+                            </Label>
+                            <CustomInput
+                              type="select"
+                              id="exampleCustomSelect"
+                              name="city"
+                              onChange={this.onItemSelect}
+                            >
+                              <option value="">Select City</option>
+                              {this.state.citydata.length > 0
+                                ? this.state.citydata.map(
+                                    (data: any, index: any) => (
+                                      <option key={index} value={data.value}>
+                                        {data.name}
+                                      </option>
+                                    )
+                                  )
+                                : ""}
+                            </CustomInput>
+                            <div className="mb-4 text-danger">
+                              {this.state.cityerror}
+                            </div>
+                          </FormGroup>
+                        </Form>
+                      </Col>
+                      {/* <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <p style={{ fontSize: "16px" }}>
+                          {constant.merchantPage.merchantTableColumn.password}
+                        </p>
+                        <div className="right-inner-addon input-group">
+                          <input
+                            type={this.state.type}
+                            name="password"
+                            className="form-control"
+                            id="validationCustom09"
+                            placeholder="Password"
+                            value={this.state.password}
+                            onChange={this.handleChangeEvent}
+                          />
+                          {this.state.type === "password" ? (
+                            <i
+                              onClick={this.handleClick}
+                              className="fas fa-eye"
+                            ></i>
+                          ) : (
+                            <i
+                              onClick={this.handleClick}
+                              className="fas fa-eye-slash"
+                            ></i>
+                          )}
+                        </div>
+                        <div className="text-danger">
+                          {this.state.passworderror}
+                        </div>
+                      </Col> */}
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <Form>
+                          <FormGroup>
+                            <Label for="exampleCustomSelect">Select User</Label>
+                            <CustomInput
+                              type="select"
+                              id="exampleCustomSelect"
+                              name="user"
+                              onChange={this.onUserSelect}
+                            >
+                              <option value="">Select User</option>
+                              <option value="0">User-1</option>
+                              <option value="1">User-2</option>
+                            </CustomInput>
+                            <div className="mb-4 text-danger">
+                              {this.state.usererror}
+                            </div>
+                          </FormGroup>
+                        </Form>
+                      </Col>
                     </Row>
-
+                    <Row>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup>
+                          <Label htmlFor="shopname">
+                            {constant.merchantPage.merchantTableColumn.shopname}
+                          </Label>
+                          <Input
+                            type="text"
+                            id="shopname"
+                            name="shopname"
+                            className="form-control"
+                            value={this.state.shopname}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your shop name"
+                          />
+                          <div className="mb-4 text-danger">
+                            {this.state.shopnamerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup>
+                          <Label htmlFor="Address">
+                            {constant.merchantPage.merchantTableColumn.Address}
+                          </Label>
+                          <Input
+                            type="text"
+                            id="Address"
+                            name="address"
+                            className="form-control"
+                            value={this.state.address}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your address"
+                          />
+                          <div className="mb-4 text-danger">
+                            {this.state.addresserror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup>
+                          <Label htmlFor="ZIP-Code">
+                            {constant.merchantPage.merchantTableColumn.zipcode}
+                          </Label>
+                          <Input
+                            type="text"
+                            id="ZIP-Code"
+                            name="zipcode"
+                            className="form-control"
+                            value={this.state.zipcode}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your zipe-code"
+                          />
+                          <div className="mb-4 text-danger">
+                            {this.state.zipcodeerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup>
+                          <Label htmlFor="Website">
+                            {constant.merchantPage.merchantTableColumn.website}
+                          </Label>
+                          <Input
+                            type="text"
+                            id="Website"
+                            name="website"
+                            className="form-control"
+                            value={this.state.website}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your website"
+                          />
+                          {/* <div className="mb-4 text-danger">
+                                                    {this.state.longitudeerror}
+                                                </div> */}
+                        </FormGroup>
+                      </Col>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup>
+                          <Label htmlFor="Latitude">
+                            {constant.merchantPage.merchantTableColumn.latitude}
+                          </Label>
+                          <Input
+                            type="text"
+                            id="Latitude"
+                            name="latitude"
+                            className="form-control"
+                            value={this.state.latitude}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your latitude"
+                          />
+                          <div className="mb-4 text-danger">
+                            {this.state.latitudeerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup>
+                          <Label htmlFor="Longitude">
+                            {
+                              constant.merchantPage.merchantTableColumn
+                                .longitude
+                            }
+                          </Label>
+                          <Input
+                            type="text"
+                            id="Longitude"
+                            name="longitude"
+                            className="form-control"
+                            value={this.state.longitude}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your longitude"
+                          />
+                          <div className="mb-4 text-danger">
+                            {this.state.longitudeerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup className="img-upload">
+                          {this.state.file !== "" ? (
+                            <div className="img-size">
+                              {this.state.file !== "" ? (
+                                <div>
+                                  {this.state.filetrue === true ? (
+                                    <img
+                                      className="picture"
+                                      src={constant.filepath + this.state.file}
+                                    />
+                                  ) : (
+                                    <img
+                                      className="picture"
+                                      src={this.state.file}
+                                    />
+                                  )}
+                                  <i
+                                    className="fa fa-times cursor"
+                                    onClick={() => this.removeIcon()}
+                                  ></i>
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : (
+                            <div className="">
+                              <p style={{ fontSize: "16px" }}>
+                                {
+                                  constant.merchantPage.merchantTableColumn
+                                    .selectedFile
+                                }
+                              </p>
+                              <Label className="imag" for="file-input">
+                                <i
+                                  className="fa fa-upload fa-lg"
+                                  style={{ color: "#20a8d8" }}
+                                ></i>
+                              </Label>
+                              <Input
+                                id="file-input"
+                                type="file"
+                                className="form-control"
+                                name="file"
+                                onChange={this.onChangeHandler.bind(this)}
+                              />
+                            </div>
+                          )}
+                          <div className="text-danger">
+                            {this.state.selectedFileerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup className="img-upload1">
+                          {this.state.file1 !== "" ? (
+                            <div className="img-size">
+                              {this.state.file1 !== "" ? (
+                                <div>
+                                  {this.state.file1true === true ? (
+                                    <img
+                                      className="picture"
+                                      src={constant.filepath + this.state.file1}
+                                    />
+                                  ) : (
+                                    <img
+                                      className="picture"
+                                      src={this.state.file1}
+                                    />
+                                  )}
+                                  <i
+                                    className="fa fa-times cursor"
+                                    onClick={() => this.removeProofIcon()}
+                                  ></i>
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : (
+                            <div className="">
+                              <p style={{ fontSize: "16px" }}>
+                                {
+                                  constant.merchantPage.merchantTableColumn
+                                    .selectMerchantIdProff
+                                }
+                              </p>
+                              <Label className="imag" for="file-input1">
+                                <i
+                                  className="fa fa-upload fa-lg"
+                                  style={{ color: "#20a8d8" }}
+                                ></i>
+                              </Label>
+                              <Input
+                                id="file-input1"
+                                type="file"
+                                className="form-control"
+                                name="file1"
+                                onChange={this.onChangeIDProof.bind(this)}
+                              />
+                            </div>
+                          )}
+                          <div className="text-danger">
+                            {this.state.selectedProofFileerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <FormGroup className="img-upload2">
+                          {this.state.file2 !== "" ? (
+                            <div className="img-size">
+                              {this.state.file2 !== "" ? (
+                                <div>
+                                  {this.state.file2true === true ? (
+                                    <img
+                                      className="picture"
+                                      src={constant.filepath + this.state.file2}
+                                    />
+                                  ) : (
+                                    <img
+                                      className="picture"
+                                      src={this.state.file2}
+                                    />
+                                  )}
+                                  <i
+                                    className="fa fa-times cursor"
+                                    onClick={() => this.removeDocumentIcon()}
+                                  ></i>
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : (
+                            <div className="">
+                              <p style={{ fontSize: "16px" }}>
+                                {
+                                  constant.merchantPage.merchantTableColumn
+                                    .selectMerchantDocument
+                                }
+                              </p>
+                              <Label className="imag" for="file-input2">
+                                <i
+                                  className="fa fa-upload fa-lg"
+                                  style={{ color: "#20a8d8" }}
+                                ></i>
+                              </Label>
+                              <Input
+                                id="file-input2"
+                                type="file"
+                                className="form-control"
+                                name="file2"
+                                onChange={this.onChangeDocumentHandler.bind(
+                                  this
+                                )}
+                              />
+                            </div>
+                          )}
+                          <div className="text-danger">
+                            {this.state.selectedDocumentFileerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    {/* 
+                    <Row style={{ marginTop: "20px" }}>
+                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                        <label>
+                          <span>
+                            {constant.merchantPage.merchantTableColumn.isOpen}
+                          </span>
+                          <br />
+                          <div style={{ marginTop: "10px" }}>
+                            <Switch
+                              onChange={this.handleChange}
+                              checked={this.state.isOpen}
+                            />
+                          </div>
+                        </label>
+                      </Col>
+                    </Row> */}
                     <Button
                       type="button"
                       size="sm"
-                      className="mb-2 mr-2 custom-button"
                       color="primary"
-                      onClick={this.Profile}
+                      className="mb-2 mt-3 mr-2 custom-button"
+                      onClick={this.updateMerchant}
                     >
                       {constant.button.update}
                     </Button>

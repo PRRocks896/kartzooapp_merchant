@@ -34,7 +34,7 @@ class ChangePassword extends Component {
 
     async componentDidMount() {
         let userid: any = localStorage.getItem('user');
-        this.state.userid = JSON.parse(userid).userID
+        this.state.userid = JSON.parse(userid).merchantID
         document.title = constant.changepassword + utils.getAppName();
     }
 
@@ -74,7 +74,7 @@ class ChangePassword extends Component {
             })
             if (this.state.newpassword === this.state.confirmpassword && this.state.oldpassword !== this.state.newpassword) {
                 const obj = {
-                    userId: this.state.userid,
+                    merchantId: this.state.userid,
                     password: this.state.newpassword
                 }
                 const updatePassword = await API.updatePassword(obj);

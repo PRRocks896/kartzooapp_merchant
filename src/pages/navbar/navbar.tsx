@@ -110,7 +110,7 @@ class NavBar extends React.Component {
           const navLink = (item:any, key:any, classes:any) => { 
             const url = item.url ? item.url : '';
             return (
-              <NavItem key={key} className={classes.item}>
+              <div key={key} className={classes.item}>
                 {isExternal(url) ?
                   <RsNavLink href={url} className={classes.link} active>
                     <i className={classes.icon}></i>{item.name}{badge(item.badge)}
@@ -120,14 +120,14 @@ class NavBar extends React.Component {
                     <i className={classes.icon}></i>{item.name}{badge(item.badge)}
                   </NavLink>
                 }
-              </NavItem>
+              </div>
             )
           };
       
           // nav dropdown
           const navDropdown = (item:any, key:any) => {
             return (
-              <li key={key} className={this.activeRoute(item.url, this.props)}>
+              <div key={key} className={this.activeRoute(item.url, this.props)}>
                   {item?.type === 'link' && 
                     <a href="#" className="has-chevron" data-toggle="collapse"> <span><i className={item.icon}></i>{item.name} </span>
                     </a>
@@ -145,7 +145,7 @@ class NavBar extends React.Component {
                    
                 {/* <a className="nav-link " href="#" onClick={handleClick.bind(this)}><i className={item.icon}></i>{item.name}</a> */}
                 
-              </li>)
+              </div>)
           };
       
           // nav type
@@ -626,7 +626,7 @@ class NavBar extends React.Component {
                                 <a href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {
                                         this.state.file != '' ? (
-                                            <img className="ms-user-img ms-img-round float-right" src={constant.filepath + this.state.file} alt="people" />
+                                            <img className="ms-user-img ms-img-round float-right" src={constant.fileMerchantpath + this.state.file} alt="people" />
                                         ) : (
                                             <img className="ms-user-img ms-img-round float-right" src="../../assets/img/costic/customer-3.jpg" alt="people" />
                                         )

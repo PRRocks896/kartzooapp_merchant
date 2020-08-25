@@ -12,10 +12,10 @@ export default {
         icon: 'fa fa-user fs-16',
         type: 'dropdown',
         children: [
-          {
-            name: 'User',
-            url: '/users'
-          },
+          // {
+          //   name: 'User',
+          //   url: '/users'
+          // },
           {
             name: 'Role',
             url: '/userrole'
