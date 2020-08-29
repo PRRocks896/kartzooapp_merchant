@@ -20,6 +20,8 @@ class NavBar extends React.Component {
     constructor(props:any) {
         super(props);
         // this.logout = this.logout.bind(this);
+        this.activeRoute = this.activeRoute.bind(this);
+        this.handleClick = this.handleClick.bind(this);
 
         EventEmitter.subscribe('imageUpload', (data:any) => {
             this.setState({
@@ -41,15 +43,15 @@ class NavBar extends React.Component {
         }
     }
 
-    activeRoute(routeName:any, props:any) {
+    activeRoute(routeName:any) {
         const route = window.location.hash.split('#')[1];
-        return route === routeName ? `nav-item nav-dropdown open` : `nav-item nav-dropdown`;
+        return route === routeName ? `active collapsed sidebar-manage` : `collapsed sidebar-manage`;
     
       }
 
-      handleClick(e:any) {
-        e.preventDefault();
-        e.target.parentElement.classList.toggle('open');
+      handleClick(url:any) {
+          console.log("url",url);
+          window.location.href=`/#${url}`;
       }
 
     toggleCollapse = () => {
@@ -127,7 +129,7 @@ class NavBar extends React.Component {
           // nav dropdown
           const navDropdown = (item:any, key:any) => {
             return (
-              <div key={key} className={this.activeRoute(item.url, this.props)}>
+              <div key={key} className={this.activeRoute(item.url)}>
                   {item?.type === 'link' && 
                     <a href="#" className="has-chevron" data-toggle="collapse"> <span><i className={item.icon}></i>{item.name} </span>
                     </a>
@@ -199,7 +201,24 @@ class NavBar extends React.Component {
                     <ul className="accordion ms-main-aside fs-14" id="side-nav-accordion">
                         <span className="arrow" style={{ color: '#fb3', fontSize: '25px', margin: '15px', fontWeight: 600 }} onClick={this.closeNav}>x</span>
                            <li className="menu-item">
-                           {navList(nav)}
+                           {
+                                   nav.items.map((menu:any,index:any) => (
+                                    menu.type === 'header' ? (
+                                        <div key={index} className="menu_name">
+
+                                            <span  className="header_side">{menu.name}</span>
+                                        </div>
+                                    ): (
+                                        <>
+                                        <a  key={index} href="#" id={`dropdown-${menu.id}`} className={this.activeRoute(menu.url)} data-toggle="collapse" data-target={`#${menu.id}`} aria-expanded="false" aria-controls={`${menu.id}`}  onClick={() => this.handleClick(menu.url)}> <span><i className={menu.icon}></i>{menu.name} </span>
+                                        </a>
+                                        {/* <ul id={`collapse-${menu.id}`} className="collapse" aria-labelledby={`${menu.id}`} data-parent="#side-nav-accordion">
+                                    <li>{menu.name}</li>
+                                        </ul> */}
+                                        </>
+                                    )
+                                   ))
+                               }
                                </li>
 
 

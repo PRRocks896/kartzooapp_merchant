@@ -1,5 +1,7 @@
 export interface bussinessUpdateRequest {
-    id?:string,
+    merchantBusinessHoursId?:number,
+    merchantId?:number,
     days?: string,
-    hours?: string
+    hours?: string,
+    isOpen?:boolean
 }

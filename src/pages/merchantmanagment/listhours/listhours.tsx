@@ -266,7 +266,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                   <td>{data.days}</td>
                   <td>{data.hours}</td>
                   <td style={{ textAlign: "center" }}>
-                    {data.isActive === true ? (
+                    {data.isOpen === true ? (
                       <button
                         className="status_active_color"
                         onClick={() =>

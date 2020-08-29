@@ -74,8 +74,8 @@ class AddProduct extends React.Component<{ history: any }> {
     async componentDidMount() {
         document.title = constant.addProduct + utils.getAppName();
 
-        const getAllCategory = await CategoryAPI.getAllCategory();
-        console.log("getAllCategory",getAllCategory);
+        // const getAllCategory = await CategoryAPI.getAllCategory();
+        // console.log("getAllCategory",getAllCategory);
     }
 
     onMerchantSelect(event: any) {

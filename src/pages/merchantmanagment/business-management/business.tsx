@@ -27,7 +27,10 @@ import {
 } from "../../../modelController";
 import { MerchantAPI } from "../../../service/index.service";
 
-class MerchantBusiness extends React.Component<{ history: any }> {
+class MerchantBusiness extends React.Component<{
+  history: any;
+  location: any;
+}> {
   businessState = constant.merchantBussinessPage.state;
   state = {
     merchant: this.businessState.merchant,
@@ -38,6 +41,8 @@ class MerchantBusiness extends React.Component<{ history: any }> {
     hourserror: this.businessState.hourserror,
     isOpen: this.businessState.isOpen,
     updateTrue: this.businessState.updateTrue,
+    merchantdata: this.businessState.merchantdata,
+    businessid: this.businessState.businessid,
   };
 
   constructor(props: any) {
@@ -46,14 +51,69 @@ class MerchantBusiness extends React.Component<{ history: any }> {
     this.handleChange = this.handleChange.bind(this);
     this.addBusinessMerchant = this.addBusinessMerchant.bind(this);
     this.onItemSelect = this.onItemSelect.bind(this);
+    this.getMerchantList = this.getMerchantList.bind(this);
+    this.getHoursById = this.getHoursById.bind(this);
   }
 
   async componentDidMount() {
-      if(this.state.updateTrue === true) {
-        document.title = constant.merchantBussinessPage.title.updateMerchantHoursTitle + utils.getAppName();
+    const businessId = this.props.location.pathname.split("/")[2];
+    if (businessId !== undefined) {
+      this.getHoursById(businessId);
+      this.setState({
+        updateTrue: this.state.updateTrue = true,
+        businessid: this.state.businessid = businessId,
+      });
+    }
+    this.getMerchantList();
+    if (this.state.updateTrue === true) {
+      document.title =
+        constant.merchantBussinessPage.title.updateMerchantHoursTitle +
+        utils.getAppName();
+    } else {
+      document.title =
+        constant.merchantBussinessPage.title.addMerchantHoursTitle +
+        utils.getAppName();
+    }
+  }
+
+  async getHoursById(businessId: any) {
+    const obj = {
+      id: businessId,
+    };
+    const getHoursById: any = await MerchantAPI.getHoursById(obj);
+    console.log("getHoursById", getHoursById);
+
+    if (getHoursById.status === 200) {
+      this.setState({
+        updateTrue: this.state.updateTrue = true,
+        // merchant:this.state.merchant =  getHoursById.resultObject.merchantId,
+        days: this.state.days = getHoursById.resultObject.days,
+        hours: this.state.hours = getHoursById.resultObject.hours,
+        isOpen: this.state.isOpen = getHoursById.resultObject.isOpen,
+      });
+    } else {
+      const msg1 = getHoursById.message;
+      utils.showError(msg1);
+    }
+  }
+
+  async getMerchantList() {
+    var getMerchantList = await MerchantAPI.getMerchantList();
+    console.log("getMerchantList", getMerchantList);
+
+    if (getMerchantList) {
+      if (getMerchantList.status === 200) {
+        this.setState({
+          merchantdata: this.state.merchantdata = getMerchantList.resultObject,
+        });
       } else {
-          document.title = constant.merchantBussinessPage.title.addMerchantHoursTitle + utils.getAppName();
+        const msg1 = getMerchantList.message;
+        utils.showError(msg1);
       }
+    } else {
+      const msg1 = "Internal server error";
+      utils.showError(msg1);
+    }
   }
 
   handleChange(checked: boolean) {
@@ -117,18 +177,55 @@ class MerchantBusiness extends React.Component<{ history: any }> {
         console.log("addMerchantBusiness", addMerchantBusiness);
 
         if (addMerchantBusiness) {
+          if (addMerchantBusiness.status === 200) {
+            const msg = addMerchantBusiness.message;
+            utils.showSuccess(msg);
+            this.props.history.push("/list-business-hours");
+          } else {
+            const msg1 = addMerchantBusiness.message;
+            utils.showError(msg1);
+          }
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
         }
+      }
+    }
+  }
 
-        // if (this.state.days === obj.days && this.state.hours === obj.hours) {
-        //   const msg = "Merchant Business Added Successfully";
-        //   utils.showSuccess(msg);
-        // } else {
-        //   const msg1 = "Error";
-        //   utils.showError(msg1);
-        // }
+  async updateBusinessMerchant() {
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState({
+        merchanterror: "",
+        dayserror: "",
+        hourserror: "",
+      });
+      if (this.state.merchant && this.state.days && this.state.hours) {
+        const obj: bussinessUpdateRequest = {
+          merchantBusinessHoursId:this.state.businessid,
+          merchantId: parseInt(this.state.merchant),
+          days: this.state.days,
+          hours: this.state.hours,
+          isOpen: this.state.isOpen,
+        };
+
+        const updateMerchantBusiness = await MerchantAPI.updateMerchantBusiness(obj,obj.merchantBusinessHoursId);
+        console.log("updateMerchantBusiness", updateMerchantBusiness);
+
+        if (updateMerchantBusiness) {
+          if (updateMerchantBusiness.status === 200) {
+            const msg = updateMerchantBusiness.message;
+            utils.showSuccess(msg);
+            this.props.history.push("/list-business-hours");
+          } else {
+            const msg1 = updateMerchantBusiness.message;
+            utils.showError(msg1);
+          }
+        } else {
+          const msg1 = "Internal server error";
+          utils.showError(msg1);
+        }
       }
     }
   }
@@ -198,20 +295,16 @@ class MerchantBusiness extends React.Component<{ history: any }> {
                               name="customSelect"
                               onChange={this.onItemSelect}
                             >
-                              <option value="">
-                                {
-                                  constant.merchantBussinessPage
-                                    .merchantHoursTableColumn.merchantname
-                                }
-                              </option>
-
-                              {/* {this.state.updateTrue === true ? (
+                              {this.state.updateTrue === true ? (
                                 <>
                                   <option value="">
-                                    {this.state.statename}
+                                    {
+                                      constant.merchantBussinessPage
+                                        .merchantHoursTableColumn.merchantname
+                                    }
                                   </option>
-                                  {this.state.statelist.length > 0
-                                    ? this.state.statelist.map(
+                                  {this.state.merchantdata.length > 0
+                                    ? this.state.merchantdata.map(
                                         (data: any, index: any) => (
                                           <option
                                             key={index}
@@ -227,12 +320,12 @@ class MerchantBusiness extends React.Component<{ history: any }> {
                                 <>
                                   <option value="">
                                     {
-                                      constant.cityPage.cityTableColumn
-                                        .selectstate
+                                      constant.merchantBussinessPage
+                                        .merchantHoursTableColumn.merchantname
                                     }
                                   </option>
-                                  {this.state.statelist.length > 0
-                                    ? this.state.statelist.map(
+                                  {this.state.merchantdata.length > 0
+                                    ? this.state.merchantdata.map(
                                         (data: any, index: any) => (
                                           <option
                                             key={index}
@@ -244,7 +337,7 @@ class MerchantBusiness extends React.Component<{ history: any }> {
                                       )
                                     : ""}
                                 </>
-                              )} */}
+                              )}
                             </CustomInput>
                             <div className="mb-4 text-danger">
                               {this.state.merchanterror}
@@ -267,7 +360,7 @@ class MerchantBusiness extends React.Component<{ history: any }> {
                             id="Days"
                             name="days"
                             className="form-control"
-                            // value={this.state.categoryname}
+                            value={this.state.days}
                             onChange={this.handleChangeEvent}
                             placeholder="Enter your days"
                             required
@@ -292,7 +385,7 @@ class MerchantBusiness extends React.Component<{ history: any }> {
                             id="Hours"
                             name="hours"
                             className="form-control"
-                            // value={this.state.categoryname}
+                            value={this.state.hours}
                             onChange={this.handleChangeEvent}
                             placeholder="Enter your hours"
                             required

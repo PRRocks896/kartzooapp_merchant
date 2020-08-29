@@ -696,6 +696,7 @@ export default {
       pageBound: 3,
       onItemSelect: "",
       businessdata:[],
+      merchantdata:[],
       switchSort: false,
       isStatus: false,
       
@@ -706,7 +707,8 @@ export default {
       hours: "",
       hourserror: "",
       isOpen: false,
-      updateTrue:false
+      updateTrue:false,
+      businessid:0
     },
     merchantHoursTableColumn: {
       merchantname: "Select Merchant",

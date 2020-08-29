@@ -185,6 +185,7 @@ class Main extends React.Component<{history:any}> {
             <Route path='/merchant-business' render={(props: any) => <MerchantBusiness {...props} />} />
             <Route path='/edit-merchant-business/:id' render={(props: any) => <MerchantBusiness {...props} />} />
             <Route path='/view-merchant-business/:id' render={(props: any) => <ViewBusinessHours {...props} />} />
+            <Route path='/product' render={(props: any) => <AddProduct {...props} />} />
             {
                     this.props.history.location.pathname != '/' ? (
                       <Route path="*" component={Page404}/>

@@ -234,3 +234,27 @@ table.table thead th {
   border-top: none;
   cursor: pointer !important;
 }
+
+.sidebar-manage{
+  font-size: 13px;
+}
+.header_side{
+  padding: 0px 15px 0px 20px;
+  color: #fbb132;
+  font-size: 15px;
+  font-weight: 500;
+}
+.menu_name{
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.menu-item a.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background-color: #fbb132;
+}
