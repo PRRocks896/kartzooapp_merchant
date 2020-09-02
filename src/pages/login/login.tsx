@@ -185,7 +185,7 @@ class Login extends React.Component<{ history: any }> {
 
           axios
             .post(constant.apiUrl + apiUrl.userController.createData, obj)
-            .then((res: any) => {
+            .then(async(res: any) => {
               console.log("login", res);
               if (res) {
                 if (res.data.status === 200) {
@@ -195,6 +195,13 @@ class Login extends React.Component<{ history: any }> {
                   var userData = res.data.resultObject;
                   localStorage.setItem("user", JSON.stringify(userData));
                   localStorage.setItem("token", userData.token);
+                  const users: any = localStorage.getItem("user");
+                  let user = JSON.parse(users);
+                  var getToken = await API.getToken();
+                  console.log("getToken", getToken);
+                  if (getToken) {
+                    localStorage.setItem("adminToken", getToken.token);
+                  }
                   const msg = res.data.message;
                   utils.showSuccess(msg);
                   this.props.history.push("/dashboard");

@@ -52,10 +52,10 @@ export default {
         return await WebReqUrl.put(Constant.mainUrl + apiUrl.locationController.edidCity + id,data,false);
     },
     getCityById: async function (data: any) {
-        return await WebReqUrl.get(Constant.mainUrl + apiUrl.locationController.getCityById + data.id,false);
+        return await WebReqUrl.get(Constant.mainUrl + apiUrl.locationController.getCityById + data.id,true);
     },
     getCity: async function () {
-        return await WebReqUrl.get(Constant.mainUrl + apiUrl.locationController.getcitylist,false);
+        return await WebReqUrl.get(Constant.mainUrl + apiUrl.locationController.getcitylist,true);
     },
        
 }

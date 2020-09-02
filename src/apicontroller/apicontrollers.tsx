@@ -12,7 +12,8 @@ const apiUrl = {
         deleteUser:'users/',
         updatepassword:'merchant/change-password',
         resetpassword:'merchant/reset-password',
-        statusChange:'status'
+        statusChange:'status',
+        gettoken:'token/get-admin-token'
 
     },
     customerController: {

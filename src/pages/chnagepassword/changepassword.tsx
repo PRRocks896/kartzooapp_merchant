@@ -15,7 +15,7 @@ import utils from '../../utils';
 import constant from '../../constant/constant';
 import NavBar from '../navbar/navbar';
 
-class ChangePassword extends Component {
+class ChangePassword extends Component<{history:any,location:any}> {
     changeState = constant.changePasswordPage.state;
     state = {
         oldpassword: this.changeState.oldpassword,
@@ -81,6 +81,7 @@ class ChangePassword extends Component {
                 if (updatePassword.status === 200) {
                     const msg = updatePassword.message;
                     utils.showSuccess(msg);
+                    this.props.history.push("/dashboard");
                 } else {
                     const msg1 = updatePassword.message;
                     utils.showError(msg1);

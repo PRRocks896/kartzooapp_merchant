@@ -2,9 +2,6 @@ import React from 'react';
 import { NavLink,Link } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 import nav from '../../navbar.service';
-import { Badge, Nav, NavItem, NavLink as RsNavLink } from 'reactstrap';
-import classNames from 'classnames';
-import history from '../../history';
 import constant from '../../constant/constant';
 import EventEmitter from '../../event';
 
@@ -50,7 +47,6 @@ class NavBar extends React.Component {
       }
 
       handleClick(url:any) {
-          console.log("url",url);
           window.location.href=`/#${url}`;
       }
 
@@ -69,123 +65,12 @@ class NavBar extends React.Component {
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('adminToken');
         // this.props.history.push('/login');
         window.location.href="/#/login";
     }
 
     render() {
-        const badge = (badge:any) => {
-            if (badge) {
-              const classes = classNames(badge.class);
-              return (<Badge className={classes} color={badge.variant}>{badge.text}</Badge>)
-            }
-          };
-      
-          // simple wrapper for nav-title item
-          const wrapper = (item:any) => { return (item.wrapper && item.wrapper.element ? (React.createElement(item.wrapper.element, item.wrapper.attributes, item.name)) : item.name) };
-      
-          // nav list section title
-          const title = (title:any, key:any) => {
-            const classes = classNames('nav-title', title.class);
-            return (<li key={key} className={classes}>{wrapper(title)} </li>);
-          };
-      
-          // nav list divider
-          const divider = (divider:any, key:any) => {
-            const classes = classNames('divider', divider.class);
-            return (<li key={key} className={classes}></li>);
-          };
-      
-          // nav item with nav link
-          const navItem = (item:any, key:any) => {
-            const classes = {
-              item: classNames(item.class),
-              link: classNames('nav-link', item.variant ? `nav-link-${item.variant}` : ''),
-              icon: classNames(item.icon)
-            };
-            return (
-              navLink(item, key, classes)
-            )
-          };
-      
-          // nav link
-          const navLink = (item:any, key:any, classes:any) => { 
-            const url = item.url ? item.url : '';
-            return (
-              <div key={key} className={classes.item}>
-                {isExternal(url) ?
-                  <RsNavLink href={url} className={classes.link} active>
-                    <i className={classes.icon}></i>{item.name}{badge(item.badge)}
-                  </RsNavLink>
-                  :
-                  <NavLink to={url} className={classes.link} activeClassName="active">
-                    <i className={classes.icon}></i>{item.name}{badge(item.badge)}
-                  </NavLink>
-                }
-              </div>
-            )
-          };
-      
-          // nav dropdown
-          const navDropdown = (item:any, key:any) => {
-            return (
-              <div key={key} className={this.activeRoute(item.url)}>
-                  {item?.type === 'link' && 
-                    <a href="#" className="has-chevron" data-toggle="collapse"> <span><i className={item.icon}></i>{item.name} </span>
-                    </a>
-                  }
-                    {item?.type !== 'link' && 
-                        <>
-                            <a href="#" className="has-chevron  nav-dropdown-toggle" data-toggle="collapse" data-target={`#${item.id}`} aria-expanded="false" aria-controls={`${item.id}`}  onClick={this.handleClick.bind(this)}> <span><i className={item.icon}></i>{item.name} </span>
-                            </a>
-                            <ul id={`${item.id}`} className="collapse" aria-labelledby={`${item.id}`} data-parent="#side-nav-accordion">
-                                {navChildList(item.children)}
-                            </ul>
-                        </>
-                  }
-                   
-                   
-                {/* <a className="nav-link " href="#" onClick={handleClick.bind(this)}><i className={item.icon}></i>{item.name}</a> */}
-                
-              </div>)
-          };
-      
-          // nav type
-          const navType = (item:any, idx:any) =>
-            item.title ? title(item, idx) :
-              item.divider ? divider(item, idx) :
-                item.children ? navDropdown(item, idx)
-                  : navItem(item, idx);
-
-      
-          // nav list
-          const navList = (items:any) => {
-            if(items !== undefined) {
-             
-                var itemsArray = items.items;
-             
-                if(itemsArray) {
-                    return itemsArray.map((item:any, index:any) => navType(item, index));
-                }
-            }
-          };
-
-          const navChildList = (chilItem: any) => {
-            if(chilItem !== undefined) {
-            
-                var itemsArray = chilItem;
-             
-                if(itemsArray) {
-                    return itemsArray.map((chilItem:any, index:any) => navType(chilItem, index));
-                }
-            }
-          }
-      
-          const isExternal = (url:any) => {
-            const link = url ? url.substring(0, 4) : '';
-            return link === 'http';
-          };
-
 
         return (
             <div className={this.state.isOpen == true ? "ms-body ms-aside-left-open ms-primary-theme ms-has-quickbar" : "ms-body ms-primary-theme ms-has-quickbar"}>

@@ -161,7 +161,7 @@ class Profile extends React.Component<{ history: any }> {
             address: this.state.address = getProfile.resultObject.address,
             latitude: this.state.latitude = getProfile.resultObject.latitude,
             longitude: this.state.longitude = getProfile.resultObject.longitude,
-            shopname: this.state.shopname = getProfile.resultObject.shopname,
+            shopname: this.state.shopname = getProfile.resultObject.shopName,
             // selectedDocumentFile:this.state.selectedDocumentFile = getProfile.resultObject.merchantDocument,
             // file2:this.state.file2 = getProfile.resultObject.merchantDocument,
             // selectedProofFile:this.state.selectedProofFile = getProfile.resultObject.merchantIDPoof,
@@ -510,6 +510,7 @@ class Profile extends React.Component<{ history: any }> {
           if (updateMerchant.status === 200) {
             const msg = updateMerchant.message;
             utils.showSuccess(msg);
+            this.props.history.push("/dashboard");
           } else {
             const msg1 = updateMerchant.message;
             utils.showError(msg1);
@@ -614,6 +615,7 @@ class Profile extends React.Component<{ history: any }> {
                             onChange={this.handleChangeEvent}
                             placeholder="Enter your email"
                             required
+                            disabled
                           />
                           <div className="mb-4 text-danger">
                             {this.state.emailerror}
@@ -700,7 +702,7 @@ class Profile extends React.Component<{ history: any }> {
                           {this.state.passworderror}
                         </div>
                       </Col> */}
-                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                      {/* <Col xs="12" sm="12" md="4" lg="4" xl="4">
                         <Form>
                           <FormGroup>
                             <Label for="exampleCustomSelect">Select User</Label>
@@ -719,7 +721,7 @@ class Profile extends React.Component<{ history: any }> {
                             </div>
                           </FormGroup>
                         </Form>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <Row>
                       <Col xs="12" sm="12" md="4" lg="4" xl="4">
@@ -852,7 +854,7 @@ class Profile extends React.Component<{ history: any }> {
                                   {this.state.filetrue === true ? (
                                     <img
                                       className="picture"
-                                      src={constant.filepath + this.state.file}
+                                      src={constant.fileMerchantpath + this.state.file}
                                     />
                                   ) : (
                                     <img

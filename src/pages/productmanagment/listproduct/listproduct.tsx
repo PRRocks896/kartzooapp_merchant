@@ -423,7 +423,7 @@ class ListProduct extends React.Component<{ history: any }> {
                           {constant.productPage.title.productTitle}
                         </CardTitle>
                       </Col>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                      {/* <Col xs="12" sm="12" md="6" lg="6" xl="6">
                         <div className="right">
                           <Link to="/product">
                             <Button
@@ -434,7 +434,7 @@ class ListProduct extends React.Component<{ history: any }> {
                             </Button>
                           </Link>
                         </div>
-                      </Col>
+                      </Col> */}
                     </Row>
                   </CardHeader>
                   <CardBody>

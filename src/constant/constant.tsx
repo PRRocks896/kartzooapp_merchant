@@ -315,7 +315,7 @@ export default {
       isOpen: false,
       updateTrue: false,
       roleid: 0,
-      isActive:false
+      isActive:true
     },
     userRoleTableColumn: {
       rolename: "Role Name",

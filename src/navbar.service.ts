@@ -33,11 +33,11 @@ export default {
            icon: 'fa fa-location-arrow fs-16',
         url: '/list-business-hours'
       },
-      {
-        name: 'Review',
-           icon: 'fa fa-location-arrow fs-16',
-        url: '/list-merchant-review'
-      },
+      // {
+      //   name: 'Review',
+      //      icon: 'fa fa-location-arrow fs-16',
+      //   url: '/list-merchant-review'
+      // },
       {
         name:'Product Management',
         type:'header'
@@ -47,26 +47,26 @@ export default {
          icon: 'fa fa-shopping-cart fs-16',
         url: '/list-product'
       },
-      {
-        name: 'Image',
-         icon: 'fa fa-shopping-cart fs-16',
-        url: '/list-product-image'
-      },
+      // {
+      //   name: 'Image',
+      //    icon: 'fa fa-shopping-cart fs-16',
+      //   url: '/list-product-image'
+      // },
       {
         name: 'Inventory',
          icon: 'fa fa-shopping-cart fs-16',
         url: '/list-product-inventory'
       },
-      {
-        name: 'Review',
-         icon: 'fa fa-shopping-cart fs-16',
-        url: '/list-product-review'
-      },
-      {
-        name: 'AddOn',
-         icon: 'fa fa-shopping-cart fs-16',
-        url: '/product-addondetail'
-      },
+      // {
+      //   name: 'Review',
+      //    icon: 'fa fa-shopping-cart fs-16',
+      //   url: '/list-product-review'
+      // },
+      // {
+      //   name: 'AddOn',
+      //    icon: 'fa fa-shopping-cart fs-16',
+      //   url: '/product-addondetail'
+      // },
     
     ],
   };
