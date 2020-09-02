@@ -17,7 +17,7 @@ const utils = {
     });
   },
   getAppName: () => {
-    return " | Kartzoo App";
+    return " | Merchant Panel";
   },
   getMerchantHeaderDetail: () => {
     return {
