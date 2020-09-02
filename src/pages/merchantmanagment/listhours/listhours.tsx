@@ -16,7 +16,7 @@ import {
   Row,
 } from "reactstrap";
 import NavBar from "../../navbar/navbar";
-import {StatusAPI, CouponAPI, MerchantAPI} from "../../../service/index.service";
+import {StatusAPI, MerchantAPI} from "../../../service/index.service";
 import constant from "../../../constant/constant";
 
 class ListBussinessHours extends React.Component<{ history: any }> {
@@ -55,7 +55,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   async componentDidMount() {
     document.title =
-      constant.categoryPage.title.categoryTitle + utils.getAppName();
+      constant.merchantBussinessPage.title.merchantHoursTitle + utils.getAppName();
       utils.dataTable();
     this.getBusinessHoursData();
   }

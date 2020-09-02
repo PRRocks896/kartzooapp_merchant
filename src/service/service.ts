@@ -9,7 +9,7 @@ export default {
         return axios.post(Constant.apiUrl + apiUrl.userController.createData, data);
     },
     signupUser: async function (data: any) {
-        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.createData, data);
+        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.createData, data,false);
     },
     forgotPassword: async function (data: any) {
         console.log("data",data);
@@ -20,20 +20,20 @@ export default {
         return await axios.post(Constant.apiUrl + apiUrl.userController.resetpassword, data);
     },
     updatePassword: async function (data: any) {
-        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.updatepassword, data);
+        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.updatepassword, data,false);
     },
     
     getProfile: async function (data: any) {
-        return await WebReqUrl.get(Constant.apiUrl + apiUrl.userController.getDataById + data.id);
+        return await WebReqUrl.get(Constant.apiUrl + apiUrl.userController.getDataById + data.id,false);
     },
     updateProfile: async function (data: any) {
-        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.updateProfile, data);
+        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.updateProfile, data,false);
     },
     getUserCount: async function () {
-        return await WebReqUrl.get(Constant.apiUrl + apiUrl.userController.getCount);
+        return await WebReqUrl.get(Constant.apiUrl + apiUrl.userController.getCount,false);
     },
     getUserDataPagination: async function (data:any) {
-        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.getUserPaginationData,data);
+        return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.getUserPaginationData,data,false);
     },
     deleteUser: async function (data:any) {
         return await WebReqUrl.delete(Constant.apiUrl + apiUrl.userController.deleteUser + data);
@@ -59,7 +59,7 @@ export default {
         return await axios.put(Constant.apiUrl + apiUrl.userController.updateData + id, data,config);
     },
     getUserById: async function (data:any) {
-        return await WebReqUrl.get(Constant.apiUrl + apiUrl.userController.getDataById + data.id);
+        return await WebReqUrl.get(Constant.apiUrl + apiUrl.userController.getDataById + data.id,false);
     },
    
     

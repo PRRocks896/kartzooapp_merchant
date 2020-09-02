@@ -258,3 +258,20 @@ table.table thead th {
   height: 100%;
   background-color: #fbb132;
 }
+
+.fade.modal-dialog-centered.modal.show {
+	padding-right: 17px;
+	display: block !important;
+	min-height: calc(100% - (1.75rem * 2)) !important;
+	display: flex !important;
+  }
+
+  .modal-dialog {
+    min-width: 445px;
+    margin: 1.75rem auto;
+}
+
+.button-ct {
+  text-align: center;
+  margin: auto !important;
+}

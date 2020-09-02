@@ -1,212 +1,349 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import utils from '../../../utils';
+import React from "react";
+import { Link } from "react-router-dom";
+import utils from "../../../utils";
 import {
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Input,
-    Col,
-    FormGroup,
-    Label,
-    CustomInput,
-    Form,
-    Row,
-} from 'reactstrap';
-import './inventoryproduct.css';
-import NavBar from '../../navbar/navbar';
-import API from '../../../service/product.service';
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Input,
+  Col,
+  FormGroup,
+  Label,
+  CustomInput,
+  Form,
+  Row,
+} from "reactstrap";
+import "./inventoryproduct.css";
+import NavBar from "../../navbar/navbar";
+import API from "../../../service/product.service";
 import Switch from "react-switch";
-import constant from '../../../constant/constant';
-import { Editor } from '@tinymce/tinymce-react';
-import { inventoryCreateRequest, inventoryUpdateRequest } from '../../../modelController/productInventoryModel';
+import constant from "../../../constant/constant";
+import { Editor } from "@tinymce/tinymce-react";
+import {
+  inventoryCreateRequest,
+  inventoryUpdateRequest,
+} from "../../../modelController/productInventoryModel";
+import { ProductAPI } from "../../../service/index.service";
 
-class InventoryProduct extends React.Component<{ history: any }> {
+class InventoryProduct extends React.Component<{ history: any,location:any }> {
+  productState = constant.productInventoryPage.state;
+  state = {
+    productid: this.productState.productid,
+    productiderror: this.productState.productiderror,
+    stockqty: this.productState.stockqty,
+    stockqtyerror: this.productState.stockqtyerror,
+    updateTrue: this.productState.updateTrue,
+    productdata: this.productState.productdata,
+    inventoryid: this.productState.inventoryid
+  };
 
-    state = {
-        productid: '',
-        productiderror: '',
-        stockqty: '',
-        stockqtyerror: ''
+  constructor(props: any) {
+    super(props);
+
+    this.handleChangeEvent = this.handleChangeEvent.bind(this);
+    this.addInventoryProduct = this.addInventoryProduct.bind(this);
+    this.updateInventoryProduct = this.updateInventoryProduct.bind(this);
+    this.onProductSelect = this.onProductSelect.bind(this);
+  }
+  async componentDidMount() {
+    this.getAllProduct();
+    const inventoryId = this.props.location.pathname.split("/")[2];
+    if (inventoryId !== undefined) {
+      this.getInventoryData(inventoryId);
+      this.setState({
+        updateTrue: this.state.updateTrue = true,
+        inventoryid: this.state.inventoryid = inventoryId,
+      });
     }
-
-    constructor(props: any) {
-        super(props);
-
-        this.handleChangeEvent = this.handleChangeEvent.bind(this);
-        this.addInventoryProduct = this.addInventoryProduct.bind(this);
-        this.onProductSelect = this.onProductSelect.bind(this);
+    if (this.state.updateTrue === true) {
+      document.title =
+        constant.productInventoryPage.title.updateProductInventoryTitle +
+        utils.getAppName();
+    } else {
+      document.title =
+        constant.productInventoryPage.title.addProductInventoryTitle +
+        utils.getAppName();
     }
-    async componentDidMount() {
-        document.title = constant.inventoryProduct + utils.getAppName();
+  }
 
-        // const getProduct = await API.getProduct();
-        // console.log("getProduct",getProduct);
-    }
-
-    onProductSelect(event:any) {
-        this.setState({
-            productid:this.state.productid = event.target.value
-        })
-    }
-
-    validate() {
-        let productiderror = "";
-        let stockqtyerror = "";
-
-        if (!this.state.productid) {
-            productiderror = "please select product";
-        }
-
-        if (!this.state.stockqty) {
-            stockqtyerror = "please enter qty";
-        }
-
-        if (productiderror || stockqtyerror) {
-            this.setState({ productiderror, stockqtyerror });
-            return false;
-        }
-        return true;
+  async getInventoryData(inventoryId: any) {
+    const obj = {
+      id: inventoryId,
     };
+    const getInventoryData: any = await ProductAPI.getInventoryData(obj);
+    console.log("getInventoryData", getInventoryData);
 
-    handleChangeEvent(event: any) {
-        event.preventDefault();
-        const state: any = this.state;
-        state[event.target.name] = event.target.value;
-        this.setState(state);
+    if (getInventoryData.status === 200) {
+      this.setState({
+        updateTrue: this.state.updateTrue = true,
+        productid:this.state.productid =  getInventoryData.resultObject.productId,
+        stockqty: this.state.stockqty = getInventoryData.resultObject.stockQty
+      });
+    } else {
+      const msg1 = getInventoryData.message;
+      utils.showError(msg1);
+    }
+  }
+
+  async getAllProduct() {
+    const getAllProduct = await ProductAPI.getAllProduct();
+    console.log("getAllProduct", getAllProduct);
+    if (getAllProduct.status === 200) {
+      this.setState({
+        productdata: this.state.productdata = getAllProduct.resultObject,
+      });
+    } else {
+      const msg1 = getAllProduct.message;
+      utils.showError(msg1);
+    }
+  }
+
+  onProductSelect(event: any) {
+    this.setState({
+      productid: this.state.productid = event.target.value,
+    });
+  }
+
+  validate() {
+    let productiderror = "";
+    let stockqtyerror = "";
+
+    if (!this.state.productid) {
+      productiderror = "please select product";
     }
 
-    async addInventoryProduct() {
-        const isValid = this.validate();
-        if (isValid) {
-            this.setState({
-                productiderror: '',
-                stockqtyerror: ''
+    if (!this.state.stockqty) {
+      stockqtyerror = "please enter qty";
+    }
 
-            })
-            if (this.state.productid && this.state.stockqty) {
+    if (productiderror || stockqtyerror) {
+      this.setState({ productiderror, stockqtyerror });
+      return false;
+    }
+    return true;
+  }
 
-                const obj : inventoryCreateRequest = {
-                    productid: this.state.productid,
-                    stockqty: this.state.stockqty
-                }
+  handleChangeEvent(event: any) {
+    event.preventDefault();
+    const state: any = this.state;
+    state[event.target.name] = event.target.value;
+    this.setState(state);
+  }
 
-                const obj1 : inventoryUpdateRequest = {
-                    id:'',
-                    productid: this.state.productid,
-                    stockqty: this.state.stockqty
-                }
-
-                // const addProductInventory = await API.addProductInventory(obj);
-                // console.log("addProductInventory",addProductInventory);
-
-                if (this.state.productid === obj.productid && this.state.stockqty === obj.stockqty) {
-                    const msg = "Product Inventory Added Successfully";
-                    utils.showSuccess(msg);
-                    // this.props.history.push('/users');
-                } else {
-                    const msg1 = "Error";
-                    utils.showError(msg1);
-                }
-            }
+  async addInventoryProduct() {
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState({
+        productiderror: "",
+        stockqtyerror: "",
+      });
+      if (this.state.productid && this.state.stockqty) {
+        const obj: inventoryCreateRequest = {
+          productId: parseInt(this.state.productid),
+          stockQty: parseInt(this.state.stockqty),
         };
+
+        const addProductInventory = await ProductAPI.addProductInventory(obj);
+        console.log("addProductInventory", addProductInventory);
+
+        if (addProductInventory) {
+          if (addProductInventory.status === 200) {
+            const msg = addProductInventory.message;
+            utils.showSuccess(msg);
+            this.props.history.push("/list-product-inventory");
+          } else {
+            const msg1 = addProductInventory.message;
+            utils.showError(msg1);
+          }
+        } else {
+          const msg1 = "Internal server error";
+          utils.showError(msg1);
+        }
+      }
     }
+  }
 
-    render() {
-        return (
-            <>
-                <NavBar>
-                    <div className="ms-content-wrapper">
-                        <div className="row">
-                            <Col xs="12" sm="12" md="12" lg="12" xl="12">
-                                <Card>
-                                    <CardHeader>
-                                        <Row>
-                                            <Col xs="12" sm="6" md="9" lg="9" xl="9">
-                                                <h1>Add Product Inventory</h1>
-                                            </Col>
-                                            <Col xs="12" sm="6" md="3" lg="3" xl="3" style={{textAlign:"right"}}>
-                                                <Link to="/list-product-inventory">
-                                                    <Button
-                                                        type="button"
-                                                        size="sm"
-                                                        color="primary"
-                                                        className="mb-2 mr-2 custom-button"
-                                                    >
-                                                        Back
-                                        </Button>
-                                                </Link>
-                                            </Col>
-                                        </Row>
+  async updateInventoryProduct() {
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState({
+        productiderror: "",
+        stockqtyerror: "",
+      });
+      if (this.state.productid && this.state.stockqty) {
+        const obj: inventoryUpdateRequest = {
+            productInventoryId: parseInt(this.state.inventoryid),
+          productId: parseInt(this.state.productid),
+          stockQty: parseInt(this.state.stockqty),
+        };
 
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Row>
-                                            <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                                                <Form>
-                                                    <FormGroup>
-                                                        <Label for="exampleCustomSelect">Select Product</Label>
-                                                        <CustomInput
-                                                            type="select"
-                                                            id="exampleCustomSelect"
-                                                            name="productid"
-                                                        onChange={this.onProductSelect}
-                                                        >
-                                                            <option value="">Select Product</option>
-                                                            <option value="Product-1">Product-1</option>
-                                                            <option value="Product-2">Product-2</option>
-                                                            {/* {
-                                                                        this.state.userrole.length > 0 ? this.state.userrole.map((data, index) =>
-                                                                            <option key={data.id} value={data.id}>{data.name}</option>
-                                                                        ) : ''
-                                                                    } */}
-                                                        </CustomInput>
-                                                        <div className="mb-4 text-danger">
-                                                            {this.state.productiderror}
-                                                        </div>
-                                                    </FormGroup>
-                                                </Form>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                                                <FormGroup>
-                                                    <Label htmlFor="Stock Qty">Stock Qty</Label>
-                                                    <Input
-                                                        type="number"
-                                                        id="Stock Qty"
-                                                        name="stockqty"
-                                                        className="form-control"
-                                                        // value={this.state.mobilenumber}
-                                                        onChange={this.handleChangeEvent}
-                                                        placeholder="Enter your stock qty"
-                                                    />
-                                                    <div className="mb-4 text-danger">
-                                                        {this.state.stockqtyerror}
-                                                    </div>
-                                                </FormGroup>
-                                            </Col>
-                                        </Row>
+        const editProductInventory = await ProductAPI.editProductInventory(obj,obj.productInventoryId);
+        console.log("editProductInventory", editProductInventory);
 
-                                        <Button
-                                            type="button"
-                                            size="sm"
-                                            color="primary"
-                                            className="mb-2 mt-3 mr-2 custom-button"
-                                            onClick={this.addInventoryProduct}
-                                        >
-                                            Save
-                                        </Button>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </div>
-                    </div>
-                </NavBar>
-            </>
-        );
+        if (editProductInventory) {
+          if (editProductInventory.status === 200) {
+            const msg = editProductInventory.message;
+            utils.showSuccess(msg);
+            this.props.history.push("/list-product-inventory");
+          } else {
+            const msg1 = editProductInventory.message;
+            utils.showError(msg1);
+          }
+        } else {
+          const msg1 = "Internal server error";
+          utils.showError(msg1);
+        }
+      }
     }
+  }
+
+  render() {
+    return (
+      <>
+        <NavBar>
+          <div className="ms-content-wrapper">
+            <div className="row">
+              <Col xs="12" sm="12" md="12" lg="12" xl="12">
+                <Card>
+                  <CardHeader>
+                    <Row>
+                      {this.state.updateTrue === true ? (
+                        <Col xs="12" sm="6" md="9" lg="9" xl="9">
+                          <h1>
+                            {
+                              constant.productInventoryPage.title
+                                .updateProductInventoryTitle
+                            }
+                          </h1>
+                        </Col>
+                      ) : (
+                        <Col xs="12" sm="6" md="9" lg="9" xl="9">
+                          <h1>
+                            {
+                              constant.productInventoryPage.title
+                                .addProductInventoryTitle
+                            }
+                          </h1>
+                        </Col>
+                      )}
+                      <Col
+                        xs="12"
+                        sm="6"
+                        md="3"
+                        lg="3"
+                        xl="3"
+                        className="search_right"
+                      >
+                        <Link to="/list-product-inventory">
+                          <Button
+                            type="button"
+                            size="sm"
+                            color="primary"
+                            className="mb-2 mr-2 custom-button"
+                          >
+                            {constant.button.back}
+                          </Button>
+                        </Link>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Row>
+                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                        <Form>
+                          <FormGroup>
+                            <Label for="exampleCustomSelect">
+                              {
+                                constant.productInventoryPage
+                                  .merchantHoursTableColumn.selectproduct
+                              }
+                            </Label>
+                            <CustomInput
+                              type="select"
+                              id="exampleCustomSelect"
+                              name="productid"
+                              onChange={this.onProductSelect}
+                              value={this.state.productid ? this.state.productid : ''}
+                            >
+                              <option value="">
+                                {
+                                  constant.productInventoryPage
+                                    .merchantHoursTableColumn.selectproduct
+                                }
+                              </option>
+
+                              {this.state.productdata.length > 0
+                                ? this.state.productdata.map(
+                                    (data: any, index: number) => (
+                                      <option key={index} value={data.value}>
+                                        {data.name}
+                                      </option>
+                                    )
+                                  )
+                                : ""}
+                            </CustomInput>
+                            <div className="mb-4 text-danger">
+                              {this.state.productiderror}
+                            </div>
+                          </FormGroup>
+                        </Form>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                        <FormGroup>
+                          <Label htmlFor="Stock Qty">
+                            {
+                              constant.productInventoryPage
+                                .merchantHoursTableColumn.stockQty
+                            }
+                          </Label>
+                          <Input
+                            type="number"
+                            id="Stock Qty"
+                            name="stockqty"
+                            className="form-control"
+                            value={this.state.stockqty}
+                            onChange={this.handleChangeEvent}
+                            placeholder="Enter your stock qty"
+                          />
+                          <div className="mb-4 text-danger">
+                            {this.state.stockqtyerror}
+                          </div>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    {this.state.updateTrue === true ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        color="primary"
+                        className="mb-2 mt-3 mr-2 custom-button"
+                        onClick={this.updateInventoryProduct}
+                      >
+                        {constant.button.update}
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        size="sm"
+                        color="primary"
+                        className="mb-2 mt-3 mr-2 custom-button"
+                        onClick={this.addInventoryProduct}
+                      >
+                        {constant.button.Save}
+                      </Button>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </div>
+          </div>
+        </NavBar>
+      </>
+    );
+  }
 }
 
 export default InventoryProduct;

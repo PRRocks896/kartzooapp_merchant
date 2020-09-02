@@ -50,6 +50,7 @@ class MerchantBusiness extends React.Component<{
     this.handleChangeEvent = this.handleChangeEvent.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addBusinessMerchant = this.addBusinessMerchant.bind(this);
+    this.updateBusinessMerchant = this.updateBusinessMerchant.bind(this);
     this.onItemSelect = this.onItemSelect.bind(this);
     this.getMerchantList = this.getMerchantList.bind(this);
     this.getHoursById = this.getHoursById.bind(this);
@@ -74,6 +75,11 @@ class MerchantBusiness extends React.Component<{
         constant.merchantBussinessPage.title.addMerchantHoursTitle +
         utils.getAppName();
     }
+    const users: any = localStorage.getItem("user");
+    let user = JSON.parse(users);
+    this.setState({
+      merchant:this.state.merchant = user.merchantID
+    })
   }
 
   async getHoursById(businessId: any) {
@@ -203,7 +209,7 @@ class MerchantBusiness extends React.Component<{
       });
       if (this.state.merchant && this.state.days && this.state.hours) {
         const obj: bussinessUpdateRequest = {
-          merchantBusinessHoursId:this.state.businessid,
+          merchantBusinessHoursId:parseInt(this.state.businessid),
           merchantId: parseInt(this.state.merchant),
           days: this.state.days,
           hours: this.state.hours,
@@ -284,70 +290,6 @@ class MerchantBusiness extends React.Component<{
                   <CardBody>
                     <Row>
                       <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <Form>
-                          <FormGroup>
-                            <Label for="exampleCustomSelect">
-                              {constant.cityPage.cityTableColumn.selectstate}
-                            </Label>
-                            <CustomInput
-                              type="select"
-                              id="exampleCustomSelect"
-                              name="customSelect"
-                              onChange={this.onItemSelect}
-                            >
-                              {this.state.updateTrue === true ? (
-                                <>
-                                  <option value="">
-                                    {
-                                      constant.merchantBussinessPage
-                                        .merchantHoursTableColumn.merchantname
-                                    }
-                                  </option>
-                                  {this.state.merchantdata.length > 0
-                                    ? this.state.merchantdata.map(
-                                        (data: any, index: any) => (
-                                          <option
-                                            key={index}
-                                            value={data.value}
-                                          >
-                                            {data.name}
-                                          </option>
-                                        )
-                                      )
-                                    : ""}
-                                </>
-                              ) : (
-                                <>
-                                  <option value="">
-                                    {
-                                      constant.merchantBussinessPage
-                                        .merchantHoursTableColumn.merchantname
-                                    }
-                                  </option>
-                                  {this.state.merchantdata.length > 0
-                                    ? this.state.merchantdata.map(
-                                        (data: any, index: any) => (
-                                          <option
-                                            key={index}
-                                            value={data.value}
-                                          >
-                                            {data.name}
-                                          </option>
-                                        )
-                                      )
-                                    : ""}
-                                </>
-                              )}
-                            </CustomInput>
-                            <div className="mb-4 text-danger">
-                              {this.state.merchanterror}
-                            </div>
-                          </FormGroup>
-                        </Form>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
                         <FormGroup>
                           <Label htmlFor="Days">
                             {
@@ -421,7 +363,7 @@ class MerchantBusiness extends React.Component<{
                         size="sm"
                         color="primary"
                         className="mb-2 mr-2 custom-button"
-                        onClick={this.addBusinessMerchant}
+                        onClick={this.updateBusinessMerchant}
                       >
                         {constant.button.update}
                       </Button>

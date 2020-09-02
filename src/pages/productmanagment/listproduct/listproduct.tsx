@@ -19,7 +19,6 @@ import NavBar from "../../navbar/navbar";
 import {
   StatusAPI,
   ProductAPI,
-  CouponAPI,
   MerchantAPI,
 } from "../../../service/index.service";
 import constant from "../../../constant/constant";
@@ -60,7 +59,7 @@ class ListProduct extends React.Component<{ history: any }> {
 
   async componentDidMount() {
     document.title =
-      constant.categoryPage.title.categoryTitle + utils.getAppName();
+      constant.productPage.title.productTitle + utils.getAppName();
     utils.dataTable();
     this.getProductData();
   }
@@ -119,11 +118,11 @@ class ListProduct extends React.Component<{ history: any }> {
   }
 
   editProduct(id: any) {
-    this.props.history.push("/edit-merchant/" + id);
+    this.props.history.push("/edit-product/" + id);
   }
 
   viewProduct(id: any) {
-    this.props.history.push("/view-merchant/" + id);
+    this.props.history.push("/view-product/" + id);
   }
 
   onItemSelect(event: any) {
@@ -306,23 +305,23 @@ class ListProduct extends React.Component<{ history: any }> {
                       </button>
                     )}
                   </td>
-                  <td className="action">
-                    <span className="padding">
+                  <td className="action text-center">
+                   
                       <i
                         className="fa fa-eye"
                         onClick={() => this.viewProduct(data.productId)}
                       ></i>
-                      <i
+                      {/* <i
                         className="fas fa-edit"
                         onClick={() => this.editProduct(data.productId)}
-                      ></i>
+                      ></i> */}
                       {/* <i
                         className="far fa-trash-alt"
                         onClick={() =>
                           this.deleteCategory(data.categoryId)
                         }
                       ></i> */}
-                    </span>
+                 
                   </td>
                 </tr>
               ))}

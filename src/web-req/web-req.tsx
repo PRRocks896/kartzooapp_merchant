@@ -3,10 +3,15 @@ import Constant from '../constant/constant';
 import utils from '../utils';
 
 const WebReqUrl = {
-    get: async function (url: string) {
+    get: async function (url: string,isMerchant:boolean) {
         try {
             let response;
-            response = await axios.get(url,{headers: utils.getHeaderDetail()})
+            if(isMerchant === true){
+                response = await axios.get(url,{headers: utils.getMerchantHeaderDetail()})
+            } else {
+                response = await axios.get(url,{headers: utils.getHeaderDetail()})
+            }
+           
             console.log("response",response);
             if(response) {
                 try {
@@ -30,6 +35,7 @@ const WebReqUrl = {
     delete: async function (url: string) {
         try {
             let response;
+            
             response = await axios.delete(url, {headers: utils.getHeaderDetail()})
             console.log("response",response);
             if(response) {
@@ -51,10 +57,14 @@ const WebReqUrl = {
             console.error(err);
         }
     },
-    put: async function (url: string, body: any) {
+    put: async function (url: string, body: any,isMerchant:boolean) {
         try {
             let response;
-            response = await axios.put(url, body, {headers: utils.getHeaderDetail()})
+            if(isMerchant === true){
+                response = await axios.put(url, body, {headers: utils.getMerchantHeaderDetail()})
+            } else {
+                response = await axios.put(url, body, {headers: utils.getHeaderDetail()})
+            }
             console.log("response",response);
             if(response) {
                 try {
@@ -75,10 +85,14 @@ const WebReqUrl = {
             console.error(err);
         }
     },
-    post: async function (url: string, body: any) {
+    post: async function (url: string, body: any,isMerchant:boolean) {
         try {
             let response;
-            response = await axios.post(url, body, {headers: utils.getHeaderDetail()})
+            if(isMerchant === true){
+                response = await axios.post(url, body, {headers: utils.getMerchantHeaderDetail()})
+            } else {
+                response = await axios.post(url, body, {headers: utils.getHeaderDetail()})
+            }
             console.log("response",response);
             if(response) {
                 try {

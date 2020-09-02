@@ -18,7 +18,6 @@ import {
 import NavBar from "../../navbar/navbar";
 import {
   StatusAPI,
-  CouponAPI,
   MerchantAPI,
 } from "../../../service/index.service";
 import constant from "../../../constant/constant";

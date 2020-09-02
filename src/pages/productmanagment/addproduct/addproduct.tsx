@@ -21,7 +21,7 @@ import Switch from "react-switch";
 import constant from '../../../constant/constant';
 import { Editor } from '@tinymce/tinymce-react';
 import { productCreateRequest, productUpdateRequest } from '../../../modelController/productModel';
-import { CategoryAPI } from '../../../service/index.service';
+
 
 class AddProduct extends React.Component<{ history: any }> {
 

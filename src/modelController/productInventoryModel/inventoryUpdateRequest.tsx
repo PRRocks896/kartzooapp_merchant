@@ -1,5 +1,5 @@
 export interface inventoryUpdateRequest {
-    id?:string,
-    productid?: string,
-    stockqty?: string
+    productInventoryId?:number,
+    productId?: number,
+    stockQty?: number
 }

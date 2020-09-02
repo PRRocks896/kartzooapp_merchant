@@ -1,4 +1,4 @@
 export interface inventoryCreateRequest {
-    productid?: string,
-    stockqty?: string
+    productId?: number,
+    stockQty?: number
 }

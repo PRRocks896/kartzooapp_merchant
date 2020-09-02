@@ -24,7 +24,7 @@ import {
   merchantCreateRequest,
   merchantUpdateRequest,
 } from "../../../modelController/merchantModel";
-import { LocationAPI, MerchantAPI } from "../../../service/index.service";
+import { MerchantAPI } from "../../../service/index.service";
 
 class Merchant extends React.Component<{ history: any }> {
   merchantState = constant.merchantPage.state;
@@ -106,22 +106,22 @@ class Merchant extends React.Component<{ history: any }> {
     document.title =
       constant.merchantPage.title.addMerchantTitle + utils.getAppName();
 
-    const getCity = await LocationAPI.getCity();
-    console.log("getCity", getCity);
+    // const getCity = await LocationAPI.getCity();
+    // console.log("getCity", getCity);
 
-    if (getCity) {
-      if (getCity.status === 200) {
-        this.setState({
-          citydata: this.state.citydata = getCity.resultObject,
-        });
-      } else {
-        const msg1 = getCity.message;
-        utils.showError(msg1);
-      }
-    } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
-    }
+    // if (getCity) {
+    //   if (getCity.status === 200) {
+    //     this.setState({
+    //       citydata: this.state.citydata = getCity.resultObject,
+    //     });
+    //   } else {
+    //     const msg1 = getCity.message;
+    //     utils.showError(msg1);
+    //   }
+    // } else {
+    //   const msg1 = "Internal server error";
+    //   utils.showError(msg1);
+    // }
   }
 
   onUserSelect(event: any) {
