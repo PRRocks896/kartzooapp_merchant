@@ -191,8 +191,8 @@ class ListProduct extends React.Component<{ history: any }> {
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj = {
-        moduleName: "Coupon",
-        id: data.couponId,
+        moduleName: "Product",
+        id: data.productId,
         isActive: data.isActive === true ? false : true,
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);

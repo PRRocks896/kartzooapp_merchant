@@ -16,7 +16,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
-// import './adduser.css';
+import './business.css';
 import NavBar from "../../navbar/navbar";
 import Switch from "react-switch";
 import constant from "../../../constant/constant";
@@ -26,6 +26,9 @@ import {
   bussinessUpdateRequest,
 } from "../../../modelController";
 import { MerchantAPI } from "../../../service/index.service";
+import { TimePicker } from "antd";
+import "antd/dist/antd.css";
+import moment from "moment";
 
 class MerchantBusiness extends React.Component<{
   history: any;
@@ -54,6 +57,7 @@ class MerchantBusiness extends React.Component<{
     this.onItemSelect = this.onItemSelect.bind(this);
     this.getMerchantList = this.getMerchantList.bind(this);
     this.getHoursById = this.getHoursById.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   async componentDidMount() {
@@ -78,8 +82,8 @@ class MerchantBusiness extends React.Component<{
     const users: any = localStorage.getItem("user");
     let user = JSON.parse(users);
     this.setState({
-      merchant:this.state.merchant = user.merchantID
-    })
+      merchant: this.state.merchant = user.merchantID,
+    });
   }
 
   async getHoursById(businessId: any) {
@@ -97,6 +101,7 @@ class MerchantBusiness extends React.Component<{
         hours: this.state.hours = getHoursById.resultObject.hours,
         isOpen: this.state.isOpen = getHoursById.resultObject.isOpen,
       });
+      console.log("hours",this.state.hours);
     } else {
       const msg1 = getHoursById.message;
       utils.showError(msg1);
@@ -122,6 +127,12 @@ class MerchantBusiness extends React.Component<{
     }
   }
 
+  onChange(time: any, timeString: any) {
+    this.setState({
+      hours:this.state.hours = timeString
+    })
+  }
+
   handleChange(checked: boolean) {
     this.setState({ isOpen: this.state.isOpen = checked });
   }
@@ -141,7 +152,7 @@ class MerchantBusiness extends React.Component<{
 
     if (!this.state.hours) {
       hourserror = "please enter hours";
-    }
+    } 
 
     if (merchanterror || dayserror || hourserror) {
       this.setState({ merchanterror, dayserror, hourserror });
@@ -152,7 +163,7 @@ class MerchantBusiness extends React.Component<{
 
   onItemSelect(e: any) {
     this.setState({
-      merchant: this.state.merchant = e.target.value,
+      days: this.state.days = e.target.value,
     });
   }
 
@@ -209,14 +220,17 @@ class MerchantBusiness extends React.Component<{
       });
       if (this.state.merchant && this.state.days && this.state.hours) {
         const obj: bussinessUpdateRequest = {
-          merchantBusinessHoursId:parseInt(this.state.businessid),
+          merchantBusinessHoursId: parseInt(this.state.businessid),
           merchantId: parseInt(this.state.merchant),
           days: this.state.days,
           hours: this.state.hours,
           isOpen: this.state.isOpen,
         };
 
-        const updateMerchantBusiness = await MerchantAPI.updateMerchantBusiness(obj,obj.merchantBusinessHoursId);
+        const updateMerchantBusiness = await MerchantAPI.updateMerchantBusiness(
+          obj,
+          obj.merchantBusinessHoursId
+        );
         console.log("updateMerchantBusiness", updateMerchantBusiness);
 
         if (updateMerchantBusiness) {
@@ -290,31 +304,62 @@ class MerchantBusiness extends React.Component<{
                   <CardBody>
                     <Row>
                       <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <FormGroup>
-                          <Label htmlFor="Days">
-                            {
-                              constant.merchantBussinessPage
-                                .merchantHoursTableColumn.days
-                            }
-                          </Label>
-                          <Input
-                            type="text"
-                            id="Days"
-                            name="days"
-                            className="form-control"
-                            value={this.state.days}
-                            onChange={this.handleChangeEvent}
-                            placeholder="Enter your days"
-                            required
-                          />
-                          <div className="mb-4 text-danger">
-                            {this.state.dayserror}
-                          </div>
-                        </FormGroup>
+                        <Form>
+                          <FormGroup>
+                            <Label for="exampleCustomSelect">
+                              {
+                                constant.merchantBussinessPage
+                                  .merchantHoursTableColumn.selectday
+                              }
+                            </Label>
+                            <CustomInput
+                              type="select"
+                              id="exampleCustomSelect"
+                              name="days"
+                              onChange={this.onItemSelect}
+                              value={this.state.days ? this.state.days : ""}
+                            >
+                              <option value="">
+                                {
+                                  constant.merchantBussinessPage
+                                    .merchantHoursTableColumn.selectday
+                                }
+                              </option>
+                              {constant.merchantBussinessPage.days.length > 0
+                                ? constant.merchantBussinessPage.days.map(
+                                    (data: any, index: any) => (
+                                      <option key={index} value={data.value}>
+                                        {data.name}
+                                      </option>
+                                    )
+                                  )
+                                : ""}
+                            </CustomInput>
+                            <div className="mb-4 text-danger">
+                              {this.state.dayserror}
+                            </div>
+                          </FormGroup>
+                        </Form>
                       </Col>
                     </Row>
                     <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                    <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                      <div>
+                        {
+                          this.state.hours ? (
+                            <TimePicker
+                            defaultValue={moment(`${this.state.hours ? this.state.hours : '00:00:00'}`,"HH:mm:ss")}
+                              onChange={this.onChange}
+                            />
+                          ) : (null)
+                        }
+                        <div className="mb-4 text-danger">
+                            {this.state.hourserror}
+                          </div>
+                      </div>
+                      </Col>
+
+                      {/* <Col xs="12" sm="12" md="6" lg="6" xl="6">
                         <FormGroup>
                           <Label htmlFor="Hours">
                             {
@@ -336,9 +381,9 @@ class MerchantBusiness extends React.Component<{
                             {this.state.hourserror}
                           </div>
                         </FormGroup>
-                      </Col>
+                      </Col> */}
                     </Row>
-                    <Row>
+                    <Row className="mt-3">
                       <Col xs="12" sm="12" md="6" lg="6" xl="6">
                         <label>
                           <span>

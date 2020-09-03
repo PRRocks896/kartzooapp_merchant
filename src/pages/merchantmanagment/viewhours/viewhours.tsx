@@ -13,6 +13,7 @@ import {
   Row,
 } from "reactstrap";
 import NavBar from "../../navbar/navbar";
+import './viewhours.css';
 import { LocationAPI, MerchantAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
 
@@ -103,34 +104,31 @@ class ViewBusinessHours extends React.Component<{
                   </CardHeader>
                   <CardBody>
                     <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <FormGroup>
+                      <Col xs="12" sm="12" md="12" lg="12" xl="12">
+                        <FormGroup className="view_user">
+                          <div>
                           <Label htmlFor="state_name">
                             <b>
                               {
                                 constant.merchantBussinessPage
                                   .merchantHoursTableColumn.days
-                              }
+                              } :
                             </b>
                           </Label>
-                          <p>{this.state.days}</p>
-                        </FormGroup>
-                      </Col>
-
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <Form>
-                          <FormGroup>
+                          <span>{this.state.days}</span>
+                          </div>
+                          <div>
                             <Label for="exampleCustomSelect">
                               <b>
                                 {
                                   constant.merchantBussinessPage
                                     .merchantHoursTableColumn.hours
-                                }
+                                } :
                               </b>
                             </Label>
-                            <p>{this.state.hours}</p>
+                            <span>{this.state.hours}</span>
+                          </div>
                           </FormGroup>
-                        </Form>
                       </Col>
                     </Row>
                   </CardBody>
