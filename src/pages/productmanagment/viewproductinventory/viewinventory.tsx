@@ -101,29 +101,30 @@ class ViewProductInventory extends React.Component<{
                   <CardBody>
                     <Row>
                       <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <FormGroup>
+                        <FormGroup className="view_user">
+                          <div>
                           <Label htmlFor="first_name">
                             <b>
                               {
                                 constant.productInventoryPage
                                   .merchantHoursTableColumn.product
-                              }
+                              } :
                             </b>
                           </Label>
-                          <p>{this.state.productdata}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <FormGroup>
+                          <span>{this.state.productdata}</span>
+                          </div>
+                     
+                          <div>
                           <Label htmlFor="last_name">
                             <b>
                               {
                                 constant.productInventoryPage
                                   .merchantHoursTableColumn.stockQty
-                              }
+                              } :
                             </b>
                           </Label>
-                          <p>{this.state.stockqty}</p>
+                          <span>{this.state.stockqty}</span>
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>

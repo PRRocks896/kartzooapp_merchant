@@ -269,26 +269,26 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                     {data.isOpen === true ? (
                       <button
                         className="status_active_color"
-                        onClick={() =>
-                          this.statusChange(
-                            data,
-                            "You should be inActive business hours",
-                            "Yes, inActive it"
-                          )
-                        }
+                        // onClick={() =>
+                        //   this.statusChange(
+                        //     data,
+                        //     "You should be inActive business hours",
+                        //     "Yes, inActive it"
+                        //   )
+                        // }
                       >
                         Active
                       </button>
                     ) : (
                       <button
                         className="status_inactive_color"
-                        onClick={() =>
-                          this.statusChange(
-                            data,
-                            "You should be Active business hours",
-                            "Yes, Active it"
-                          )
-                        }
+                        // onClick={() =>
+                        //   this.statusChange(
+                        //     data,
+                        //     "You should be Active business hours",
+                        //     "Yes, Active it"
+                        //   )
+                        // }
                       >
                         InActive
                       </button>

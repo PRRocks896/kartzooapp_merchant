@@ -132,6 +132,7 @@ export default {
     },
   },
 
+
   recordPerPage: {
     recordperPage: "Record Per Page",
     fifteen: "15",
@@ -707,7 +708,7 @@ export default {
       dayserror: "",
       hours: "",
       hourserror: "",
-      isOpen: false,
+      isOpen: true,
       updateTrue:false,
       businessid:''
     },
@@ -715,11 +716,21 @@ export default {
       merchantname: "Select Merchant",
       days: "Days",
       hours: "Hours",
-      IsOpen:'IsOpen'
+      IsOpen:'IsOpen',
+      selectday:'Select Day'
     },
     viewmerchantbusinesshoursdetails: {
       viewmerchant: "View Merchant Business Hours Details",
     },
+    days:[
+      {value:'monday',name:'Monday'},
+      {value:'tuesday',name:'Tuesday'},
+      {value:'wednesday',name:'Wednesday'},
+      {value:'thursday',name:'Thursday'},
+      {value:'friday',name:'Friday'},
+      {value:'saturday',name:'Saturday'},
+      {value:'sunday',name:'Sunday'}
+    ]
   },
 
   productPage: {
@@ -786,7 +797,8 @@ export default {
       metakeyword: "Meta Keyword",
       merchantid: "Merchant ID",
       categoryid: "Category ID",
-      isActive:'Is Active'
+      isActive:'Is Active',
+      images:'Product Images'
     },
     viewproductdetails: {
       viewproduct: "View Product Details",
@@ -812,6 +824,7 @@ export default {
       inventoryid:'',
       switchSort: false,
       isStatus: false,
+      product:'',
       
      productid:'',
      productiderror:'',

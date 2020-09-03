@@ -156,7 +156,7 @@ class Profile extends React.Component<{ history: any }> {
               getProfile.resultObject.phone,
             selectedFile: this.state.selectedFile =
               getProfile.resultObject.photoPath,
-            file: this.state.file = getProfile.resultObject.photoPath,
+            file: this.state.file = getProfile.resultObject.logoPath,
             email: this.state.email = getProfile.resultObject.email,
             address: this.state.address = getProfile.resultObject.address,
             latitude: this.state.latitude = getProfile.resultObject.latitude,
@@ -496,12 +496,12 @@ class Profile extends React.Component<{ history: any }> {
         formData.append("Latitude", this.state.latitude);
         formData.append("Longitude", this.state.longitude);
         formData.append("Website", this.state.website);
-        formData.append("MerchantIDPoof", this.state.selectedProofFile[0]);
-        formData.append("MerchantDocument", this.state.selectedDocumentFile[0]);
+        formData.append("MerchantIDPoof",this.state.selectedProofFile? this.state.selectedProofFile[0] : '');
+        formData.append("MerchantDocument", this.state.selectedDocumentFile ? this.state.selectedDocumentFile[0] : '');
         formData.append("ShippingPolicy", this.state.shoppingpolicy);
         formData.append("RefundPolicy", this.state.refundpolicy);
         formData.append("CancellationPolicy", this.state.cancellationpolicy);
-        formData.append("files", this.state.selectedFile[0]);
+        formData.append("files", this.state.selectedFile ? this.state.selectedFile[0] : '');
         formData.append("UserId", "0");
 
         const updateMerchant = await API.updateMerchant(formData);

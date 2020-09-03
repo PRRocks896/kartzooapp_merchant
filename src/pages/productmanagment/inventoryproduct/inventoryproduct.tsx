@@ -26,7 +26,10 @@ import {
 } from "../../../modelController/productInventoryModel";
 import { ProductAPI } from "../../../service/index.service";
 
-class InventoryProduct extends React.Component<{ history: any,location:any }> {
+class InventoryProduct extends React.Component<{
+  history: any;
+  location: any;
+}> {
   productState = constant.productInventoryPage.state;
   state = {
     productid: this.productState.productid,
@@ -35,7 +38,8 @@ class InventoryProduct extends React.Component<{ history: any,location:any }> {
     stockqtyerror: this.productState.stockqtyerror,
     updateTrue: this.productState.updateTrue,
     productdata: this.productState.productdata,
-    inventoryid: this.productState.inventoryid
+    inventoryid: this.productState.inventoryid,
+    product: this.productState.product,
   };
 
   constructor(props: any) {
@@ -77,8 +81,10 @@ class InventoryProduct extends React.Component<{ history: any,location:any }> {
     if (getInventoryData.status === 200) {
       this.setState({
         updateTrue: this.state.updateTrue = true,
-        productid:this.state.productid =  getInventoryData.resultObject.productId,
-        stockqty: this.state.stockqty = getInventoryData.resultObject.stockQty
+        productid: this.state.productid =
+          getInventoryData.resultObject.productId,
+        stockqty: this.state.stockqty = getInventoryData.resultObject.stockQty,
+        product: this.state.product = getInventoryData.resultObject.product,
       });
     } else {
       const msg1 = getInventoryData.message;
@@ -119,6 +125,21 @@ class InventoryProduct extends React.Component<{ history: any,location:any }> {
 
     if (productiderror || stockqtyerror) {
       this.setState({ productiderror, stockqtyerror });
+      return false;
+    }
+    return true;
+  }
+
+  validateUpdate() {
+   
+    let stockqtyerror = "";
+
+    if (!this.state.stockqty) {
+      stockqtyerror = "please enter qty";
+    }
+
+    if (stockqtyerror) {
+      this.setState({stockqtyerror });
       return false;
     }
     return true;
@@ -165,20 +186,22 @@ class InventoryProduct extends React.Component<{ history: any,location:any }> {
   }
 
   async updateInventoryProduct() {
-    const isValid = this.validate();
+    const isValid = this.validateUpdate();
     if (isValid) {
       this.setState({
-        productiderror: "",
         stockqtyerror: "",
       });
-      if (this.state.productid && this.state.stockqty) {
+      if (this.state.stockqty) {
         const obj: inventoryUpdateRequest = {
-            productInventoryId: parseInt(this.state.inventoryid),
+          productInventoryId: parseInt(this.state.inventoryid),
           productId: parseInt(this.state.productid),
           stockQty: parseInt(this.state.stockqty),
         };
 
-        const editProductInventory = await ProductAPI.editProductInventory(obj,obj.productInventoryId);
+        const editProductInventory = await ProductAPI.editProductInventory(
+          obj,
+          obj.productInventoryId
+        );
         console.log("editProductInventory", editProductInventory);
 
         if (editProductInventory) {
@@ -250,45 +273,73 @@ class InventoryProduct extends React.Component<{ history: any,location:any }> {
                   </CardHeader>
                   <CardBody>
                     <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <Form>
+                      {this.state.updateTrue === true ? (
+                        <Col xs="12" sm="12" md="6" lg="6" xl="6">
                           <FormGroup>
-                            <Label for="exampleCustomSelect">
+                            <Label htmlFor="product">
                               {
                                 constant.productInventoryPage
-                                  .merchantHoursTableColumn.selectproduct
+                                  .merchantHoursTableColumn.product
                               }
                             </Label>
-                            <CustomInput
-                              type="select"
-                              id="exampleCustomSelect"
-                              name="productid"
-                              onChange={this.onProductSelect}
-                              value={this.state.productid ? this.state.productid : ''}
-                            >
-                              <option value="">
+                            <Input
+                              type="text"
+                              id="product"
+                              name="stockqty"
+                              className="form-control"
+                              value={this.state.product}
+                              onChange={this.handleChangeEvent}
+                              placeholder="Enter your stock qty"
+                              disabled
+                            />
+                          </FormGroup>
+                        </Col>
+                      ) : (
+                        <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                          <Form>
+                            <FormGroup>
+                              <Label for="exampleCustomSelect">
                                 {
                                   constant.productInventoryPage
                                     .merchantHoursTableColumn.selectproduct
                                 }
-                              </option>
+                              </Label>
 
-                              {this.state.productdata.length > 0
-                                ? this.state.productdata.map(
-                                    (data: any, index: number) => (
-                                      <option key={index} value={data.value}>
-                                        {data.name}
-                                      </option>
+                              <CustomInput
+                                type="select"
+                                id="exampleCustomSelect"
+                                name="productid"
+                                onChange={this.onProductSelect}
+                                value={
+                                  this.state.productid
+                                    ? this.state.productid
+                                    : ""
+                                }
+                              >
+                                <option value="">
+                                  {
+                                    constant.productInventoryPage
+                                      .merchantHoursTableColumn.selectproduct
+                                  }
+                                </option>
+
+                                {this.state.productdata.length > 0
+                                  ? this.state.productdata.map(
+                                      (data: any, index: number) => (
+                                        <option key={index} value={data.value}>
+                                          {data.name}
+                                        </option>
+                                      )
                                     )
-                                  )
-                                : ""}
-                            </CustomInput>
-                            <div className="mb-4 text-danger">
-                              {this.state.productiderror}
-                            </div>
-                          </FormGroup>
-                        </Form>
-                      </Col>
+                                  : ""}
+                              </CustomInput>
+                              <div className="mb-4 text-danger">
+                                {this.state.productiderror}
+                              </div>
+                            </FormGroup>
+                          </Form>
+                        </Col>
+                      )}
                     </Row>
                     <Row>
                       <Col xs="12" sm="12" md="6" lg="6" xl="6">
