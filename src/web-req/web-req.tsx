@@ -32,11 +32,15 @@ const WebReqUrl = {
             console.error(err);
         }
     },
-    delete: async function (url: string) {
+    delete: async function (url: string,isMerchant:boolean) {
         try {
             let response;
-            
-            response = await axios.delete(url, {headers: utils.getHeaderDetail()})
+            if(isMerchant === true){
+                response = await axios.delete(url, {headers: utils.getMerchantHeaderDetail()})
+            } else {
+                response = await axios.delete(url, {headers: utils.getHeaderDetail()})
+            }
+           
             console.log("response",response);
             if(response) {
                 try {

@@ -19,3 +19,6 @@ export * from './productAddOnModel';
 export * from './orderModel';
 export * from './orderCartModel';
 export * from './loginModel';
+export * from './getAllTableDataModel';
+export * from './statuseCheckModel';
+export * from './deleteDataByIdModel';

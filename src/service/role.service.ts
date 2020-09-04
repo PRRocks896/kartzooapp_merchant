@@ -1,6 +1,7 @@
 import Constant from '../constant/constant';
 import WebReqUrl from '../web-req/web-req';
 import apiUrl from '../apicontroller/apicontrollers';
+import { deleteByIdRequest } from '../modelController';
 
 export default {
     addUserRole: async function (data: any) {
@@ -12,8 +13,8 @@ export default {
     getRoles: async function (data: any) {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.userRoleController.getRoles,data,false);
     },
-    deleteRole: async function (data: any) {
-        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.userRoleController.deleteRole + data);
+    deleteRole: async function (data: deleteByIdRequest) {
+        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.userRoleController.deleteRole + data.id,false);
     },
     getRoleById: async function (data: any) {
         return await WebReqUrl.get(Constant.apiUrl + apiUrl.userRoleController.getRoleById + data.id,false );

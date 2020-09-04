@@ -1,14 +1,19 @@
 import Constant from '../constant/constant';
 import WebReqUrl from '../web-req/web-req';
 import apiUrl from '../apicontroller/apicontrollers';
+import { deleteByIdRequest } from '../modelController';
 
 export default {
     addProduct: async function (data: any) {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.productController.addproduct, data,false);
     },
     deleteProduct: async function () {
-        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.productController.deleteproduct);
+        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.productController.deleteproduct,false);
     },
+    deleteProductInventory: async function (data:deleteByIdRequest) {
+        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.productController.deleteproductInventory + data.id,false);
+    },
+    
     editProduct: async function (data: any) {
         return await WebReqUrl.put(Constant.apiUrl + apiUrl.productController.editproduct,data,false);
     },
@@ -28,7 +33,7 @@ export default {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.productController.addOnProduct,data,false);
     },
     deleteImageProduct: async function () {
-        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.productController.deleteproductImage);
+        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.productController.deleteproductImage,false);
     },
     editProductImage: async function (data: any) {
         return await WebReqUrl.put(Constant.apiUrl + apiUrl.productController.editproductImage,data,false);

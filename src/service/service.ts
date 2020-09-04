@@ -36,7 +36,7 @@ export default {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.getUserPaginationData,data,false);
     },
     deleteUser: async function (data:any) {
-        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.userController.deleteUser + data);
+        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.userController.deleteUser + data,false);
     },
     addUser: async function (data: any) {
         const config = {     

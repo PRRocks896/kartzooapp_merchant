@@ -1,6 +1,7 @@
 import Constant from '../constant/constant';
 import WebReqUrl from '../web-req/web-req';
 import apiUrl from '../apicontroller/apicontrollers';
+import { deleteByIdRequest } from '../modelController';
 
 export default {
     addMerchant: async function (data: any) {
@@ -35,6 +36,9 @@ export default {
     },
     updateMerchantBusiness: async function (data: any,id:any) {
         return await WebReqUrl.put(Constant.apiMerchantUrl + apiUrl.merchantBusinessController.editMerchantBusiness + id, data,false);
+    },
+    deleteBusinessHours: async function (data:deleteByIdRequest) {
+        return await WebReqUrl.delete(Constant.apiMerchantUrl + apiUrl.merchantBusinessController.deleteMerchantBusiness + data.id,false);
     },
     
     

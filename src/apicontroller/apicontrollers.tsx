@@ -92,7 +92,7 @@ const apiUrl = {
         addMerchantBusiness:'merchantbusinesshour',
         getMerchantBusiness:'merchant',
         editMerchantBusiness:'merchantbusinesshour/',
-        deleteMerchantBusiness:'merchant',
+        deleteMerchantBusiness:'merchantbusinesshour/',
         getBusinessHoursData:'merchantbusinesshour/get-merchantbusinesshour-list',
         getBusinessHoursById:'merchantbusinesshour/'
     },
@@ -117,7 +117,8 @@ const apiUrl = {
         getproductlist:'products/get-product-list-dropdown',
         getproductinventory:'productinventory/get-productinventory-list',
         getInventoryById:'productinventory/',
-        editinventory:'productinventory/'
+        editinventory:'productinventory/',
+        deleteproductInventory:'productinventory/'
     },
     deliveryController: {
         addDelivery:'delivery',

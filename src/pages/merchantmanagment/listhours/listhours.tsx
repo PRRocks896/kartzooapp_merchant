@@ -18,9 +18,11 @@ import {
 import NavBar from "../../navbar/navbar";
 import {StatusAPI, MerchantAPI} from "../../../service/index.service";
 import constant from "../../../constant/constant";
+import { deleteByIdRequest } from "../../../modelController";
 
 class ListBussinessHours extends React.Component<{ history: any }> {
   merchantBusinessHoursState = constant.merchantBussinessPage.state;
+  userState = constant.userPage.state;
   state = {
     count: this.merchantBusinessHoursState.count,
     currentPage: this.merchantBusinessHoursState.currentPage,
@@ -31,12 +33,16 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     onItemSelect: this.merchantBusinessHoursState.onItemSelect,
     businessdata: this.merchantBusinessHoursState.businessdata,
     switchSort: this.merchantBusinessHoursState.switchSort,
-    isStatus: this.merchantBusinessHoursState.isStatus
+    isStatus: this.merchantBusinessHoursState.isStatus,
+    deleteuserdata: this.userState.deleteuserdata,
+    _maincheck: this.userState._maincheck,
+    deleteFlag: this.userState.deleteFlag,
   };
 
   constructor(props: any) {
     super(props);
     this.editBusinessHours = this.editBusinessHours.bind(this);
+    this.deleteBusinessHours = this.deleteBusinessHours.bind(this);
     this.btnIncrementClick = this.btnIncrementClick.bind(this);
     this.btnDecrementClick = this.btnDecrementClick.bind(this);
     this.viewBusinessHours = this.viewBusinessHours.bind(this);
@@ -51,6 +57,8 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.pagination = this.pagination.bind(this);
     this.getTable = this.getTable.bind(this);
     this.getPageData = this.getPageData.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleMainChange = this.handleMainChange.bind(this);
   }
 
   async componentDidMount() {
@@ -118,6 +126,23 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   viewBusinessHours(id: any) {
     this.props.history.push("/view-merchant-business/" + id);
+  }
+
+  async deleteBusinessHours(data: any, text: string, btext: string) {
+    if (await utils.alertMessage(text, btext)) {
+      const obj: deleteByIdRequest = {
+        id: data.merchantBusinessHoursId,
+      };
+      var deleteBusinessHours = await MerchantAPI.deleteBusinessHours(obj);
+      if (deleteBusinessHours.status === 200) {
+        const msg = deleteBusinessHours.message;
+        utils.showSuccess(msg);
+        this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
+      } else {
+        const msg = deleteBusinessHours.message;
+        utils.showSuccess(msg);
+      }
+    }
   }
 
   onItemSelect(event: any) {
@@ -191,13 +216,96 @@ class ListBussinessHours extends React.Component<{ history: any }> {
        if (getStatusChange.status === 200) {
         const msg = getStatusChange.message;
         utils.showSuccess(msg);
-        this.getBusinessHoursData();
+        this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
       } else {
         const msg1 = getStatusChange.message;
         utils.showError(msg1);
       }
     }
   }
+
+  handleChange(item: any, e: any) {
+    let _id = item.merchantBusinessHoursId;
+    let ind: any = this.state.businessdata.findIndex((x: any) => x.merchantBusinessHoursId === _id);
+    let data: any = this.state.businessdata;
+    if (ind > -1) {
+      let newState: any = !item._rowChecked;
+      data[ind]._rowChecked = newState;
+      this.setState({
+        businessdata: this.state.businessdata = data,
+      });
+    }
+    let count = 0;
+    data.forEach((element: any) => {
+      if (element._rowChecked === true) {
+        element._rowChecked = true;
+        count++;
+      } else {
+        element._rowChecked = false;
+      }
+    });
+    if (count === data.length) {
+      this.setState({
+        _maincheck: true,
+      });
+    } else {
+      this.setState({
+        _maincheck: false,
+      });
+    }
+    let newarray: any = [];
+    for (var i = 0; i < this.state.businessdata.length; i++) {
+      if (this.state.businessdata[i]["_rowChecked"] === true) {
+        newarray.push(this.state.businessdata[i]["merchantBusinessHoursId"]);
+      }
+    }
+    this.setState({
+      deleteuserdata: this.state.deleteuserdata = newarray,
+    });
+    if (this.state.deleteuserdata.length > 0) {
+      this.setState({
+        deleteFlag: this.state.deleteFlag = true,
+      });
+    } else {
+      this.setState({
+        deleteFlag: this.state.deleteFlag = false,
+      });
+    }
+    console.log("deleteuserdata array", this.state.deleteuserdata);
+  }
+
+  handleMainChange(e: any) {
+    let _val = e.target.checked;
+    this.state.businessdata.forEach((element: any) => {
+      element._rowChecked = _val;
+    });
+    this.setState({
+      businessdata: this.state.businessdata,
+    });
+    this.setState({
+      _maincheck: _val,
+    });
+    let newmainarray: any = [];
+    for (var i = 0; i < this.state.businessdata.length; i++) {
+      if (this.state.businessdata[i]["_rowChecked"] === true) {
+        newmainarray.push(this.state.businessdata[i]["merchantBusinessHoursId"]);
+      }
+    }
+    this.setState({
+      deleteuserdata: this.state.deleteuserdata = newmainarray,
+    });
+    if (this.state.deleteuserdata.length > 0) {
+      this.setState({
+        deleteFlag: this.state.deleteFlag = true,
+      });
+    } else {
+      this.setState({
+        deleteFlag: this.state.deleteFlag = false,
+      });
+    }
+    console.log("deleteuserdata array", this.state.deleteuserdata);
+  }
+
 
   pagination(pageNumbers: any) {
     var res = pageNumbers.map((number: any) => {
@@ -250,6 +358,16 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       >
         <thead>
           <tr onClick={() => this.handleSort("days")}>
+          <th className="centers">
+              <CustomInput
+                name="name"
+                defaultValue="value"
+                type="checkbox"
+                id="exampleCustomCheckbox"
+                onChange={this.handleMainChange}
+                checked={this.state._maincheck}
+              />
+            </th>
             <th>{constant.merchantBussinessPage.merchantHoursTableColumn.days}</th>
             <th>{constant.merchantBussinessPage.merchantHoursTableColumn.hours}</th>
             <th style={{ textAlign: "center" }}>
@@ -263,6 +381,15 @@ class ListBussinessHours extends React.Component<{ history: any }> {
             <>
               {this.state.businessdata.map((data: any, index: any) => (
                 <tr key={index}>
+                   <td className="centers">
+                    <CustomInput
+                      // name="name"
+                      type="checkbox"
+                      id={data.merchantBusinessHoursId}
+                      onChange={(e) => this.handleChange(data, e)}
+                      checked={this.state.businessdata[index]["_rowChecked"] === true}
+                    />
+                  </td>
                   <td>{data.days}</td>
                   <td>{data.hours}</td>
                   <td style={{ textAlign: "center" }}>
@@ -304,12 +431,16 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                         className="fas fa-edit"
                         onClick={() => this.editBusinessHours(data.merchantBusinessHoursId)}
                       ></i>
-                      {/* <i
-                        className="far fa-trash-alt"
+                     <i
+                        className="fas fa-trash"
                         onClick={() =>
-                          this.deleteCategory(data.categoryId)
+                          this.deleteBusinessHours(
+                            data,
+                            "You should be Delete Business Hours",
+                            "Yes, Role it"
+                          )
                         }
-                      ></i> */}
+                      ></i>
                     </span>
                   </td>
                 </tr>
@@ -434,6 +565,16 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                       <>{this.getTable(this.state.businessdata)}</>
                     ) : (
                       <h1 className="text-center mt-5">No Data Found</h1>
+                    )}
+                     {this.state.deleteFlag === true ? (
+                      <Button
+                        className="mb-2 mr-2 custom-button"
+                        color="primary"
+                      >
+                        {constant.button.remove}
+                      </Button>
+                    ) : (
+                      ""
                     )}
                     {this.state.businessdata.length > 0
                       ? this.getPageData(

@@ -92,6 +92,7 @@ export default {
     Save: "Save",
     back: "Back",
     add: "Add",
+    remove:'Remove'
   },
 
   pageNotFound: {
@@ -250,8 +251,11 @@ export default {
       onItemSelect: "",
       userrole: [],
       userdata: [],
+      deleteuserdata:[],
       switchSort: false,
       isStatus: false,
+      _maincheck:false,
+      deleteFlag:false,
 
       selectedFile: "",
       firstname: "",
