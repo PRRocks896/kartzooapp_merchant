@@ -24,6 +24,7 @@ import Merchant from "../merchant/merchant";
 import {
   bussinessCreateRequest,
   bussinessUpdateRequest,
+  getDataByIdRequest,
 } from "../../../modelController";
 import { MerchantAPI } from "../../../service/index.service";
 import { TimePicker } from "antd";
@@ -87,7 +88,7 @@ class MerchantBusiness extends React.Component<{
   }
 
   async getHoursById(businessId: any) {
-    const obj = {
+    const obj:getDataByIdRequest = {
       id: businessId,
     };
     const getHoursById: any = await MerchantAPI.getHoursById(obj);
@@ -228,8 +229,7 @@ class MerchantBusiness extends React.Component<{
         };
 
         const updateMerchantBusiness = await MerchantAPI.updateMerchantBusiness(
-          obj,
-          obj.merchantBusinessHoursId
+          obj
         );
         console.log("updateMerchantBusiness", updateMerchantBusiness);
 

@@ -16,6 +16,7 @@ import './viewproduct.css';
 import NavBar from "../../navbar/navbar";
 import constant from "../../../constant/constant";
 import { ProductAPI } from "../../../service/index.service";
+import { getDataByIdRequest } from "../../../modelController";
 
 class ViewProduct extends React.Component<{ history: any; location: any }> {
   productState = constant.productPage.state;
@@ -58,7 +59,7 @@ class ViewProduct extends React.Component<{ history: any; location: any }> {
     }
 };
 
-  async getProductById(id: any) {
+  async getProductById(id: getDataByIdRequest) {
     const getProductById: any = await ProductAPI.getProductById(id);
     console.log("getProductById", getProductById);
 

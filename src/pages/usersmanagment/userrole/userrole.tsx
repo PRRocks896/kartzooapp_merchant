@@ -14,8 +14,8 @@ import NavBar from "../../navbar/navbar";
 import "./userrole.css";
 import utils from "../../../utils";
 import constant from "../../../constant/constant";
-import { userRoleUpdateRequest, deleteByIdRequest } from "../../../modelController/index";
-import {RoleAPI, StatusAPI} from "../../../service/index.service";
+import { userRoleUpdateRequest, deleteByIdRequest,deleteAllDataRequest } from "../../../modelController/index";
+import {RoleAPI, StatusAPI, DeleteAPI} from "../../../service/index.service";
 
 interface getUserRoleRequest {
   searchText?: string;
@@ -62,6 +62,7 @@ class UserRole extends React.Component<{ history: any }> {
     this.getPageData = this.getPageData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleMainChange = this.handleMainChange.bind(this);
+    this.deleteDataById = this.deleteDataById.bind(this);
   }
 
   componentDidMount() {
@@ -149,6 +150,30 @@ class UserRole extends React.Component<{ history: any }> {
         utils.showSuccess(msg);
       }
     }
+  }
+
+ async deleteDataById(text: string, btext: string) {
+  if (await utils.alertMessage(text, btext)) {
+    const obj: deleteAllDataRequest = {
+      moduleName:'Role',
+      id:this.state.deleteuserdata
+    };
+    var deleteUser = await DeleteAPI.deleteData(obj);
+    console.log("deleteuser",deleteUser);
+    if (deleteUser.data.status === 200) {
+      const msg = deleteUser.data.message;
+      utils.showSuccess(msg);
+      this.getRole(
+        "",
+        parseInt(this.state.currentPage),
+        parseInt(this.state.items_per_page)
+      );
+    } else {
+      const msg = deleteUser.data.message;
+      utils.showSuccess(msg);
+    }
+  }
+
   }
 
   onItemSelect(event: any) {
@@ -577,6 +602,12 @@ class UserRole extends React.Component<{ history: any }> {
                       <Button
                         className="mb-2 mr-2 custom-button"
                         color="primary"
+                        onClick={() =>
+                          this.deleteDataById(
+                            "You should be Delete Role",
+                            "Yes, Role it"
+                          )
+                        }
                       >
                         {constant.button.remove}
                       </Button>

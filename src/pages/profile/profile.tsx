@@ -25,7 +25,7 @@ import {
   merchantUpdateRequest,
 } from "../../modelController/merchantModel";
 import { LocationAPI, MerchantAPI } from "../../service/index.service";
-import { profileGetRequest } from "../../modelController";
+import { profileGetRequest, getDataByIdRequest } from "../../modelController";
 
 interface User {
   merchantID: number;
@@ -186,7 +186,7 @@ class Profile extends React.Component<{ history: any }> {
   }
 
   async getCityById(id:any) {
-    const obj = {
+    const obj:getDataByIdRequest = {
       id:id
     }
     const getCityById: any = await LocationAPI.getCityById(obj);

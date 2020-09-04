@@ -19,6 +19,7 @@ import constant from "../../../constant/constant";
 import {
   userRoleCreateRequest,
   userRoleUpdateRequest,
+  getDataByIdRequest,
 } from "../../../modelController";
 
 class AddUserRole extends React.Component<{ history: any; location: any }> {
@@ -61,7 +62,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
   }
 
   async getRoleById(roleId: any) {
-    const obj = {
+    const obj:getDataByIdRequest = {
       id: roleId,
     };
     const getRoleById: any = await RoleAPI.getRoleById(obj);

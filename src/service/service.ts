@@ -3,6 +3,7 @@ import WebReqUrl from '../web-req/web-req';
 import apiUrl from '../apicontroller/apicontrollers';
 import { da } from 'date-fns/locale';
 import axios from 'axios';
+import { resetPasswordRequest } from '../modelController';
 
 export default {
     loginUser: async function (data: any) {
@@ -16,7 +17,7 @@ export default {
         const params = data.email;
         return await axios.post(Constant.apiUrl + apiUrl.userController.forgotpassword + '?email=' +  params);
     },
-    resetPassword: async function (data: any) {
+    resetPassword: async function (data: resetPasswordRequest) {
         return await axios.post(Constant.apiUrl + apiUrl.userController.resetpassword, data);
     },
     updatePassword: async function (data: any) {
@@ -36,7 +37,7 @@ export default {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.getUserPaginationData,data,false);
     },
     deleteUser: async function (data:any) {
-        return await WebReqUrl.delete(Constant.apiUrl + apiUrl.userController.deleteUser + data,false);
+        // return await WebReqUrl.delete(Constant.apiUrl + apiUrl.userController.deleteUser + data,false);
     },
     addUser: async function (data: any) {
         const config = {     

@@ -161,11 +161,11 @@ axios.interceptors.response.use(
         utils.showError(msg1);
       }
     } else {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = "/#/login";
-      // const msg1 = "Internal server error";
-      // utils.showError(msg1);
+      // localStorage.removeItem('token');
+      // localStorage.removeItem('user');
+      // window.location.href = "/#/login";
+      const msg1 = "Internal server error";
+      utils.showError(msg1);
     }
   }
 );

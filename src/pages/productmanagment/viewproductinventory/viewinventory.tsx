@@ -16,6 +16,7 @@ import {
 import NavBar from "../../navbar/navbar";
 import constant from "../../../constant/constant";
 import { ProductAPI } from "../../../service/index.service";
+import { getDataByIdRequest } from "../../../modelController";
 
 class ViewProductInventory extends React.Component<{
   history: any;
@@ -41,7 +42,7 @@ class ViewProductInventory extends React.Component<{
   }
 
   async getInventoryData(inventoryId: any) {
-    const obj = {
+    const obj:getDataByIdRequest = {
       id: inventoryId,
     };
     const getInventoryData: any = await ProductAPI.getInventoryData(obj);

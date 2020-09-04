@@ -1,7 +1,7 @@
 import Constant from '../constant/constant';
 import WebReqUrl from '../web-req/web-req';
 import apiUrl from '../apicontroller/apicontrollers';
-import { deleteByIdRequest } from '../modelController';
+import { deleteByIdRequest, getAllTableDataListRequest, getDataByIdRequest, inventoryCreateRequest, inventoryUpdateRequest } from '../modelController';
 
 export default {
     addProduct: async function (data: any) {
@@ -23,7 +23,7 @@ export default {
     addProductImage: async function (data: any) {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.productController.addImage,data,false);
     },
-    addProductInventory: async function (data: any) {
+    addProductInventory: async function (data: inventoryCreateRequest) {
         return await WebReqUrl.post(Constant.apiMerchantUrl + apiUrl.productController.addInventory,data,false);
     },
     addProductReview: async function (data: any) {
@@ -38,23 +38,23 @@ export default {
     editProductImage: async function (data: any) {
         return await WebReqUrl.put(Constant.apiUrl + apiUrl.productController.editproductImage,data,false);
     },
-    getProductData: async function (data:any) {
+    getProductData: async function (data:getAllTableDataListRequest) {
         return await WebReqUrl.post(Constant.apiMerchantUrl + apiUrl.productController.getproduct,data,false);
     },
-    getProductById: async function (data:any) {
+    getProductById: async function (data:getDataByIdRequest) {
         return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.productController.getProductById + data,false);
     },
     getAllProduct: async function () {
         return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.productController.getproductlist,false);
     },
-    getProductInventoryData: async function (data:any) {
+    getProductInventoryData: async function (data:getAllTableDataListRequest) {
         return await WebReqUrl.post(Constant.apiMerchantUrl + apiUrl.productController.getproductinventory,data,false);
     },
-    getInventoryData: async function (data:any) {
+    getInventoryData: async function (data:getDataByIdRequest) {
         return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.productController.getInventoryById + data.id,false);
     },
-    editProductInventory: async function (data: any,id:any) {
-        return await WebReqUrl.put(Constant.apiMerchantUrl + apiUrl.productController.editinventory + id,data,false);
+    editProductInventory: async function (data: inventoryUpdateRequest) {
+        return await WebReqUrl.put(Constant.apiMerchantUrl + apiUrl.productController.editinventory + data.productInventoryId,data,false);
     },
     
     

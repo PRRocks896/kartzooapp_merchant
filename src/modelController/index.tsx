@@ -22,3 +22,8 @@ export * from './loginModel';
 export * from './getAllTableDataModel';
 export * from './statuseCheckModel';
 export * from './deleteDataByIdModel';
+export * from './getDataByIdModel';
+export * from './rightsModel';
+export * from './forgotModel';
+export * from './resetPasswordModel';
+export * from './changepasswordModel';

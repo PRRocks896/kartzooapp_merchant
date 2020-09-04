@@ -14,6 +14,7 @@ import {
 import NavBar from "../../navbar/navbar";
 import {RoleAPI} from "../../../service/index.service";
 import constant from "../../../constant/constant";
+import { getDataByIdRequest } from "../../../modelController";
 
 class ViewUserRole extends React.Component<{ history: any; location: any }> {
   state = {
@@ -32,7 +33,7 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
       constant.userRolePage.title.viewUserRoleTitle + utils.getAppName();
     const roleId = this.props.location.pathname.split("/")[2];
     if (roleId != undefined) {
-      const obj = {
+      const obj:getDataByIdRequest = {
         id: roleId,
       };
       const getRoleById: any = await RoleAPI.getRoleById(obj);

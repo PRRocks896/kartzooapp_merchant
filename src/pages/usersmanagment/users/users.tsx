@@ -192,15 +192,15 @@ class Users extends React.Component<{ history: any }> {
       cancelButtonText: "No, keep it",
     }).then(async (result) => {
       if (result.value) {
-        var deleteUser = await API.deleteUser(id);
-        if (deleteUser.status === 200) {
-          const msg = deleteUser.message;
-          utils.showSuccess(msg);
-          this.getUsers();
-        } else {
-          const msg = deleteUser.message;
-          utils.showSuccess(msg);
-        }
+        // var deleteUser = await API.deleteUser(id);
+        // if (deleteUser.status === 200) {
+        //   const msg = deleteUser.message;
+        //   utils.showSuccess(msg);
+        //   this.getUsers();
+        // } else {
+        //   const msg = deleteUser.message;
+        //   utils.showSuccess(msg);
+        // }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         const msg1 = "User is safe :";
         utils.showError(msg1);

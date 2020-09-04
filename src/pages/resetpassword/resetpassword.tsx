@@ -13,6 +13,7 @@ import {
 import utils from "../../utils";
 import "./resetpassword.css";
 import constant from '../../constant/constant';
+import { resetPasswordRequest } from "../../modelController";
 
 class ResetPassword extends React.Component<{ location: any; history: any }> {
   state = {
@@ -59,7 +60,7 @@ class ResetPassword extends React.Component<{ location: any; history: any }> {
 
   /** Reset password  */
   async ResetPassword() {
-    const obj = {
+    const obj:resetPasswordRequest = {
       guid: this.props.location.pathname.split("/")[2].split("=")[1],
       password: this.state.password,
     };

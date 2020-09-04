@@ -25,6 +25,7 @@ import {
   inventoryUpdateRequest,
 } from "../../../modelController/productInventoryModel";
 import { ProductAPI } from "../../../service/index.service";
+import { getDataByIdRequest } from "../../../modelController";
 
 class InventoryProduct extends React.Component<{
   history: any;
@@ -72,7 +73,7 @@ class InventoryProduct extends React.Component<{
   }
 
   async getInventoryData(inventoryId: any) {
-    const obj = {
+    const obj:getDataByIdRequest = {
       id: inventoryId,
     };
     const getInventoryData: any = await ProductAPI.getInventoryData(obj);
@@ -199,8 +200,7 @@ class InventoryProduct extends React.Component<{
         };
 
         const editProductInventory = await ProductAPI.editProductInventory(
-          obj,
-          obj.productInventoryId
+          obj
         );
         console.log("editProductInventory", editProductInventory);
 

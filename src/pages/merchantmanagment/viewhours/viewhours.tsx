@@ -16,6 +16,7 @@ import NavBar from "../../navbar/navbar";
 import './viewhours.css';
 import { LocationAPI, MerchantAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
+import { getDataByIdRequest } from "../../../modelController";
 
 class ViewBusinessHours extends React.Component<{
   history: any;
@@ -43,7 +44,7 @@ class ViewBusinessHours extends React.Component<{
     }
   }
 
-  async getBusinessById(id: any) {
+  async getBusinessById(id: getDataByIdRequest) {
     const getBusinessById: any = await MerchantAPI.getBusinessById(id);
     console.log("getBusinessById", getBusinessById);
 

@@ -18,6 +18,7 @@ import NavBar from "../../navbar/navbar";
 import constant from "../../../constant/constant";
 import utils from "../../../utils";
 import "./userroletorights.css";
+import { getDataByIdRequest, updateRightsRequest } from "../../../modelController";
 
 class UserRoleToRights extends React.Component {
   roleState = constant.rolePrivileges.state
@@ -81,7 +82,7 @@ class UserRoleToRights extends React.Component {
         event.target.options[event.target.selectedIndex].value,
       show: this.state.show = true,
     });
-    const obj = {
+    const obj:getDataByIdRequest = {
       id: this.state.roleid,
     };
     const getRolePreveliges = await RoleAPI.getRolePreveliges(obj);
@@ -290,7 +291,7 @@ class UserRoleToRights extends React.Component {
         detail: this.state.roleprivileges[i]["detail"],
       });
     }
-    const obj = {
+    const obj:updateRightsRequest = {
       roleid: parseInt(this.state.roleid),
       isadminuser: true,
       privileges: privilegesArray,

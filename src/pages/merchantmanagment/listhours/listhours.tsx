@@ -18,7 +18,7 @@ import {
 import NavBar from "../../navbar/navbar";
 import {StatusAPI, MerchantAPI} from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { deleteByIdRequest } from "../../../modelController";
+import { deleteByIdRequest, getAllTableDataListRequest, statusChangeRequest } from "../../../modelController";
 
 class ListBussinessHours extends React.Component<{ history: any }> {
   merchantBusinessHoursState = constant.merchantBussinessPage.state;
@@ -73,7 +73,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     page: number = 1,
     size: number = 10
   ) {
-    const obj = {
+    const obj:getAllTableDataListRequest = {
       searchText: searchText,
       page: page,
       size: size,
@@ -134,14 +134,14 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         id: data.merchantBusinessHoursId,
       };
       var deleteBusinessHours = await MerchantAPI.deleteBusinessHours(obj);
-      if (deleteBusinessHours.status === 200) {
-        const msg = deleteBusinessHours.message;
-        utils.showSuccess(msg);
-        this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
-      } else {
-        const msg = deleteBusinessHours.message;
-        utils.showSuccess(msg);
-      }
+      // if (deleteBusinessHours.status === 200) {
+      //   const msg = deleteBusinessHours.message;
+      //   utils.showSuccess(msg);
+      //   this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
+      // } else {
+      //   const msg = deleteBusinessHours.message;
+      //   utils.showSuccess(msg);
+      // }
     }
   }
 
@@ -158,7 +158,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.setState({
       currentPage: this.state.currentPage = event.target.id,
     });
-    const obj = {
+    const obj:getAllTableDataListRequest = {
       searchText: "",
       page: parseInt(event.target.id),
       size: parseInt(this.state.items_per_page),
@@ -168,7 +168,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   }
 
   async searchApplicationDataKeyUp(e: any) {
-    const obj = {
+    const obj:getAllTableDataListRequest = {
       searchText: e.target.value,
       page: 1,
       size: parseInt(this.state.items_per_page),
@@ -206,8 +206,8 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
-      const obj = {
-        moduleName: "Coupon",
+      const obj:statusChangeRequest = {
+        moduleName: "BusinessHours",
         id: data.couponId,
         isActive: data.isActive === true ? false : true
        }
