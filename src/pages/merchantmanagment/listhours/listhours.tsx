@@ -16,9 +16,9 @@ import {
   Row,
 } from "reactstrap";
 import NavBar from "../../navbar/navbar";
-import {StatusAPI, MerchantAPI} from "../../../service/index.service";
+import {StatusAPI, MerchantAPI, DeleteAPI} from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { deleteByIdRequest, getAllTableDataListRequest, statusChangeRequest } from "../../../modelController";
+import { deleteByIdRequest, getAllTableDataListRequest, statusChangeRequest, deleteAllDataRequest } from "../../../modelController";
 
 class ListBussinessHours extends React.Component<{ history: any }> {
   merchantBusinessHoursState = constant.merchantBussinessPage.state;
@@ -134,16 +134,41 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         id: data.merchantBusinessHoursId,
       };
       var deleteBusinessHours = await MerchantAPI.deleteBusinessHours(obj);
-      // if (deleteBusinessHours.status === 200) {
-      //   const msg = deleteBusinessHours.message;
+      if (deleteBusinessHours.status === 200) {
+        const msg = deleteBusinessHours.message;
+        utils.showSuccess(msg);
+        this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
+      } else {
+        const msg = deleteBusinessHours.message;
+        utils.showSuccess(msg);
+      }
+    }
+  }
+
+  async deleteDataById(text: string, btext: string) {
+    if (await utils.alertMessage(text, btext)) {
+      const obj: deleteAllDataRequest = {
+        moduleName:'Role',
+        id:this.state.deleteuserdata
+      };
+      var deleteUser = await DeleteAPI.deleteData(obj);
+      console.log("deleteuser",deleteUser);
+      // if (deleteUser.data.status === 200) {
+      //   const msg = deleteUser.data.message;
       //   utils.showSuccess(msg);
-      //   this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
+      //   this.getRole(
+      //     "",
+      //     parseInt(this.state.currentPage),
+      //     parseInt(this.state.items_per_page)
+      //   );
       // } else {
-      //   const msg = deleteBusinessHours.message;
+      //   const msg = deleteUser.data.message;
       //   utils.showSuccess(msg);
       // }
     }
-  }
+  
+    }
+  
 
   onItemSelect(event: any) {
     this.setState({

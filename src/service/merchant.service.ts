@@ -38,7 +38,7 @@ export default {
         return await WebReqUrl.put(Constant.apiMerchantUrl + apiUrl.merchantBusinessController.editMerchantBusiness + data.merchantBusinessHoursId, data,false);
     },
     deleteBusinessHours: async function (data:deleteByIdRequest) {
-        // return await WebReqUrl.delete(Constant.apiMerchantUrl + apiUrl.merchantBusinessController.deleteMerchantBusiness + data.id,false);
+        return await WebReqUrl.delete(Constant.apiMerchantUrl + apiUrl.merchantBusinessController.deleteMerchantBusiness + data.id,false);
     },
     
     

@@ -14,7 +14,7 @@ export default {
         return await WebReqUrl.get(Constant.mainUrl + apiUrl.locationController.getCountryById + data.id,false);
     },
     deleteCountry: async function (data: any) {
-        // return await WebReqUrl.delete(Constant.mainUrl + apiUrl.locationController.deleteCountry + data,true);
+        return await WebReqUrl.delete(Constant.mainUrl + apiUrl.locationController.deleteCountry + data,true);
     },
     editCountry: async function (data: any,id:any) {
         return await WebReqUrl.put(Constant.mainUrl + apiUrl.locationController.editCountry + id ,data,false);
@@ -26,7 +26,7 @@ export default {
         return await WebReqUrl.post(Constant.mainUrl + apiUrl.locationController.addState,data,false);
     },
     deleteState: async function (data:any) {
-        // return await WebReqUrl.delete(Constant.mainUrl + apiUrl.locationController.deleteState + data,true);
+        return await WebReqUrl.delete(Constant.mainUrl + apiUrl.locationController.deleteState + data,true);
     },
     editState: async function (data: any,id:any) {
         return await WebReqUrl.put(Constant.mainUrl + apiUrl.locationController.editState + id ,data,false);
@@ -44,7 +44,7 @@ export default {
         return await WebReqUrl.post(Constant.mainUrl + apiUrl.locationController.addCity,data,false);
     },
     deleteCity: async function (data:any) {
-        // return await WebReqUrl.delete(Constant.mainUrl + apiUrl.locationController.deletdCity + data,true);
+        return await WebReqUrl.delete(Constant.mainUrl + apiUrl.locationController.deletdCity + data,true);
     },
     getCityData: async function (data: any) {
         return await WebReqUrl.post(Constant.mainUrl + apiUrl.locationController.getCityData,data,false);
