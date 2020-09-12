@@ -61,6 +61,35 @@ const utils = {
       ordering: false,
     });
     return table;
+  },
+  compareByDesc(key: any,sort:any) {
+    if (sort) {
+      return function (a: any, b: any) {
+        if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
+        if (a[key] > b[key]) return 1; //check for value if the second value is bigger then first return 1
+        return 0;
+      };
+    } else {
+      return function (a: any, b: any) {
+        if (a[key] > b[key]) return -1;
+        if (a[key] < b[key]) return 1;
+        return 0;
+      };
+    }
+  },
+  pageNumber(count:string,perpage:string) {
+    var pageNumbers = [];
+    for (
+      let i = 1;
+      i <=
+      Math.ceil(
+        parseInt(count) / parseInt(perpage)
+      );
+      i++
+    ) {
+      pageNumbers.push(i);
+    }
+    return pageNumbers;
   }
 };
 

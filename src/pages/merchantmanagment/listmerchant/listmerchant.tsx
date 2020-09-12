@@ -7,15 +7,10 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
-  Table,
-  Input,
   Col,
-  FormGroup,
   CustomInput,
-  Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
 import {
   StatusAPI,
   MerchantAPI,
@@ -412,7 +407,7 @@ class ListMerchant extends React.Component<{ history: any }> {
 
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -466,7 +461,7 @@ class ListMerchant extends React.Component<{ history: any }> {
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

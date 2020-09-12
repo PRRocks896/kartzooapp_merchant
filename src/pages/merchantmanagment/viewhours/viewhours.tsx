@@ -7,14 +7,13 @@ import {
   CardBody,
   CardHeader,
   Col,
-  Form,
   FormGroup,
   Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
+
 import './viewhours.css';
-import { LocationAPI, MerchantAPI } from "../../../service/index.service";
+import {MerchantAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
 import { getDataByIdRequest } from "../../../modelController";
 
@@ -67,7 +66,7 @@ class ViewBusinessHours extends React.Component<{
   render() {
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -137,7 +136,7 @@ class ViewBusinessHours extends React.Component<{
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

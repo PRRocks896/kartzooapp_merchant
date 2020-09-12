@@ -12,7 +12,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
+
 import {RoleAPI} from "../../../service/index.service";
 import Switch from "react-switch";
 import constant from "../../../constant/constant";
@@ -21,9 +21,10 @@ import {
   userRoleUpdateRequest,
   getDataByIdRequest,
 } from "../../../modelController";
+import { addUserRoleState } from "../../../modelController/userRoleModel/addUserRoleState";
 
 class AddUserRole extends React.Component<{ history: any; location: any }> {
-  userState = constant.userRolePage.state;
+  userState : addUserRoleState = constant.userRolePage.state;
   state = {
     rolename: this.userState.rolename,
     rolenameerror: this.userState.rolenameerror,
@@ -69,20 +70,15 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
     console.log("getRoleById", getRoleById);
 
     if (getRoleById) {
-      if (getRoleById.status === 200) {
-        this.setState({
-          updateTrue: this.state.updateTrue = true,
-          rolename: this.state.rolename = getRoleById.resultObject.role,
-          roleid: this.state.roleid = getRoleById.resultObject.roleId,
-          description: this.state.description =
-            getRoleById.resultObject.description,
-          isOpen: this.state.isOpen = getRoleById.resultObject.isAdminRole,
-          isActive: this.state.isActive = getRoleById.resultObject.isActive
-        });
-      } else {
-        const msg1 = getRoleById.message;
-        utils.showError(msg1);
-      }
+      this.setState({
+        updateTrue: this.state.updateTrue = true,
+        rolename: this.state.rolename = getRoleById.resultObject.role,
+        roleid: this.state.roleid = getRoleById.resultObject.roleId,
+        description: this.state.description =
+          getRoleById.resultObject.description,
+        isOpen: this.state.isOpen = getRoleById.resultObject.isAdminRole,
+        isActive: this.state.isActive = getRoleById.resultObject.isActive
+      });
     } else {
       const msg1 = "Internal server error";
       utils.showError(msg1);
@@ -134,14 +130,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
         console.log("addUserRole", addUserRole);
 
         if (addUserRole) {
-          if (addUserRole.status === 200) {
-            const msg = addUserRole.message;
-            utils.showSuccess(msg);
-            this.props.history.push("/userrole");
-          } else {
-            const msg1 = addUserRole.message;
-            utils.showError(msg1);
-          }
+          this.props.history.push("/userrole");
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
@@ -170,14 +159,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
         console.log("editUserRole", editUserRole);
 
         if (editUserRole) {
-          if (editUserRole.status === 200) {
-            const msg = editUserRole.message;
-            utils.showSuccess(msg);
-            this.props.history.push("/userrole");
-          } else {
-            const msg1 = editUserRole.message;
-            utils.showError(msg1);
-          }
+          this.props.history.push("/userrole");
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
@@ -189,7 +171,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
   render() {
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -309,7 +291,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

@@ -5,31 +5,19 @@ import utils from "../../utils";
 import constant from "../../constant/constant";
 import axios from "axios";
 import apiUrl from "../../apicontroller/apicontrollers";
-import { loginCreateRequest } from "../../modelController";
+import { loginCreateRequest,addLoginStateRequest } from "../../modelController";
 import {
   Button,
-  // Modal,
-  ModalFooter,
-  ModalHeader,
-  ModalBody,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Table,
   Input,
-  Col,
   FormGroup,
-  CustomInput,
-  Label,
-  Row,
+  Label
 } from "reactstrap";
 import { Modal } from "react-bootstrap";
 const interceptor = require("../../intercepter");
 const publicIp = require("public-ip");
 
 class Login extends React.Component<{ history: any }> {
-  loginState = constant.loginPage.state;
+  loginState : addLoginStateRequest = constant.loginPage.state;
   state = {
     email: this.loginState.email,
     emailerror: this.loginState.emailerror,
@@ -143,16 +131,9 @@ class Login extends React.Component<{ history: any }> {
         console.log("forgotPassword", forgotPassword);
 
         if (forgotPassword) {
-          if (forgotPassword.status === 200) {
-            this.setState({
-              forgot: this.state.forgot = false,
-            });
-            const msg = forgotPassword.data.message;
-            utils.showSuccess(msg);
-          } else {
-            const msg = forgotPassword.data.message;
-            utils.showError(msg);
-          }
+          this.setState({
+            forgot: this.state.forgot = false,
+          });
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
@@ -170,8 +151,8 @@ class Login extends React.Component<{ history: any }> {
       const isValid = this.validate();
       if (isValid) {
         this.setState({
-          emailerror: this.state.emailerror = "",
-          passworderror: this.state.passworderror = "",
+          emailerror: "",
+          passworderror: "",
         });
         if (this.state.email && this.state.password) {
           const obj: loginCreateRequest = {
@@ -196,21 +177,17 @@ class Login extends React.Component<{ history: any }> {
                   localStorage.setItem("user", JSON.stringify(userData));
                   localStorage.setItem("token", userData.token);
                   const users: any = localStorage.getItem("user");
-                  let user = JSON.parse(users);
+                  // let user = JSON.parse(users);
                   var getToken = await API.getToken();
                   console.log("getToken", getToken);
                   if (getToken) {
                     localStorage.setItem("adminToken", getToken.token);
                   }
-                  const msg = res.data.message;
-                  utils.showSuccess(msg);
                   this.props.history.push("/dashboard");
                 } else {
                   this.setState({
                     isButton: this.state.isButton = false,
                   });
-                  const msg = res.data.message;
-                  utils.showError(msg);
                 }
               } else {
                 this.setState({
@@ -257,15 +234,11 @@ class Login extends React.Component<{ history: any }> {
                 var userData = res.data.resultObject;
                 localStorage.setItem("user", JSON.stringify(userData));
                 localStorage.setItem("token", userData.token);
-                const msg = res.data.message;
-                utils.showSuccess(msg);
                 this.props.history.push("/dashboard");
               } else {
                 this.setState({
                   isButton: this.state.isButton = false,
                 });
-                const msg = res.data.message;
-                utils.showError(msg);
               }
             } else {
               this.setState({

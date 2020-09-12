@@ -11,8 +11,8 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
-import {RoleAPI} from "../../../service/index.service";
+
+import { RoleAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
 import { getDataByIdRequest } from "../../../modelController";
 
@@ -32,36 +32,35 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
     document.title =
       constant.userRolePage.title.viewUserRoleTitle + utils.getAppName();
     const roleId = this.props.location.pathname.split("/")[2];
-    if (roleId != undefined) {
-      const obj:getDataByIdRequest = {
-        id: roleId,
-      };
-      const getRoleById: any = await RoleAPI.getRoleById(obj);
-      console.log("getRoleById", getRoleById);
+    if (roleId !== undefined) {
+      this.getUserRole(roleId);
+    }
+  }
 
-      if (getRoleById) {
-        if (getRoleById.status === 200) {
-          this.setState({
-            roledata: {
-              rolename: getRoleById.resultObject.role,
-              description: getRoleById.resultObject.description,
-            },
-          });
-        } else {
-          const msg1 = getRoleById.message;
-          utils.showError(msg1);
-        }
-      } else {
-        const msg1 = "Internal server error";
-        utils.showError(msg1);
-      }
+  async getUserRole(roleId: any) {
+    const obj: getDataByIdRequest = {
+      id: roleId,
+    };
+    const getRoleById: any = await RoleAPI.getRoleById(obj);
+    console.log("getRoleById", getRoleById);
+
+    if (getRoleById) {
+      this.setState({
+        roledata: {
+          rolename: getRoleById.resultObject.role,
+          description: getRoleById.resultObject.description,
+        },
+      });
+    } else {
+      const msg1 = "Internal server error";
+      utils.showError(msg1);
     }
   }
 
   render() {
     return (
       <>
-        <NavBar>
+        <>
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -69,7 +68,7 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
                   <CardHeader>
                     <Row>
                       <Col xs="12" sm="6" md="9" lg="9" xl="9">
-    <h1>{constant.userRolePage.viewrole.roleview}</h1>
+                        <h1>{constant.userRolePage.viewrole.roleview}</h1>
                       </Col>
                       <Col
                         xs="12"
@@ -110,7 +109,12 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
                       <Col xs="12" sm="12" md="6" lg="6" xl="6">
                         <FormGroup>
                           <Label htmlFor="description">
-                            <b>{constant.userRolePage.userRoleTableColumn.description}</b>
+                            <b>
+                              {
+                                constant.userRolePage.userRoleTableColumn
+                                  .description
+                              }
+                            </b>
                           </Label>
                           <p>{this.state.roledata.description}</p>
                         </FormGroup>
@@ -121,7 +125,7 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
               </Col>
             </div>
           </div>
-        </NavBar>
+        </>
       </>
     );
   }

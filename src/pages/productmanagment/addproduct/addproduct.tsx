@@ -15,12 +15,12 @@ import {
     Row,
 } from 'reactstrap';
 import './addproduct.css';
-import NavBar from '../../navbar/navbar';
+
 import API from '../../../service/merchant.service';
 import Switch from "react-switch";
 import constant from '../../../constant/constant';
 import { Editor } from '@tinymce/tinymce-react';
-import { productCreateRequest, productUpdateRequest } from '../../../modelController/productModel';
+// import { productCreateRequest, productUpdateRequest } from '../../../modelController/productModel';
 
 
 class AddProduct extends React.Component<{ history: any }> {
@@ -213,7 +213,7 @@ class AddProduct extends React.Component<{ history: any }> {
             })
             if (this.state.merchantid && this.state.maincategoryid && this.state.subcategoryid && this.state.productdescription && this.state.price && this.state.discountprice && this.state.metadiscription && this.state.metatitle && this.state.metakeyword && this.state.sortorder) {
 
-                const obj : productCreateRequest = {
+                const obj = {
                     merchantid: this.state.merchantid,
                     maincategoryid: this.state.maincategoryid,
                     subcategoryid: this.state.subcategoryid,
@@ -227,7 +227,7 @@ class AddProduct extends React.Component<{ history: any }> {
                     sortorder: this.state.sortorder
                 }
 
-                const obj1 : productUpdateRequest = {
+                const obj1 = {
                     id:'',
                     merchantid: this.state.merchantid,
                     maincategoryid: this.state.maincategoryid,
@@ -267,7 +267,7 @@ class AddProduct extends React.Component<{ history: any }> {
     render() {
         return (
             <>
-                <NavBar>
+               
                     <div className="ms-content-wrapper">
                         <div className="row">
                             <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -575,7 +575,7 @@ class AddProduct extends React.Component<{ history: any }> {
                             </Col>
                         </div>
                     </div>
-                </NavBar>
+               
             </>
         );
     }

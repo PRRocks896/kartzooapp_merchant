@@ -7,26 +7,20 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
-  Table,
-  Input,
   Col,
-  FormGroup,
   CustomInput,
-  Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
 import {
   StatusAPI,
-  ProductAPI,
-  MerchantAPI,
+  ProductAPI,DeleteAPI
 } from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { deleteByIdRequest, getAllTableDataListRequest, getDataByIdRequest, statusChangeRequest } from "../../../modelController";
+import { deleteByIdRequest, getAllTableDataListRequest, getDataByIdRequest, statusChangeRequest, allStateRequest , listInventoryState,deleteAllDataRequest} from "../../../modelController";
 
 class ListProductInventory extends React.Component<{ history: any }> {
-  productState = constant.productInventoryPage.state;
-  userState = constant.userPage.state;
+  productState : listInventoryState= constant.productInventoryPage.state;
+  userState : allStateRequest= constant.userPage.state;
   state = {
     count: this.productState.count,
     currentPage: this.productState.currentPage,
@@ -47,7 +41,8 @@ class ListProductInventory extends React.Component<{ history: any }> {
   constructor(props: any) {
     super(props);
     this.editProductInventory = this.editProductInventory.bind(this);
-    this.deleteProductInventory = this.deleteProductInventory.bind(this);
+    this.deleteAllData = this.deleteAllData.bind(this);
+    // this.deleteProductInventory = this.deleteProductInventory.bind(this);
     this.btnIncrementClick = this.btnIncrementClick.bind(this);
     this.btnDecrementClick = this.btnDecrementClick.bind(this);
     this.viewProductInventory = this.viewProductInventory.bind(this);
@@ -56,7 +51,6 @@ class ListProductInventory extends React.Component<{ history: any }> {
       this
     );
     this.handleSort = this.handleSort.bind(this);
-    this.compareByDesc = this.compareByDesc.bind(this);
     this.onItemSelect = this.onItemSelect.bind(this);
     this.statusChange = this.statusChange.bind(this);
     this.pagination = this.pagination.bind(this);
@@ -90,16 +84,11 @@ class ListProductInventory extends React.Component<{ history: any }> {
     console.log("getProductInventoryData", getProductInventoryData);
 
     if (getProductInventoryData) {
-      if (getProductInventoryData.status === 200) {
-        this.setState({
-          inventorydata: this.state.inventorydata =
-            getProductInventoryData.resultObject.data,
-          count: this.state.count = getProductInventoryData.resultObject.totalcount,
-        });
-      } else {
-        const msg1 = getProductInventoryData.message;
-        utils.showError(msg1);
-      }
+      this.setState({
+        inventorydata: this.state.inventorydata =
+          getProductInventoryData.resultObject.data,
+        count: this.state.count = getProductInventoryData.resultObject.totalcount,
+      });
     } else {
       const msg1 = "Internal server error";
       utils.showError(msg1);
@@ -136,26 +125,46 @@ class ListProductInventory extends React.Component<{ history: any }> {
     this.props.history.push("/view-product-inventory/" + id);
   }
 
-  async deleteProductInventory(data: any, text: string, btext: string) {
+  // async deleteProductInventory(data: any, text: string, btext: string) {
+  //   if (await utils.alertMessage(text, btext)) {
+  //     const obj: deleteByIdRequest = {
+  //       id: data.productInventoryId,
+  //     };
+  //     var deleteProductInventory = await ProductAPI.deleteProductInventory(obj);
+  //     if (deleteProductInventory) {
+  //       this.getProductInventoryData(
+  //         "",
+  //         parseInt(this.state.currentPage),
+  //         parseInt(this.state.items_per_page)
+  //       );
+  //     } else {
+  //       const msg1 = "Internal server error";
+  //       utils.showError(msg1);
+  //     }
+  //   }
+  // }
+
+  async deleteAllData(text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
-      const obj: deleteByIdRequest = {
-        id: data.productInventoryId,
+      const obj: deleteAllDataRequest = {
+        moduleName: "ProductInventory",
+        id: this.state.deleteuserdata,
       };
-      var deleteProductInventory = await ProductAPI.deleteProductInventory(obj);
-      if (deleteProductInventory.status === 200) {
-        const msg = deleteProductInventory.message;
-        utils.showSuccess(msg);
+      var deleteUser = await DeleteAPI.deleteData(obj);
+      console.log("deleteuser", deleteUser);
+      if (deleteUser) {
         this.getProductInventoryData(
           "",
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
         );
       } else {
-        const msg = deleteProductInventory.message;
-        utils.showSuccess(msg);
+        const msg1 = "Internal server error";
+        utils.showError(msg1);
       }
     }
   }
+
 
 
   onItemSelect(event: any) {
@@ -199,26 +208,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
       switchSort: !this.state.switchSort,
     });
     let copyTableData = [...this.state.inventorydata];
-    copyTableData.sort(this.compareByDesc(key));
+    copyTableData.sort(utils.compareByDesc(key,this.state.switchSort));
     this.setState({
       inventorydata: this.state.inventorydata = copyTableData,
     });
-  }
-
-  compareByDesc(key: any) {
-    if (this.state.switchSort) {
-      return function (a: any, b: any) {
-        if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
-        if (a[key] > b[key]) return 1; //check for value if the second value is bigger then first return 1
-        return 0;
-      };
-    } else {
-      return function (a: any, b: any) {
-        if (a[key] > b[key]) return -1;
-        if (a[key] < b[key]) return 1;
-        return 0;
-      };
-    }
   }
 
   async statusChange(data: any, text: string, btext: string) {
@@ -230,16 +223,14 @@ class ListProductInventory extends React.Component<{ history: any }> {
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
       console.log("getStatusChange", getStatusChange);
-      if (getStatusChange.status === 200) {
-        const msg = getStatusChange.message;
-        utils.showSuccess(msg);
+      if (getStatusChange) {
         this.getProductInventoryData(
           "",
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
         );
       } else {
-        const msg1 = getStatusChange.message;
+        const msg1 = "Internal server error";
         utils.showError(msg1);
       }
     }
@@ -256,16 +247,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
         inventorydata: this.state.inventorydata = data,
       });
     }
-    let count = 0;
-    data.forEach((element: any) => {
-      if (element._rowChecked === true) {
-        element._rowChecked = true;
-        count++;
-      } else {
-        element._rowChecked = false;
-      }
-    });
-    if (count === data.length) {
+    if (
+      data.filter((res: any, index: number) => res._rowChecked === true)
+        .length === data.length
+    ) {
       this.setState({
         _maincheck: true,
       });
@@ -275,11 +260,11 @@ class ListProductInventory extends React.Component<{ history: any }> {
       });
     }
     let newarray: any = [];
-    for (var i = 0; i < this.state.inventorydata.length; i++) {
-      if (this.state.inventorydata[i]["_rowChecked"] === true) {
-        newarray.push(this.state.inventorydata[i]["productInventoryId"]);
+    data.map((res: any, index: number) => {
+      if (res._rowChecked === true) {
+        newarray.push(res.productInventoryId);
       }
-    }
+    });
     this.setState({
       deleteuserdata: this.state.deleteuserdata = newarray,
     });
@@ -307,11 +292,11 @@ class ListProductInventory extends React.Component<{ history: any }> {
       _maincheck: _val,
     });
     let newmainarray: any = [];
-    for (var i = 0; i < this.state.inventorydata.length; i++) {
-      if (this.state.inventorydata[i]["_rowChecked"] === true) {
-        newmainarray.push(this.state.inventorydata[i]["productInventoryId"]);
+    this.state.inventorydata.map((res: any, index: number) => {
+      if (res._rowChecked === true) {
+        newmainarray.push(res.productInventoryId);
       }
-    }
+    });
     this.setState({
       deleteuserdata: this.state.deleteuserdata = newmainarray,
     });
@@ -419,7 +404,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
                         className="fas fa-edit"
                         onClick={() => this.editProductInventory(data.productInventoryId)}
                       ></i>
-                     <i
+                     {/* <i
                         className="fa fa-trash"
                         onClick={() =>
                           this.deleteProductInventory(
@@ -428,7 +413,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
                             "Yes, Role it"
                           )
                         }
-                      ></i>
+                      ></i> */}
                  
                   </td>
                 </tr>
@@ -482,17 +467,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
   }
 
   render() {
-    var pageNumbers = [];
-    for (
-      let i = 1;
-      i <=
-      Math.ceil(
-        parseInt(this.state.count) / parseInt(this.state.items_per_page)
-      );
-      i++
-    ) {
-      pageNumbers.push(i);
-    }
+    var pageNumbers = utils.pageNumber(
+      this.state.count,
+      this.state.items_per_page
+    );
     var renderPageNumbers = this.pagination(pageNumbers);
 
     let pageIncrementBtn = null;
@@ -519,7 +497,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
 
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -559,12 +537,14 @@ class ListProductInventory extends React.Component<{ history: any }> {
                     {this.state.inventorydata.length > 0 ? (
                       <>{this.getTable(this.state.inventorydata)}</>
                     ) : (
-                      <h1 className="text-center mt-5">No Data Found</h1>
+                    <h1 className="text-center mt-5">{constant.noDataFound.nodatafound}</h1>
                     )}
                      {this.state.deleteFlag === true ? (
                       <Button
                         className="mb-2 mr-2 custom-button"
                         color="primary"
+                        onClick={() => this.deleteAllData("You should be Delete Product Inventory",
+                        "Yes, Role it")}
                       >
                         {constant.button.remove}
                       </Button>
@@ -583,7 +563,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

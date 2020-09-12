@@ -12,7 +12,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
+
 import { LocationAPI, MerchantAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
 
@@ -130,7 +130,7 @@ class ViewMerchant extends React.Component<{
   render() {
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -356,7 +356,7 @@ class ViewMerchant extends React.Component<{
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

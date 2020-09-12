@@ -13,7 +13,7 @@ import {
   Row,
 } from "reactstrap";
 import "./adduser.css";
-import NavBar from "../../navbar/navbar";
+
 import { API, RoleAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
 
@@ -412,7 +412,7 @@ class AddUser extends React.Component<{ history: any; location: any }> {
   render() {
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -698,7 +698,7 @@ class AddUser extends React.Component<{ history: any; location: any }> {
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

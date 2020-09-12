@@ -1,3 +1,7 @@
 .ant-picker {
     width: 100% !important;
 }
+.ant-picker-clear {
+    display: none;
+    cursor: pointer;
+}

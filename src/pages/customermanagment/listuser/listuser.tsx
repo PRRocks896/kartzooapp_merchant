@@ -18,7 +18,7 @@ import {
     Row,
 } from 'reactstrap';
 import './listuser.css';
-import NavBar from '../../navbar/navbar';
+
 import { MDBDataTable } from 'mdbreact';
 import constant from '../../../constant/constant';
 import TableComponent from '../../../component/tables/table';
@@ -208,7 +208,7 @@ class ListUser extends React.Component<{ history: any }> {
 
         return (
             <>
-                <NavBar>
+               
                     <div className="ms-content-wrapper">
                         <div className="row">
                             <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -396,7 +396,7 @@ class ListUser extends React.Component<{ history: any }> {
                             </Col>
                         </div>
                     </div>
-                </NavBar>
+               
             </>
         );
     }

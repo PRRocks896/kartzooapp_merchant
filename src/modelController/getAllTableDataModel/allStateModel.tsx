@@ -1,0 +1,18 @@
+export interface allStateRequest {
+      count: string,
+      currentPage: string,
+      items_per_page: string,
+      upperPageBound: number,
+      lowerPageBound: number,
+      pageBound: number,
+      role: string,
+      roleid: string,
+      onItemSelect: string,
+      userrole: any,
+      userdata: any,
+      deleteuserdata:any,
+      switchSort: boolean,
+      isStatus: boolean,
+      _maincheck:boolean,
+      deleteFlag:boolean,
+}

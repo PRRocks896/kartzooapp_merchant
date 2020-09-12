@@ -99,10 +99,24 @@ export default {
     gobackhome: "Go back home",
   },
 
+  noDataFound:{
+    nodatafound:'No Data Found'
+  },
+
+
   navbarPage: {
     profile: "Profile",
     changepassword: "Change Password",
     logout: "Log Out",
+
+    state:{
+      isOpen: true,
+      side: true,
+      file:'',
+      firstName:'',
+      lastName:'',
+      classshow:'collapsed sidebar-manage'
+    }
   },
 
   alertMsg: {
@@ -721,7 +735,8 @@ export default {
       days: "Days",
       hours: "Hours",
       IsOpen:'IsOpen',
-      selectday:'Select Day'
+      selectday:'Select Day',
+      selecttime:'Select Time'
     },
     viewmerchantbusinesshoursdetails: {
       viewmerchant: "View Merchant Business Hours Details",

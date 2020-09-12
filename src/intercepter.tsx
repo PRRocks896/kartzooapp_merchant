@@ -35,21 +35,37 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     console.log("res", response);
+    if(response.data.status) {
+      if(response.data.status === 200) {
+        if(response.data.message !== null) {
+          const msg1 = response.data.message;
+            utils.showSuccess(msg1);
+        }
+      } else {
+          const msg1 = response.data.message;
+          utils.showError(msg1);
+      }
+    }
     return response;
+      
   },
   (err: any) => {
     console.log("err", err.response);
     if(err.response !== undefined) {
       if(err.response.data !== null) {
-        if(err.response.data.message.length>0 && err.response.data.status === 400) {
+        if(err.response.data.message && err.response.data.message.length>0 && err.response.data.status === 400) {
           const msg1 = err.response.data.message[0].message;
           utils.showError(msg1);
-        } else if( err.response.data.message.length>0 && err.response.data.status === 500) {
+        } else if(err.response.data.message &&  err.response.data.message.length>0 && err.response.data.status === 500) {
           const msg1 = err.response.data.message[0].message;
           utils.showError(msg1);
-        } else if(err.response.data.status === 401) {
+        } else if(err.response.data.status === 415) {
+          const msg1 = err.response.statusText;
+          utils.showError(msg1);
+        }
+         else if(err.response.data.status === 401) {
           const users: any = localStorage.getItem("user");
           let user = JSON.parse(users);
           return new Promise(async (resolve, reject) => {

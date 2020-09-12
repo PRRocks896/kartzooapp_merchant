@@ -13,7 +13,7 @@ import {
     Row,
 } from 'reactstrap';
 // import './adduser.css';
-import NavBar from '../../navbar/navbar';
+
 import API from '../../../service/service';
 import Switch from "react-switch";
 import constant from '../../../constant/constant';
@@ -33,7 +33,7 @@ class ViewMerchantReview extends React.Component<{ history: any }> {
 
         return (
             <>
-                <NavBar>
+               
                     <div className="ms-content-wrapper">
                         <div className="row">
                             <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -93,7 +93,7 @@ class ViewMerchantReview extends React.Component<{ history: any }> {
                             </Col>
                         </div>
                     </div>
-                </NavBar>
+               
             </>
         );
     }

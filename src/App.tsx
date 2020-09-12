@@ -8,19 +8,11 @@ import {
 } from "react-router-dom";
 import Main from "./routes/routes";
 import Login from "./pages/login/login";
-import Signup from "./pages/signup/signup";
-import Dashboard from "./pages/dashboard/dashboard";
 import ResetPassword from "./pages/resetpassword/resetpassword";
 // import ProtectedRoute from 'react-protected-route-component'
 
 class App extends React.Component {
   render() {
-    const loading = (
-      <div className="pt-3 text-center">
-        <div className="sk-spinner sk-spinner-pulse"></div>
-      </div>
-    );
-
     const PrivateRoute = ({ component: Component, ...rest }: any) => (
       <Route
         {...rest}

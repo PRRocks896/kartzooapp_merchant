@@ -8,7 +8,7 @@ import TimingChart from '../timingchart/timingchart';
 import FavouriteCharts from '../favouritecharts/favouritecharts';
 import PlaceOrders from '../placeorders/placeorders';
 import ResturantListings from '../resturantslisting/resturantslisting';
-import NavBar from '../../../navbar/navbar';
+
 
 
 interface User {
@@ -53,7 +53,7 @@ class SideBar extends React.Component {
     
     render() {
         return (
-            <NavBar>
+           
                 <div className="ms-content-wrapper">
                     <div className="row">
                         <div className="col-md-12">
@@ -258,7 +258,7 @@ class SideBar extends React.Component {
                         </div>
                     </div>
                 </div>
-            </NavBar>
+           
 
         );
     }

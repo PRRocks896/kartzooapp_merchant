@@ -13,10 +13,11 @@ import {
 } from 'reactstrap';
 import utils from '../../utils';
 import constant from '../../constant/constant';
-import NavBar from '../navbar/navbar';
+import { changePasswordStateRequest } from '../../modelController/changepasswordModel/changepasswordState';
+
 
 class ChangePassword extends Component<{history:any,location:any}> {
-    changeState = constant.changePasswordPage.state;
+    changeState : changePasswordStateRequest = constant.changePasswordPage.state;
     state = {
         oldpassword: this.changeState.oldpassword,
         oldpassworderror: this.changeState.oldpassworderror,
@@ -78,9 +79,7 @@ class ChangePassword extends Component<{history:any,location:any}> {
                     password: this.state.newpassword
                 }
                 const updatePassword = await API.updatePassword(obj);
-                if (updatePassword.status === 200) {
-                    const msg = updatePassword.message;
-                    utils.showSuccess(msg);
+                if (updatePassword) {
                     this.props.history.push("/dashboard");
                 } else {
                     const msg1 = updatePassword.message;
@@ -101,7 +100,7 @@ class ChangePassword extends Component<{history:any,location:any}> {
 
     render() {
         return (
-            <NavBar>
+           
                 <div className="ms-content-wrapper">
                     <div className="row">
                         <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -119,8 +118,9 @@ class ChangePassword extends Component<{history:any,location:any}> {
                                                     id="oldpassword"
                                                     name="oldpassword"
                                                     className="form-control"
-                                                    onChange={(e) =>
-                                                        this.state.oldpassword = e.target.value
+                                                    onChange={(e) => this.setState({
+                                                        oldpassword:e.target.value
+                                                    })
                                                     }
                                                     placeholder="Enter your Old Password"
                                                     required
@@ -140,8 +140,9 @@ class ChangePassword extends Component<{history:any,location:any}> {
                                                     id="newpassword"
                                                     name="newpassword"
                                                     className="form-control"
-                                                    onChange={(e) =>
-                                                        this.state.newpassword = e.target.value
+                                                    onChange={(e) => this.setState({
+                                                    newpassword: e.target.value
+                                                    })
                                                     }
                                                     placeholder="Enter your New Password"
                                                     required
@@ -161,8 +162,9 @@ class ChangePassword extends Component<{history:any,location:any}> {
                                                     id="confirmpassword"
                                                     name="confirmpassword"
                                                     className="form-control"
-                                                    onChange={(e) =>
-                                                        this.state.confirmpassword = e.target.value
+                                                    onChange={(e) => this.setState({
+                                                        confirmpassword : e.target.value
+                                                    })
                                                     }
                                                     placeholder="Enter your Confirm Password"
                                                     required
@@ -184,7 +186,7 @@ class ChangePassword extends Component<{history:any,location:any}> {
                         </Col>
                     </div>
                 </div>
-            </NavBar>
+           
         );
     }
 }

@@ -7,22 +7,29 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
-  Table,
-  Input,
   Col,
-  FormGroup,
   CustomInput,
-  Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
-import {StatusAPI, MerchantAPI, DeleteAPI} from "../../../service/index.service";
+import {
+  StatusAPI,
+  MerchantAPI,
+  DeleteAPI,
+} from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { deleteByIdRequest, getAllTableDataListRequest, statusChangeRequest, deleteAllDataRequest } from "../../../modelController";
+import {
+  deleteByIdRequest,
+  getAllTableDataListRequest,
+  statusChangeRequest,
+  deleteAllDataRequest,
+  listBusinessState,
+  allStateRequest,
+} from "../../../modelController";
 
 class ListBussinessHours extends React.Component<{ history: any }> {
-  merchantBusinessHoursState = constant.merchantBussinessPage.state;
-  userState = constant.userPage.state;
+  merchantBusinessHoursState: listBusinessState =
+    constant.merchantBussinessPage.state;
+  userState: allStateRequest = constant.userPage.state;
   state = {
     count: this.merchantBusinessHoursState.count,
     currentPage: this.merchantBusinessHoursState.currentPage,
@@ -42,7 +49,8 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   constructor(props: any) {
     super(props);
     this.editBusinessHours = this.editBusinessHours.bind(this);
-    this.deleteBusinessHours = this.deleteBusinessHours.bind(this);
+    this.deleteAllData = this.deleteAllData.bind(this);
+    // this.deleteBusinessHours = this.deleteBusinessHours.bind(this);
     this.btnIncrementClick = this.btnIncrementClick.bind(this);
     this.btnDecrementClick = this.btnDecrementClick.bind(this);
     this.viewBusinessHours = this.viewBusinessHours.bind(this);
@@ -51,7 +59,6 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       this
     );
     this.handleSort = this.handleSort.bind(this);
-    this.compareByDesc = this.compareByDesc.bind(this);
     this.onItemSelect = this.onItemSelect.bind(this);
     this.statusChange = this.statusChange.bind(this);
     this.pagination = this.pagination.bind(this);
@@ -63,8 +70,9 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   async componentDidMount() {
     document.title =
-      constant.merchantBussinessPage.title.merchantHoursTitle + utils.getAppName();
-      utils.dataTable();
+      constant.merchantBussinessPage.title.merchantHoursTitle +
+      utils.getAppName();
+    utils.dataTable();
     this.getBusinessHoursData();
   }
 
@@ -73,7 +81,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     page: number = 1,
     size: number = 10
   ) {
-    const obj:getAllTableDataListRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: searchText,
       page: page,
       size: size,
@@ -83,15 +91,11 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     console.log("getBusinessHoursData", getBusinessHoursData);
 
     if (getBusinessHoursData) {
-      if (getBusinessHoursData.status === 200) {
-        this.setState({
-          businessdata: this.state.businessdata = getBusinessHoursData.resultObject.data,
-          count: this.state.count = getBusinessHoursData.resultObject.totalcount,
-        });
-      } else {
-        const msg1 = getBusinessHoursData.message;
-        utils.showError(msg1);
-      }
+      this.setState({
+        businessdata: this.state.businessdata =
+          getBusinessHoursData.resultObject.data,
+        count: this.state.count = getBusinessHoursData.resultObject.totalcount,
+      });
     } else {
       const msg1 = "Internal server error";
       utils.showError(msg1);
@@ -128,62 +132,64 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.props.history.push("/view-merchant-business/" + id);
   }
 
-  async deleteBusinessHours(data: any, text: string, btext: string) {
+  // async deleteBusinessHours(data: any, text: string, btext: string) {
+  //   if (await utils.alertMessage(text, btext)) {
+  //     const obj: deleteByIdRequest = {
+  //       id: data.merchantBusinessHoursId,
+  //     };
+  //     var deleteBusinessHours = await MerchantAPI.deleteBusinessHours(obj);
+  //     if (deleteBusinessHours) {
+  //       this.getBusinessHoursData(
+  //         "",
+  //         parseInt(this.state.currentPage),
+  //         parseInt(this.state.items_per_page)
+  //       );
+  //     } else {
+  //       const msg1 = "Internal server error";
+  //       utils.showError(msg1);
+  //     }
+  //   }
+  // }
+
+  async deleteAllData(text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
-      const obj: deleteByIdRequest = {
-        id: data.merchantBusinessHoursId,
+      const obj: deleteAllDataRequest = {
+        moduleName: "MerchantBusinessHour",
+        id: this.state.deleteuserdata,
       };
-      var deleteBusinessHours = await MerchantAPI.deleteBusinessHours(obj);
-      if (deleteBusinessHours.status === 200) {
-        const msg = deleteBusinessHours.message;
-        utils.showSuccess(msg);
-        this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
+      var deleteUser = await DeleteAPI.deleteData(obj);
+      console.log("deleteuser", deleteUser);
+      if (deleteUser) {
+        this.getBusinessHoursData(
+          "",
+          parseInt(this.state.currentPage),
+          parseInt(this.state.items_per_page)
+        );
       } else {
-        const msg = deleteBusinessHours.message;
-        utils.showSuccess(msg);
+        const msg1 = "Internal server error";
+        utils.showError(msg1);
       }
     }
   }
 
-  async deleteDataById(text: string, btext: string) {
-    if (await utils.alertMessage(text, btext)) {
-      const obj: deleteAllDataRequest = {
-        moduleName:'Role',
-        id:this.state.deleteuserdata
-      };
-      var deleteUser = await DeleteAPI.deleteData(obj);
-      console.log("deleteuser",deleteUser);
-      // if (deleteUser.data.status === 200) {
-      //   const msg = deleteUser.data.message;
-      //   utils.showSuccess(msg);
-      //   this.getRole(
-      //     "",
-      //     parseInt(this.state.currentPage),
-      //     parseInt(this.state.items_per_page)
-      //   );
-      // } else {
-      //   const msg = deleteUser.data.message;
-      //   utils.showSuccess(msg);
-      // }
-    }
-  
-    }
-  
-
   onItemSelect(event: any) {
     this.setState({
-      items_per_page: this.state.items_per_page =
+      items_per_page:
         event.target.options[event.target.selectedIndex].value,
     });
 
-    this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
+    this.getBusinessHoursData(
+      "",
+      parseInt(this.state.currentPage),
+      parseInt(this.state.items_per_page)
+    );
   }
 
   async handleClick(event: any) {
     this.setState({
-      currentPage: this.state.currentPage = event.target.id,
+      currentPage:event.target.id,
     });
-    const obj:getAllTableDataListRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: "",
       page: parseInt(event.target.id),
       size: parseInt(this.state.items_per_page),
@@ -193,7 +199,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   }
 
   async searchApplicationDataKeyUp(e: any) {
-    const obj:getAllTableDataListRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: e.target.value,
       page: 1,
       size: parseInt(this.state.items_per_page),
@@ -207,43 +213,29 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       switchSort: !this.state.switchSort,
     });
     let copyTableData = [...this.state.businessdata];
-    copyTableData.sort(this.compareByDesc(key));
+    copyTableData.sort(utils.compareByDesc(key, this.state.switchSort));
     this.setState({
       businessdata: this.state.businessdata = copyTableData,
     });
   }
 
-  compareByDesc(key: any) {
-    if (this.state.switchSort) {
-      return function (a: any, b: any) {
-        if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
-        if (a[key] > b[key]) return 1; //check for value if the second value is bigger then first return 1
-        return 0;
-      };
-    } else {
-      return function (a: any, b: any) {
-        if (a[key] > b[key]) return -1;
-        if (a[key] < b[key]) return 1;
-        return 0;
-      };
-    }
-  }
-
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
-      const obj:statusChangeRequest = {
+      const obj: statusChangeRequest = {
         moduleName: "BusinessHours",
         id: data.couponId,
-        isActive: data.isActive === true ? false : true
-       }
-       var getStatusChange = await StatusAPI.getStatusChange(obj);
-       console.log("getStatusChange", getStatusChange);
-       if (getStatusChange.status === 200) {
-        const msg = getStatusChange.message;
-        utils.showSuccess(msg);
-        this.getBusinessHoursData('',parseInt(this.state.currentPage),parseInt(this.state.items_per_page));
+        isActive: data.isActive === true ? false : true,
+      };
+      var getStatusChange = await StatusAPI.getStatusChange(obj);
+      console.log("getStatusChange", getStatusChange);
+      if (getStatusChange) {
+        this.getBusinessHoursData(
+          "",
+          parseInt(this.state.currentPage),
+          parseInt(this.state.items_per_page)
+        );
       } else {
-        const msg1 = getStatusChange.message;
+        const msg1 = "Internal server error";
         utils.showError(msg1);
       }
     }
@@ -251,7 +243,9 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   handleChange(item: any, e: any) {
     let _id = item.merchantBusinessHoursId;
-    let ind: any = this.state.businessdata.findIndex((x: any) => x.merchantBusinessHoursId === _id);
+    let ind: any = this.state.businessdata.findIndex(
+      (x: any) => x.merchantBusinessHoursId === _id
+    );
     let data: any = this.state.businessdata;
     if (ind > -1) {
       let newState: any = !item._rowChecked;
@@ -260,16 +254,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         businessdata: this.state.businessdata = data,
       });
     }
-    let count = 0;
-    data.forEach((element: any) => {
-      if (element._rowChecked === true) {
-        element._rowChecked = true;
-        count++;
-      } else {
-        element._rowChecked = false;
-      }
-    });
-    if (count === data.length) {
+    if (
+      data.filter((res: any, index: number) => res._rowChecked === true)
+        .length === data.length
+    ) {
       this.setState({
         _maincheck: true,
       });
@@ -279,11 +267,11 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       });
     }
     let newarray: any = [];
-    for (var i = 0; i < this.state.businessdata.length; i++) {
-      if (this.state.businessdata[i]["_rowChecked"] === true) {
-        newarray.push(this.state.businessdata[i]["merchantBusinessHoursId"]);
+    data.map((res: any, index: number) => {
+      if (res._rowChecked === true) {
+        newarray.push(res.merchantBusinessHoursId);
       }
-    }
+    });
     this.setState({
       deleteuserdata: this.state.deleteuserdata = newarray,
     });
@@ -311,11 +299,11 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       _maincheck: _val,
     });
     let newmainarray: any = [];
-    for (var i = 0; i < this.state.businessdata.length; i++) {
-      if (this.state.businessdata[i]["_rowChecked"] === true) {
-        newmainarray.push(this.state.businessdata[i]["merchantBusinessHoursId"]);
+    this.state.businessdata.map((res: any, index: number) => {
+      if (res._rowChecked === true) {
+        newmainarray.push(res.merchantBusinessHoursId);
       }
-    }
+    });
     this.setState({
       deleteuserdata: this.state.deleteuserdata = newmainarray,
     });
@@ -330,7 +318,6 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     }
     console.log("deleteuserdata array", this.state.deleteuserdata);
   }
-
 
   pagination(pageNumbers: any) {
     var res = pageNumbers.map((number: any) => {
@@ -383,7 +370,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       >
         <thead>
           <tr onClick={() => this.handleSort("days")}>
-          <th className="centers">
+            <th className="centers">
               <CustomInput
                 name="name"
                 defaultValue="value"
@@ -393,8 +380,12 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                 checked={this.state._maincheck}
               />
             </th>
-            <th>{constant.merchantBussinessPage.merchantHoursTableColumn.days}</th>
-            <th>{constant.merchantBussinessPage.merchantHoursTableColumn.hours}</th>
+            <th>
+              {constant.merchantBussinessPage.merchantHoursTableColumn.days}
+            </th>
+            <th>
+              {constant.merchantBussinessPage.merchantHoursTableColumn.hours}
+            </th>
             <th style={{ textAlign: "center" }}>
               {constant.tableAction.status}
             </th>
@@ -406,13 +397,15 @@ class ListBussinessHours extends React.Component<{ history: any }> {
             <>
               {this.state.businessdata.map((data: any, index: any) => (
                 <tr key={index}>
-                   <td className="centers">
+                  <td className="centers">
                     <CustomInput
                       // name="name"
                       type="checkbox"
                       id={data.merchantBusinessHoursId}
                       onChange={(e) => this.handleChange(data, e)}
-                      checked={this.state.businessdata[index]["_rowChecked"] === true}
+                      checked={
+                        this.state.businessdata[index]["_rowChecked"] === true
+                      }
                     />
                   </td>
                   <td>{data.days}</td>
@@ -450,13 +443,17 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                     <span className="padding">
                       <i
                         className="fa fa-eye"
-                        onClick={() => this.viewBusinessHours(data.merchantBusinessHoursId)}
+                        onClick={() =>
+                          this.viewBusinessHours(data.merchantBusinessHoursId)
+                        }
                       ></i>
                       <i
                         className="fas fa-edit"
-                        onClick={() => this.editBusinessHours(data.merchantBusinessHoursId)}
+                        onClick={() =>
+                          this.editBusinessHours(data.merchantBusinessHoursId)
+                        }
                       ></i>
-                     <i
+                      {/* <i
                         className="fas fa-trash"
                         onClick={() =>
                           this.deleteBusinessHours(
@@ -465,7 +462,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                             "Yes, Role it"
                           )
                         }
-                      ></i>
+                      ></i> */}
                     </span>
                   </td>
                 </tr>
@@ -519,10 +516,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   }
 
   render() {
-    var pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(parseInt(this.state.count) / parseInt(this.state.items_per_page)); i++) {
-      pageNumbers.push(i);
-    }
+    var pageNumbers = utils.pageNumber(
+      this.state.count,
+      this.state.items_per_page
+    );
     var renderPageNumbers = this.pagination(pageNumbers);
 
     let pageIncrementBtn = null;
@@ -549,71 +546,72 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
     return (
       <>
-        <NavBar>
-          <div className="ms-content-wrapper">
-            <div className="row">
-              <Col xs="12" sm="12" md="12" lg="12" xl="12">
-                <Card className="main-card mb-12">
-                  <CardHeader>
-                    <Row>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <CardTitle className="font">
-                          {constant.merchantBussinessPage.title.merchantHoursTitle}
-                        </CardTitle>
-                      </Col>
-                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                        <div className="right">
-                          <Link to="/merchant-business">
-                            <Button
-                              className="mb-2 mr-2 custom-button"
-                              color="primary"
-                            >
-                              {constant.button.add}
-                            </Button>
-                          </Link>
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardHeader>
-                  <CardBody>
-                    <div className="search_right">
-                      <input
-                        className="form-control custom_text_width search"
-                        type="text"
-                        placeholder="Search"
-                        aria-label="Search"
-                        onKeyUp={this.searchApplicationDataKeyUp}
-                      />
-                    </div>
+        <div className="ms-content-wrapper">
+          <div className="row">
+            <Col xs="12" sm="12" md="12" lg="12" xl="12">
+              <Card className="main-card mb-12">
+                <CardHeader>
+                  <Row>
+                    <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                      <CardTitle className="font">
+                        {
+                          constant.merchantBussinessPage.title
+                            .merchantHoursTitle
+                        }
+                      </CardTitle>
+                    </Col>
+                    <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                      <div className="right">
+                        <Link to="/merchant-business">
+                          <Button
+                            className="mb-2 mr-2 custom-button"
+                            color="primary"
+                          >
+                            {constant.button.add}
+                          </Button>
+                        </Link>
+                      </div>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <div className="search_right">
+                    <input
+                      className="form-control custom_text_width search"
+                      type="text"
+                      placeholder="Search"
+                      aria-label="Search"
+                      onKeyUp={this.searchApplicationDataKeyUp}
+                    />
+                  </div>
 
-                    {this.state.businessdata.length > 0 ? (
-                      <>{this.getTable(this.state.businessdata)}</>
-                    ) : (
-                      <h1 className="text-center mt-5">No Data Found</h1>
-                    )}
-                     {this.state.deleteFlag === true ? (
-                      <Button
-                        className="mb-2 mr-2 custom-button"
-                        color="primary"
-                      >
-                        {constant.button.remove}
-                      </Button>
-                    ) : (
-                      ""
-                    )}
-                    {this.state.businessdata.length > 0
-                      ? this.getPageData(
-                          pageIncrementBtn,
-                          renderPageNumbers,
-                          pageDecrementBtn
-                        )
-                      : ""}
-                  </CardBody>
-                </Card>
-              </Col>
-            </div>
+                  {this.state.businessdata.length > 0 ? (
+                    <>{this.getTable(this.state.businessdata)}</>
+                  ) : (
+                    <h1 className="text-center mt-5">
+                      {constant.noDataFound.nodatafound}
+                    </h1>
+                  )}
+                  {this.state.deleteFlag === true ? (
+                    <Button className="mb-2 mr-2 custom-button" color="primary" onClick={() => this.deleteAllData("You should be Delete Business Hours",
+                    "Yes, Role it")}>
+                      {constant.button.remove}
+                    </Button>
+                  ) : (
+                    ""
+                  )}
+                  {this.state.businessdata.length > 0
+                    ? this.getPageData(
+                        pageIncrementBtn,
+                        renderPageNumbers,
+                        pageDecrementBtn
+                      )
+                    : ""}
+                </CardBody>
+              </Card>
+            </Col>
           </div>
-        </NavBar>
+        </div>
       </>
     );
   }

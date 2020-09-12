@@ -1,22 +1,23 @@
 import React from 'react';
-import { NavLink,Link } from 'react-router-dom';
-// import { NavLink } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 import nav from '../../navbar.service';
 import constant from '../../constant/constant';
 import EventEmitter from '../../event';
+import { navBarStateRequest } from '../../modelController';
 
 class NavBar extends React.Component {
-    state = {
-        isOpen: true,
-        side: true,
-        file:'',
-        firstName:'',
-        lastName:''
+    navbarState = constant.navbarPage.state
+    state: navBarStateRequest = {
+        isOpen: this.navbarState.isOpen,
+        side: this.navbarState.side,
+        file:this.navbarState.file,
+        firstName:this.navbarState.firstName,
+        lastName:this.navbarState.lastName,
+        classshow:this.navbarState.classshow
     };
 
     constructor(props:any) {
         super(props);
-        // this.logout = this.logout.bind(this);
         this.activeRoute = this.activeRoute.bind(this);
         this.handleClick = this.handleClick.bind(this);
 
@@ -94,13 +95,10 @@ class NavBar extends React.Component {
                                             <span  className="header_side">{menu.name}</span>
                                         </div>
                                     ): (
-                                        <>
+                                      
                                         <a  key={index} href="#" id={`dropdown-${menu.id}`} className={this.activeRoute(menu.url)} data-toggle="collapse" data-target={`#${menu.id}`} aria-expanded="false" aria-controls={`${menu.id}`}  onClick={() => this.handleClick(menu.url)}> <span><i className={menu.icon}></i>{menu.name} </span>
                                         </a>
-                                        {/* <ul id={`collapse-${menu.id}`} className="collapse" aria-labelledby={`${menu.id}`} data-parent="#side-nav-accordion">
-                                    <li>{menu.name}</li>
-                                        </ul> */}
-                                        </>
+                                   
                                     )
                                    ))
                                }

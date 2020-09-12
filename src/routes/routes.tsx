@@ -5,10 +5,8 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import history from "../history";
 import Users from "../pages/usersmanagment/users/users";
 import UserRole from "../pages/usersmanagment/userrole/userrole";
-import Login from "../pages/login/login";
 import Signup from "../pages/signup/signup";
 import Dashboard from "../pages/dashboard/dashboard";
 import UserRoleToRights from "../pages/usersmanagment/userroletorights/userroletorights";
@@ -55,17 +53,13 @@ import ListMerchant from "../pages/merchantmanagment/listmerchant/listmerchant";
 import ListBussinessHours from "../pages/merchantmanagment/listhours/listhours";
 import ViewBusinessHours from "../pages/merchantmanagment/viewhours/viewhours";
 import ViewMerchant from "../pages/merchantmanagment/viewmerchant/viewmerchant";
-
-const loading = (
-  <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse"></div>
-  </div>
-);
+import NavBar from "../component/navbar/navbar";
 
 class Main extends React.Component<{ history: any }> {
   render() {
     return (
       <Router>
+       <NavBar>
         <Switch>
           <Route
             path="/dashboard"
@@ -292,6 +286,7 @@ class Main extends React.Component<{ history: any }> {
           )}
           <Redirect from="/" to="/dashboard" />
         </Switch>
+       </NavBar>
       </Router>
     );
   }

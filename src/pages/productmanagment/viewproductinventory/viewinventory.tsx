@@ -6,23 +6,20 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Input,
   Col,
   FormGroup,
   Label,
   Row,
 } from "reactstrap";
-// import './adduser.css';
-import NavBar from "../../navbar/navbar";
 import constant from "../../../constant/constant";
 import { ProductAPI } from "../../../service/index.service";
-import { getDataByIdRequest } from "../../../modelController";
+import { getDataByIdRequest, addInventoryState } from "../../../modelController";
 
 class ViewProductInventory extends React.Component<{
   history: any;
   location: any;
 }> {
-  productState = constant.productInventoryPage.state;
+  productState : addInventoryState = constant.productInventoryPage.state;
   state = {
     productid: this.productState.productid,
     stockqty: this.productState.stockqty,
@@ -48,22 +45,22 @@ class ViewProductInventory extends React.Component<{
     const getInventoryData: any = await ProductAPI.getInventoryData(obj);
     console.log("getInventoryData", getInventoryData);
 
-    if (getInventoryData.status === 200) {
+    if (getInventoryData) {
       this.setState({
         productdata: this.state.productdata =
           getInventoryData.resultObject.product,
         stockqty: this.state.stockqty = getInventoryData.resultObject.stockQty,
       });
     } else {
-      const msg1 = getInventoryData.message;
-      utils.showError(msg1);
+      const msg1 = "Internal server error";
+          utils.showError(msg1);
     }
   }
 
   render() {
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -134,7 +131,7 @@ class ViewProductInventory extends React.Component<{
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

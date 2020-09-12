@@ -15,17 +15,17 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import NavBar from "../../navbar/navbar";
+
 import {
   StatusAPI,
   ProductAPI,
   MerchantAPI,
 } from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { getAllTableDataListRequest, statusChangeRequest } from "../../../modelController";
+import { getAllTableDataListRequest, statusChangeRequest,productStateRequest } from "../../../modelController";
 
 class ListProduct extends React.Component<{ history: any }> {
-  productState = constant.productPage.state;
+  productState:productStateRequest = constant.productPage.state;
   state = {
     count: this.productState.count,
     currentPage: this.productState.currentPage,
@@ -50,7 +50,6 @@ class ListProduct extends React.Component<{ history: any }> {
       this
     );
     this.handleSort = this.handleSort.bind(this);
-    this.compareByDesc = this.compareByDesc.bind(this);
     this.onItemSelect = this.onItemSelect.bind(this);
     this.statusChange = this.statusChange.bind(this);
     this.pagination = this.pagination.bind(this);
@@ -80,16 +79,11 @@ class ListProduct extends React.Component<{ history: any }> {
     console.log("getProductData", getProductData);
 
     if (getProductData) {
-      if (getProductData.status === 200) {
-        this.setState({
-          productdata: this.state.productdata =
-            getProductData.resultObject.data,
-          count: this.state.count = getProductData.resultObject.totalcount,
-        });
-      } else {
-        const msg1 = getProductData.message;
-        utils.showError(msg1);
-      }
+      this.setState({
+        productdata: this.state.productdata =
+          getProductData.resultObject.data,
+        count: this.state.count = getProductData.resultObject.totalcount,
+      });
     } else {
       const msg1 = "Internal server error";
       utils.showError(msg1);
@@ -167,26 +161,10 @@ class ListProduct extends React.Component<{ history: any }> {
       switchSort: !this.state.switchSort,
     });
     let copyTableData = [...this.state.productdata];
-    copyTableData.sort(this.compareByDesc(key));
+    copyTableData.sort(utils.compareByDesc(key,this.state.switchSort));
     this.setState({
       productdata: this.state.productdata = copyTableData,
     });
-  }
-
-  compareByDesc(key: any) {
-    if (this.state.switchSort) {
-      return function (a: any, b: any) {
-        if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
-        if (a[key] > b[key]) return 1; //check for value if the second value is bigger then first return 1
-        return 0;
-      };
-    } else {
-      return function (a: any, b: any) {
-        if (a[key] > b[key]) return -1;
-        if (a[key] < b[key]) return 1;
-        return 0;
-      };
-    }
   }
 
   async statusChange(data: any, text: string, btext: string) {
@@ -198,12 +176,14 @@ class ListProduct extends React.Component<{ history: any }> {
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
       console.log("getStatusChange", getStatusChange);
-      if (getStatusChange.status === 200) {
-        const msg = getStatusChange.message;
-        utils.showSuccess(msg);
-        this.getProductData();
+      if (getStatusChange) {
+        this.getProductData(
+          "",
+          parseInt(this.state.currentPage),
+          parseInt(this.state.items_per_page)
+        );
       } else {
-        const msg1 = getStatusChange.message;
+        const msg1 = "Internal server error";
         utils.showError(msg1);
       }
     }
@@ -375,17 +355,10 @@ class ListProduct extends React.Component<{ history: any }> {
   }
 
   render() {
-    var pageNumbers = [];
-    for (
-      let i = 1;
-      i <=
-      Math.ceil(
-        parseInt(this.state.count) / parseInt(this.state.items_per_page)
-      );
-      i++
-    ) {
-      pageNumbers.push(i);
-    }
+    var pageNumbers = utils.pageNumber(
+      this.state.count,
+      this.state.items_per_page
+    );
     var renderPageNumbers = this.pagination(pageNumbers);
 
     let pageIncrementBtn = null;
@@ -412,7 +385,7 @@ class ListProduct extends React.Component<{ history: any }> {
 
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -452,7 +425,7 @@ class ListProduct extends React.Component<{ history: any }> {
                     {this.state.productdata.length > 0 ? (
                       <>{this.getTable(this.state.productdata)}</>
                     ) : (
-                      <h1 className="text-center mt-5">No Data Found</h1>
+                    <h1 className="text-center mt-5">{constant.noDataFound.nodatafound}</h1>
                     )}
                     {this.state.productdata.length > 0
                       ? this.getPageData(
@@ -466,7 +439,7 @@ class ListProduct extends React.Component<{ history: any }> {
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

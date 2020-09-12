@@ -6,25 +6,21 @@ import {
   Card,
   CardBody,
   CardHeader,
-  CardTitle,
-  Table,
   Form,
   CustomInput,
-  Input,
   Col,
   FormGroup,
   Label,
   Row,
 } from "reactstrap";
 import './business.css';
-import NavBar from "../../navbar/navbar";
 import Switch from "react-switch";
 import constant from "../../../constant/constant";
-import Merchant from "../merchant/merchant";
 import {
   bussinessCreateRequest,
   bussinessUpdateRequest,
   getDataByIdRequest,
+  businessState,
 } from "../../../modelController";
 import { MerchantAPI } from "../../../service/index.service";
 import { TimePicker } from "antd";
@@ -35,7 +31,7 @@ class MerchantBusiness extends React.Component<{
   history: any;
   location: any;
 }> {
-  businessState = constant.merchantBussinessPage.state;
+  businessState: businessState = constant.merchantBussinessPage.state;
   state = {
     merchant: this.businessState.merchant,
     merchanterror: this.businessState.merchanterror,
@@ -94,7 +90,8 @@ class MerchantBusiness extends React.Component<{
     const getHoursById: any = await MerchantAPI.getHoursById(obj);
     console.log("getHoursById", getHoursById);
 
-    if (getHoursById.status === 200) {
+    if (getHoursById) {
+    
       this.setState({
         updateTrue: this.state.updateTrue = true,
         // merchant:this.state.merchant =  getHoursById.resultObject.merchantId,
@@ -102,9 +99,8 @@ class MerchantBusiness extends React.Component<{
         hours: this.state.hours = getHoursById.resultObject.hours,
         isOpen: this.state.isOpen = getHoursById.resultObject.isOpen,
       });
-      console.log("hours",this.state.hours);
     } else {
-      const msg1 = getHoursById.message;
+      const msg1 = "Internal Server Error";
       utils.showError(msg1);
     }
   }
@@ -114,14 +110,9 @@ class MerchantBusiness extends React.Component<{
     console.log("getMerchantList", getMerchantList);
 
     if (getMerchantList) {
-      if (getMerchantList.status === 200) {
-        this.setState({
-          merchantdata: this.state.merchantdata = getMerchantList.resultObject,
-        });
-      } else {
-        const msg1 = getMerchantList.message;
-        utils.showError(msg1);
-      }
+      this.setState({
+        merchantdata: this.state.merchantdata = getMerchantList.resultObject,
+      });
     } else {
       const msg1 = "Internal server error";
       utils.showError(msg1);
@@ -130,12 +121,12 @@ class MerchantBusiness extends React.Component<{
 
   onChange(time: any, timeString: any) {
     this.setState({
-      hours:this.state.hours = timeString
+      hours:timeString
     })
   }
 
   handleChange(checked: boolean) {
-    this.setState({ isOpen: this.state.isOpen = checked });
+    this.setState({ isOpen:checked });
   }
 
   validate() {
@@ -164,7 +155,7 @@ class MerchantBusiness extends React.Component<{
 
   onItemSelect(e: any) {
     this.setState({
-      days: this.state.days = e.target.value,
+      days:e.target.value,
     });
   }
 
@@ -195,14 +186,7 @@ class MerchantBusiness extends React.Component<{
         console.log("addMerchantBusiness", addMerchantBusiness);
 
         if (addMerchantBusiness) {
-          if (addMerchantBusiness.status === 200) {
-            const msg = addMerchantBusiness.message;
-            utils.showSuccess(msg);
-            this.props.history.push("/list-business-hours");
-          } else {
-            const msg1 = addMerchantBusiness.message;
-            utils.showError(msg1);
-          }
+          this.props.history.push("/list-business-hours");
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
@@ -234,14 +218,7 @@ class MerchantBusiness extends React.Component<{
         console.log("updateMerchantBusiness", updateMerchantBusiness);
 
         if (updateMerchantBusiness) {
-          if (updateMerchantBusiness.status === 200) {
-            const msg = updateMerchantBusiness.message;
-            utils.showSuccess(msg);
-            this.props.history.push("/list-business-hours");
-          } else {
-            const msg1 = updateMerchantBusiness.message;
-            utils.showError(msg1);
-          }
+          this.props.history.push("/list-business-hours");
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
@@ -253,7 +230,7 @@ class MerchantBusiness extends React.Component<{
   render() {
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -344,15 +321,28 @@ class MerchantBusiness extends React.Component<{
                     </Row>
                     <Row>
                     <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                    <Label for="exampleCustomSelect">
+                              {
+                                constant.merchantBussinessPage
+                                  .merchantHoursTableColumn.selecttime
+                              }
+                            </Label>
                       <div>
                         {
-                          this.state.hours ? (
+                          this.state.updateTrue === true ? (
+                            this.state.hours ? (
+                              <TimePicker
+                              defaultValue={moment(`${this.state.hours ? this.state.hours : '00:00:00'}`,"HH:mm:ss")}
+                                onChange={this.onChange}
+                              />
+                            ) : (null)
+                          ) : (
                             <TimePicker
-                            defaultValue={moment(`${this.state.hours ? this.state.hours : '00:00:00'}`,"HH:mm:ss")}
                               onChange={this.onChange}
                             />
-                          ) : (null)
+                          )
                         }
+                     
                         <div className="mb-4 text-danger">
                             {this.state.hourserror}
                           </div>
@@ -428,7 +418,7 @@ class MerchantBusiness extends React.Component<{
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }

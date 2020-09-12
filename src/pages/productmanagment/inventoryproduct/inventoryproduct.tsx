@@ -15,14 +15,11 @@ import {
   Row,
 } from "reactstrap";
 import "./inventoryproduct.css";
-import NavBar from "../../navbar/navbar";
-import API from "../../../service/product.service";
-import Switch from "react-switch";
 import constant from "../../../constant/constant";
-import { Editor } from "@tinymce/tinymce-react";
 import {
   inventoryCreateRequest,
   inventoryUpdateRequest,
+  addInventoryState,
 } from "../../../modelController/productInventoryModel";
 import { ProductAPI } from "../../../service/index.service";
 import { getDataByIdRequest } from "../../../modelController";
@@ -31,7 +28,7 @@ class InventoryProduct extends React.Component<{
   history: any;
   location: any;
 }> {
-  productState = constant.productInventoryPage.state;
+  productState: addInventoryState = constant.productInventoryPage.state;
   state = {
     productid: this.productState.productid,
     productiderror: this.productState.productiderror,
@@ -45,7 +42,6 @@ class InventoryProduct extends React.Component<{
 
   constructor(props: any) {
     super(props);
-
     this.handleChangeEvent = this.handleChangeEvent.bind(this);
     this.addInventoryProduct = this.addInventoryProduct.bind(this);
     this.updateInventoryProduct = this.updateInventoryProduct.bind(this);
@@ -79,7 +75,7 @@ class InventoryProduct extends React.Component<{
     const getInventoryData: any = await ProductAPI.getInventoryData(obj);
     console.log("getInventoryData", getInventoryData);
 
-    if (getInventoryData.status === 200) {
+    if (getInventoryData) {
       this.setState({
         updateTrue: this.state.updateTrue = true,
         productid: this.state.productid =
@@ -88,27 +84,27 @@ class InventoryProduct extends React.Component<{
         product: this.state.product = getInventoryData.resultObject.product,
       });
     } else {
-      const msg1 = getInventoryData.message;
-      utils.showError(msg1);
+      const msg1 = "Internal server error";
+          utils.showError(msg1);
     }
   }
 
   async getAllProduct() {
     const getAllProduct = await ProductAPI.getAllProduct();
     console.log("getAllProduct", getAllProduct);
-    if (getAllProduct.status === 200) {
+    if (getAllProduct) {
       this.setState({
         productdata: this.state.productdata = getAllProduct.resultObject,
       });
     } else {
-      const msg1 = getAllProduct.message;
+      const msg1 = "Internal server error";
       utils.showError(msg1);
     }
   }
 
   onProductSelect(event: any) {
     this.setState({
-      productid: this.state.productid = event.target.value,
+      productid: event.target.value,
     });
   }
 
@@ -170,14 +166,7 @@ class InventoryProduct extends React.Component<{
         console.log("addProductInventory", addProductInventory);
 
         if (addProductInventory) {
-          if (addProductInventory.status === 200) {
-            const msg = addProductInventory.message;
-            utils.showSuccess(msg);
-            this.props.history.push("/list-product-inventory");
-          } else {
-            const msg1 = addProductInventory.message;
-            utils.showError(msg1);
-          }
+          this.props.history.push("/list-product-inventory");
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
@@ -205,14 +194,7 @@ class InventoryProduct extends React.Component<{
         console.log("editProductInventory", editProductInventory);
 
         if (editProductInventory) {
-          if (editProductInventory.status === 200) {
-            const msg = editProductInventory.message;
-            utils.showSuccess(msg);
-            this.props.history.push("/list-product-inventory");
-          } else {
-            const msg1 = editProductInventory.message;
-            utils.showError(msg1);
-          }
+          this.props.history.push("/list-product-inventory");
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
@@ -224,7 +206,7 @@ class InventoryProduct extends React.Component<{
   render() {
     return (
       <>
-        <NavBar>
+       
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -391,7 +373,7 @@ class InventoryProduct extends React.Component<{
               </Col>
             </div>
           </div>
-        </NavBar>
+       
       </>
     );
   }
