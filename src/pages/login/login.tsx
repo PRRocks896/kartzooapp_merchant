@@ -145,60 +145,7 @@ class Login extends React.Component<{ history: any }> {
   enterPressed(event: any) {
     var code = event.keyCode || event.which;
     if (code === 13) {
-      this.setState({
-        isButton: true,
-      });
-      const isValid = this.validate();
-      if (isValid) {
-        this.setState({
-          emailerror: "",
-          passworderror: "",
-        });
-        if (this.state.email && this.state.password) {
-          const obj: loginCreateRequest = {
-            email: this.state.email,
-            password: this.state.password,
-            deviceType: 1,
-            deviceId: "deviceId",
-            ipAddress: this.state.ipAddress,
-            userId: 0,
-          };
-
-          axios
-            .post(constant.apiUrl + apiUrl.userController.createData, obj)
-            .then(async(res: any) => {
-              console.log("login", res);
-              if (res) {
-                if (res.data.status === 200) {
-                  this.setState({
-                    isButton: false,
-                  });
-                  var userData = res.data.resultObject;
-                  localStorage.setItem("user", JSON.stringify(userData));
-                  localStorage.setItem("token", userData.token);
-                  const users: any = localStorage.getItem("user");
-                  // let user = JSON.parse(users);
-                  var getToken = await API.getToken();
-                  console.log("getToken", getToken);
-                  if (getToken) {
-                    localStorage.setItem("adminToken", getToken.token);
-                  }
-                  this.props.history.push("/dashboard");
-                } else {
-                  this.setState({
-                    isButton: this.state.isButton = false,
-                  });
-                }
-              } else {
-                this.setState({
-                  isButton: this.state.isButton = false,
-                });
-                const msg1 = "Internal server error";
-                utils.showError(msg1);
-              }
-            });
-        }
-      }
+      this.login();
     }
   }
 
@@ -209,8 +156,8 @@ class Login extends React.Component<{ history: any }> {
     const isValid = this.validate();
     if (isValid) {
       this.setState({
-        emailerror: this.state.emailerror = "",
-        passworderror: this.state.passworderror = "",
+        emailerror: "",
+        passworderror: "",
       });
       if (this.state.email && this.state.password) {
         const obj: loginCreateRequest = {
@@ -224,7 +171,7 @@ class Login extends React.Component<{ history: any }> {
 
         axios
           .post(constant.apiUrl + apiUrl.userController.createData, obj)
-          .then((res: any) => {
+          .then(async(res: any) => {
             console.log("login", res);
             if (res) {
               if (res.data.status === 200) {
@@ -234,6 +181,13 @@ class Login extends React.Component<{ history: any }> {
                 var userData = res.data.resultObject;
                 localStorage.setItem("user", JSON.stringify(userData));
                 localStorage.setItem("token", userData.token);
+                const users: any = localStorage.getItem("user");
+                // let user = JSON.parse(users);
+                var getToken = await API.getToken();
+                console.log("getToken", getToken);
+                if (getToken) {
+                  localStorage.setItem("adminToken", getToken.token);
+                }
                 this.props.history.push("/dashboard");
               } else {
                 this.setState({
@@ -249,6 +203,10 @@ class Login extends React.Component<{ history: any }> {
             }
           });
       }
+    } else {
+      this.setState({
+        isButton: this.state.isButton = false,
+      });
     }
   }
 
