@@ -22,6 +22,7 @@ import {
   getDataByIdRequest,
   profileState,
 } from "../../modelController";
+import { Editor } from "@tinymce/tinymce-react";
 
 interface User {
   merchantID: number;
@@ -30,6 +31,7 @@ interface User {
 class Profile extends React.Component<{ history: any }> {
   profileState: profileState = constant.profilePage.state;
   state = {
+    selectedProfileFile: this.profileState.selectedProfileFile,
     selectedFile: this.profileState.selectedFile,
     selectedProofFile: this.profileState.selectedProofFile,
     selectedDocumentFile: this.profileState.selectedDocumentFile,
@@ -67,6 +69,7 @@ class Profile extends React.Component<{ history: any }> {
     selectedFileerror: this.profileState.selectedFileerror,
     selectedProofFileerror: this.profileState.selectedProofFileerror,
     selectedDocumentFileerror: this.profileState.selectedDocumentFileerror,
+    selectedProfileFileerror: this.profileState.selectedProfileFileerror,
     password: this.profileState.password,
     passworderror: this.profileState.passworderror,
     citydata: this.profileState.citydata,
@@ -77,6 +80,8 @@ class Profile extends React.Component<{ history: any }> {
     file1true: this.profileState.file1true,
     file2: this.profileState.file2,
     file2true: this.profileState.file2true,
+    file4: this.profileState.file4,
+    file4true: this.profileState.file4true,
     updateTrue: this.profileState.updateTrue,
     userid: this.profileState.userid,
     cityname: this.profileState.cityname,
@@ -98,9 +103,11 @@ class Profile extends React.Component<{ history: any }> {
     this.handleEditorUpChange = this.handleEditorUpChange.bind(this);
     this.removeDocumentIcon = this.removeDocumentIcon.bind(this);
     this.removeProofIcon = this.removeProofIcon.bind(this);
+    this.removeProfilePhotoIcon = this.removeProfilePhotoIcon.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.getUserById = this.getUserById.bind(this);
     this.getCityById = this.getCityById.bind(this);
+    this.onChangeProfilePicture = this.onChangeProfilePicture.bind(this);
   }
 
   handleChange(checked: boolean) {
@@ -151,6 +158,12 @@ class Profile extends React.Component<{ history: any }> {
           latitude: this.state.latitude = getProfile.resultObject.latitude,
           longitude: this.state.longitude = getProfile.resultObject.longitude,
           shopname: this.state.shopname = getProfile.resultObject.shopName,
+          shoppingpolicy: this.state.shoppingpolicy =
+          getProfile.resultObject.shippingPolicy,
+        refundpolicy: this.state.refundpolicy =
+          getProfile.resultObject.refundPolicy,
+        cancellationpolicy: this.state.cancellationpolicy =
+          getProfile.resultObject.cancellationPolicy,
           // selectedDocumentFile:this.state.selectedDocumentFile = getProfile.resultObject.merchantDocument,
           // file2:this.state.file2 = getProfile.resultObject.merchantDocument,
           // selectedProofFile:this.state.selectedProofFile = getProfile.resultObject.merchantIDPoof,
@@ -197,6 +210,33 @@ class Profile extends React.Component<{ history: any }> {
     this.setState({
       city: this.state.city = event.target.value,
     });
+  }
+
+  onChangeProfilePicture(event: any) {
+    if (this.state.file4true === true) {
+      this.setState({
+        file4true: this.state.file4true = false,
+        selectedProfileFile: this.state.selectedProfileFile = event.target.files,
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file4: reader.result,
+        });
+      };
+    } else {
+      this.setState({
+        selectedProfileFile: this.state.selectedProfileFile = event.target.files,
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (ev) => {
+        this.setState({
+          file4: reader.result,
+        });
+      };
+    }
   }
 
   onChangeHandler(event: any) {
@@ -520,6 +560,13 @@ class Profile extends React.Component<{ history: any }> {
     });
   }
 
+  removeProfilePhotoIcon() {
+    this.setState({
+      file4: this.state.file4 = "",
+    });
+  }
+
+
   render() {
     return (
       <>
@@ -648,6 +695,61 @@ class Profile extends React.Component<{ history: any }> {
                           </div>
                         </FormGroup>
                       </Form>
+                    </Col>
+                    <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                      <FormGroup className="img-upload5">
+                        {this.state.file4 !== "" ? (
+                          <div className="img-size">
+                            {this.state.file4 !== "" ? (
+                              <div>
+                                {this.state.file4true === true ? (
+                                  <img
+                                    className="picture"
+                                    src={
+                                      constant.fileMerchantpath +
+                                      this.state.file4
+                                    }
+                                  />
+                                ) : (
+                                  <img
+                                    className="picture"
+                                    src={this.state.file4}
+                                  />
+                                )}
+                                <i
+                                  className="fa fa-times cursor"
+                                  onClick={() => this.removeProfilePhotoIcon()}
+                                ></i>
+                              </div>
+                            ) : null}
+                          </div>
+                        ) : (
+                          <div className="">
+                            <p style={{ fontSize: "16px" }}>
+                              {
+                                constant.merchantPage.merchantTableColumn
+                                  .profilePhoto
+                              }
+                            </p>
+                            <Label className="imag" for="file-input5">
+                              <i
+                                className="fa fa-upload fa-lg"
+                                style={{ color: "#20a8d8" }}
+                              ></i>
+                            </Label>
+                            <Input
+                              id="file-input5"
+                              type="file"
+                              className="form-control"
+                              name="file4"
+                              onChange={this.onChangeProfilePicture.bind(this)}
+                            />
+                          </div>
+                        )}
+                        <div className="text-danger">
+                          {this.state.selectedProfileFileerror}
+                        </div>
+                      </FormGroup>
                     </Col>
                     {/* <Col xs="12" sm="12" md="4" lg="4" xl="4">
                         <p style={{ fontSize: "16px" }}>
@@ -977,6 +1079,215 @@ class Profile extends React.Component<{ history: any }> {
                           {this.state.selectedDocumentFileerror}
                         </div>
                       </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                      <div>
+                        <p style={{ fontSize: "16px" }}>
+                          {
+                            constant.merchantPage.merchantTableColumn
+                              .shoppingpolicy
+                          }
+                        </p>
+                        <input
+                          id="my-file1"
+                          type="file"
+                          name="my-file1"
+                          style={{ display: "none" }}
+                        />
+                        <Editor
+                          initialValue={this.state.shoppingpolicy}
+                          init={{
+                            height: 200,
+                            menubar: false,
+                            images_upload_credentials: true,
+                            plugins: [
+                              "advlist autolink lists link image code imagetools charmap print preview anchor",
+                              "searchreplace visualblocks code fullscreen",
+                              "insertdatetime media table paste code help wordcount",
+                            ],
+                            toolbar:
+                              "undo redo | formatselect | bold italic backcolor | image | code | media |\
+                                                    alignleft aligncenter alignright alignjustify | \
+                                                    bullist numlist outdent indent | removeformat | help",
+                            images_upload_handler: function (
+                              blobInfo: any,
+                              success: any,
+                              failure: any
+                            ) {
+                              setTimeout(function (blobInfo) {
+                                /* no matter what you upload, we will turn it into TinyMCE logo :)*/
+                                success();
+                              }, 2000);
+                            },
+                            file_picker_callback: function (
+                              callback: any,
+                              value: any,
+                              meta: any
+                            ) {
+                              if (meta.filetype == "image") {
+                                var input: any = document.getElementById(
+                                  "my-file1"
+                                );
+                                input.click();
+                                input.onchange = function () {
+                                  var file = input.files[0];
+                                  var reader = new FileReader();
+                                  reader.onload = function (e: any) {
+                                    callback(e.target.result, {
+                                      alt: file.name,
+                                    });
+                                  };
+                                  reader.readAsDataURL(file);
+                                };
+                              }
+                            },
+                          }}
+                          onEditorChange={this.handleEditorMainChange}
+                        />
+                      </div>
+                      <div className="text-danger">
+                        {this.state.shoppingpolicyerror}
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                      <div>
+                        <p style={{ fontSize: "16px" }}>
+                          {
+                            constant.merchantPage.merchantTableColumn
+                              .refundpolicy
+                          }
+                        </p>
+                        <input
+                          id="my-file2"
+                          type="file"
+                          name="my-file2"
+                          style={{ display: "none" }}
+                        />
+                        <Editor
+                          initialValue={this.state.refundpolicy}
+                          init={{
+                            height: 200,
+                            menubar: false,
+                            images_upload_credentials: true,
+                            plugins: [
+                              "advlist autolink lists link image code imagetools charmap print preview anchor",
+                              "searchreplace visualblocks code fullscreen",
+                              "insertdatetime media table paste code help wordcount",
+                            ],
+                            toolbar:
+                              "undo redo | formatselect | bold italic backcolor | image | code | media |\
+                                                    alignleft aligncenter alignright alignjustify | \
+                                                    bullist numlist outdent indent | removeformat | help",
+                            images_upload_handler: function (
+                              blobInfo: any,
+                              success: any,
+                              failure: any
+                            ) {
+                              setTimeout(function (blobInfo) {
+                                /* no matter what you upload, we will turn it into TinyMCE logo :)*/
+                                success();
+                              }, 2000);
+                            },
+                            file_picker_callback: function (
+                              callback: any,
+                              value: any,
+                              meta: any
+                            ) {
+                              if (meta.filetype == "image") {
+                                var input: any = document.getElementById(
+                                  "my-file2"
+                                );
+                                input.click();
+                                input.onchange = function () {
+                                  var file = input.files[0];
+                                  var reader = new FileReader();
+                                  reader.onload = function (e: any) {
+                                    callback(e.target.result, {
+                                      alt: file.name,
+                                    });
+                                  };
+                                  reader.readAsDataURL(file);
+                                };
+                              }
+                            },
+                          }}
+                          onEditorChange={this.handleEditorChange}
+                        />
+                      </div>
+                      <div className="text-danger">
+                        {this.state.refundpolicyerror}
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                      <div>
+                        <p style={{ fontSize: "16px" }}>
+                          {
+                            constant.merchantPage.merchantTableColumn
+                              .cancellationpolicy
+                          }
+                        </p>
+                        <input
+                          id="my-file3"
+                          type="file"
+                          name="my-file3"
+                          style={{ display: "none" }}
+                        />
+                        <Editor
+                          initialValue={this.state.cancellationpolicy}
+                          init={{
+                            height: 200,
+                            menubar: false,
+                            images_upload_credentials: true,
+                            plugins: [
+                              "advlist autolink lists link image code imagetools charmap print preview anchor",
+                              "searchreplace visualblocks code fullscreen",
+                              "insertdatetime media table paste code help wordcount",
+                            ],
+                            toolbar:
+                              "undo redo | formatselect | bold italic backcolor | image | code | media |\
+                                                    alignleft aligncenter alignright alignjustify | \
+                                                    bullist numlist outdent indent | removeformat | help",
+                            images_upload_handler: function (
+                              blobInfo: any,
+                              success: any,
+                              failure: any
+                            ) {
+                              setTimeout(function (blobInfo) {
+                                /* no matter what you upload, we will turn it into TinyMCE logo :)*/
+                                success();
+                              }, 2000);
+                            },
+                            file_picker_callback: function (
+                              callback: any,
+                              value: any,
+                              meta: any
+                            ) {
+                              if (meta.filetype == "image") {
+                                var input: any = document.getElementById(
+                                  "my-file3"
+                                );
+                                input.click();
+                                input.onchange = function () {
+                                  var file = input.files[0];
+                                  var reader = new FileReader();
+                                  reader.onload = function (e: any) {
+                                    callback(e.target.result, {
+                                      alt: file.name,
+                                    });
+                                  };
+                                  reader.readAsDataURL(file);
+                                };
+                              }
+                            },
+                          }}
+                          onEditorChange={this.handleEditorUpChange}
+                        />
+                      </div>
+                      <div className="text-danger">
+                        {this.state.cancellationpolicyerror}
+                      </div>
                     </Col>
                   </Row>
                   {/* 

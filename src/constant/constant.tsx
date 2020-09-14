@@ -186,6 +186,7 @@ export default {
       selectedFile: "",
       selectedProofFile: "",
       selectedDocumentFile: "",
+      selectedProfileFile:"",
       firstname: "",
       firstnameerror: "",
       lastname: "",
@@ -220,6 +221,7 @@ export default {
       selectedFileerror: "",
       selectedProofFileerror: "",
       selectedDocumentFileerror: "",
+      selectedProfileFileerror:"",
       password: "",
       passworderror: "",
       citydata: [],
@@ -230,6 +232,8 @@ export default {
       file1true: false,
       file2: "",
       file2true: false,
+      file4: "",
+      file4true: false,
       updateTrue:false,
       userid:0,
       cityname:''
@@ -695,6 +699,7 @@ export default {
       selectedFile: "Shop Logo",
       selectMerchantIdProff: "Select Merchant ID Proof",
       selectMerchantDocument: "Select Merchant Document",
+      profilePhoto:'Select Profile Photo'
     },
     viewmerchanrpagedetails: {
       viewmerchant: "View Merchant Details",
