@@ -34,7 +34,7 @@ class NavBar extends React.Component {
         if (user) {
             var username = JSON.parse(user);
             this.setState({
-                file: this.state.file = username.logoPath,
+                file: this.state.file = username.profilePhotoPath ? username.profilePhotoPath : '',
                 firstName: this.state.firstName = username.firstName,
                 lastName: this.state.lastName = username.lastName
             })

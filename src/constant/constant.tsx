@@ -236,7 +236,8 @@ export default {
       file4true: false,
       updateTrue:false,
       userid:0,
-      cityname:''
+      cityname:'',
+      merchantId:''
     },
     profile: {
       updateprofile:'Update Profile',

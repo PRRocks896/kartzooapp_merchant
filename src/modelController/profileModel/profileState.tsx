@@ -52,5 +52,6 @@ export interface profileState {
     file4true: boolean,
     updateTrue:boolean,
     userid:number,
-    cityname:string
+    cityname:string,
+    merchantId:string
 }

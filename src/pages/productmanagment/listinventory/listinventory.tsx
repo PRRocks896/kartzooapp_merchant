@@ -56,8 +56,8 @@ class ListProductInventory extends React.Component<{ history: any }> {
     this.pagination = this.pagination.bind(this);
     this.getTable = this.getTable.bind(this);
     this.getPageData = this.getPageData.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleMainChange = this.handleMainChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleMainChange = this.handleMainChange.bind(this);
   }
 
   async componentDidMount() {
@@ -236,81 +236,81 @@ class ListProductInventory extends React.Component<{ history: any }> {
     }
   }
 
-  handleChange(item: any, e: any) {
-    let _id = item.productInventoryId;
-    let ind: any = this.state.inventorydata.findIndex((x: any) => x.productInventoryId === _id);
-    let data: any = this.state.inventorydata;
-    if (ind > -1) {
-      let newState: any = !item._rowChecked;
-      data[ind]._rowChecked = newState;
-      this.setState({
-        inventorydata: this.state.inventorydata = data,
-      });
-    }
-    if (
-      data.filter((res: any, index: number) => res._rowChecked === true)
-        .length === data.length
-    ) {
-      this.setState({
-        _maincheck: true,
-      });
-    } else {
-      this.setState({
-        _maincheck: false,
-      });
-    }
-    let newarray: any = [];
-    data.map((res: any, index: number) => {
-      if (res._rowChecked === true) {
-        newarray.push(res.productInventoryId);
-      }
-    });
-    this.setState({
-      deleteuserdata: this.state.deleteuserdata = newarray,
-    });
-    if (this.state.deleteuserdata.length > 0) {
-      this.setState({
-        deleteFlag: this.state.deleteFlag = true,
-      });
-    } else {
-      this.setState({
-        deleteFlag: this.state.deleteFlag = false,
-      });
-    }
-    console.log("deleteuserdata array", this.state.deleteuserdata);
-  }
+  // handleChange(item: any, e: any) {
+  //   let _id = item.productInventoryId;
+  //   let ind: any = this.state.inventorydata.findIndex((x: any) => x.productInventoryId === _id);
+  //   let data: any = this.state.inventorydata;
+  //   if (ind > -1) {
+  //     let newState: any = !item._rowChecked;
+  //     data[ind]._rowChecked = newState;
+  //     this.setState({
+  //       inventorydata: this.state.inventorydata = data,
+  //     });
+  //   }
+  //   if (
+  //     data.filter((res: any, index: number) => res._rowChecked === true)
+  //       .length === data.length
+  //   ) {
+  //     this.setState({
+  //       _maincheck: true,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       _maincheck: false,
+  //     });
+  //   }
+  //   let newarray: any = [];
+  //   data.map((res: any, index: number) => {
+  //     if (res._rowChecked === true) {
+  //       newarray.push(res.productInventoryId);
+  //     }
+  //   });
+  //   this.setState({
+  //     deleteuserdata: this.state.deleteuserdata = newarray,
+  //   });
+  //   if (this.state.deleteuserdata.length > 0) {
+  //     this.setState({
+  //       deleteFlag: this.state.deleteFlag = true,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       deleteFlag: this.state.deleteFlag = false,
+  //     });
+  //   }
+  //   console.log("deleteuserdata array", this.state.deleteuserdata);
+  // }
 
-  handleMainChange(e: any) {
-    let _val = e.target.checked;
-    this.state.inventorydata.forEach((element: any) => {
-      element._rowChecked = _val;
-    });
-    this.setState({
-      inventorydata: this.state.inventorydata,
-    });
-    this.setState({
-      _maincheck: _val,
-    });
-    let newmainarray: any = [];
-    this.state.inventorydata.map((res: any, index: number) => {
-      if (res._rowChecked === true) {
-        newmainarray.push(res.productInventoryId);
-      }
-    });
-    this.setState({
-      deleteuserdata: this.state.deleteuserdata = newmainarray,
-    });
-    if (this.state.deleteuserdata.length > 0) {
-      this.setState({
-        deleteFlag: this.state.deleteFlag = true,
-      });
-    } else {
-      this.setState({
-        deleteFlag: this.state.deleteFlag = false,
-      });
-    }
-    console.log("deleteuserdata array", this.state.deleteuserdata);
-  }
+  // handleMainChange(e: any) {
+  //   let _val = e.target.checked;
+  //   this.state.inventorydata.forEach((element: any) => {
+  //     element._rowChecked = _val;
+  //   });
+  //   this.setState({
+  //     inventorydata: this.state.inventorydata,
+  //   });
+  //   this.setState({
+  //     _maincheck: _val,
+  //   });
+  //   let newmainarray: any = [];
+  //   this.state.inventorydata.map((res: any, index: number) => {
+  //     if (res._rowChecked === true) {
+  //       newmainarray.push(res.productInventoryId);
+  //     }
+  //   });
+  //   this.setState({
+  //     deleteuserdata: this.state.deleteuserdata = newmainarray,
+  //   });
+  //   if (this.state.deleteuserdata.length > 0) {
+  //     this.setState({
+  //       deleteFlag: this.state.deleteFlag = true,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       deleteFlag: this.state.deleteFlag = false,
+  //     });
+  //   }
+  //   console.log("deleteuserdata array", this.state.deleteuserdata);
+  // }
 
   pagination(pageNumbers: any) {
     var res = pageNumbers.map((number: any) => {
@@ -363,7 +363,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
       >
         <thead>
           <tr onClick={() => this.handleSort("product")}>
-          <th className="centers">
+          {/* <th className="centers">
               <CustomInput
                 name="name"
                 defaultValue="value"
@@ -372,7 +372,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
                 onChange={this.handleMainChange}
                 checked={this.state._maincheck}
               />
-            </th>
+            </th> */}
             <th>{constant.productPage.productTableColumn.prodctname}</th>
             <th>{constant.productInventoryPage.merchantHoursTableColumn.stockQty}</th>
             <th className="action">{constant.tableAction.action}</th>
@@ -383,7 +383,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
             <>
               {this.state.inventorydata.map((data: any, index: any) => (
                 <tr key={index}>
-                   <td className="centers">
+                   {/* <td className="centers">
                     <CustomInput
                       // name="name"
                       type="checkbox"
@@ -391,7 +391,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
                       onChange={(e) => this.handleChange(data, e)}
                       checked={this.state.inventorydata[index]["_rowChecked"] === true}
                     />
-                  </td>
+                  </td> */}
                   <td>{data.product}</td>
                   <td>{data.stockQty}</td>
                   <td className="action text-center">
@@ -539,7 +539,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
                     ) : (
                     <h1 className="text-center mt-5">{constant.noDataFound.nodatafound}</h1>
                     )}
-                     {this.state.deleteFlag === true ? (
+                     {/* {this.state.deleteFlag === true ? (
                       <Button
                         className="mb-2 mr-2 custom-button"
                         color="primary"
@@ -550,7 +550,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
                       </Button>
                     ) : (
                       ""
-                    )}
+                    )} */}
                     {this.state.inventorydata.length > 0
                       ? this.getPageData(
                           pageIncrementBtn,

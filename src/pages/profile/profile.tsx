@@ -23,6 +23,7 @@ import {
   profileState,
 } from "../../modelController";
 import { Editor } from "@tinymce/tinymce-react";
+import EventEmitter from "../../event";
 
 interface User {
   merchantID: number;
@@ -85,6 +86,7 @@ class Profile extends React.Component<{ history: any }> {
     updateTrue: this.profileState.updateTrue,
     userid: this.profileState.userid,
     cityname: this.profileState.cityname,
+    merchantId: this.profileState.merchantId
   };
 
   constructor(props: any) {
@@ -144,34 +146,46 @@ class Profile extends React.Component<{ history: any }> {
 
       if (getProfile) {
         this.setState({
-          updateTrue: this.state.updateTrue = true,
+          merchantId: this.state.merchantId =
+          getProfile.resultObject.merchantID,
           filetrue: this.state.filetrue = true,
-          userid: this.state.userid = getProfile.resultObject.merchantID,
-          firstname: this.state.firstname = getProfile.resultObject.firstName,
-          lastname: this.state.lastname = getProfile.resultObject.lastName,
-          mobilenumber: this.state.mobilenumber = getProfile.resultObject.phone,
           selectedFile: this.state.selectedFile =
-            getProfile.resultObject.photoPath,
-          file: this.state.file = getProfile.resultObject.logoPath,
-          email: this.state.email = getProfile.resultObject.email,
-          address: this.state.address = getProfile.resultObject.address,
-          latitude: this.state.latitude = getProfile.resultObject.latitude,
-          longitude: this.state.longitude = getProfile.resultObject.longitude,
+            getProfile.resultObject.logoPath ?  getProfile.resultObject.logoPath : '',
+          selectedProofFile: this.state.selectedProofFile =
+          getProfile.resultObject.merchantIDPoof ? getProfile.resultObject.idProofPath : '',
+          selectedDocumentFile: this.state.selectedDocumentFile =
+            getProfile.resultObject.merchantDocument ? getProfile.resultObject.documentPath : '',
+            selectedProfileFile: this.state.selectedProfileFile =
+            getProfile.resultObject.merchantDocument ? getProfile.resultObject.profilePhotoPath : '',
+            firstname: this.state.firstname =
+            getProfile.resultObject.firstName,
+            lastname: this.state.lastname = getProfile.resultObject.lastName,
+            email: this.state.email = getProfile.resultObject.email,
+            mobilenumber: this.state.mobilenumber =
+            getProfile.resultObject.phone,
           shopname: this.state.shopname = getProfile.resultObject.shopName,
-          shoppingpolicy: this.state.shoppingpolicy =
-          getProfile.resultObject.shippingPolicy,
-        refundpolicy: this.state.refundpolicy =
-          getProfile.resultObject.refundPolicy,
-        cancellationpolicy: this.state.cancellationpolicy =
-          getProfile.resultObject.cancellationPolicy,
-          // selectedDocumentFile:this.state.selectedDocumentFile = getProfile.resultObject.merchantDocument,
-          // file2:this.state.file2 = getProfile.resultObject.merchantDocument,
-          // selectedProofFile:this.state.selectedProofFile = getProfile.resultObject.merchantIDPoof,
-          // file1:this.state.file1 = getProfile.resultObject.merchantIDPoof,
+          address: this.state.address = getProfile.resultObject.address,
           city: this.state.city = getProfile.resultObject.cityID,
-          website: this.state.website = getProfile.resultObject.website,
           zipcode: this.state.zipcode = getProfile.resultObject.zipCode,
+          latitude: this.state.latitude = getProfile.resultObject.latitude,
+          longitude: this.state.longitude =
+          getProfile.resultObject.longitude,
+          website: this.state.website = getProfile.resultObject.website,
+          shoppingpolicy: this.state.shoppingpolicy =
+            getProfile.resultObject.shippingPolicy ? getProfile.resultObject.shippingPolicy : '',
+          refundpolicy: this.state.refundpolicy =
+            getProfile.resultObject.refundPolicy ?  getProfile.resultObject.refundPolicy : '',
+          cancellationpolicy: this.state.cancellationpolicy =
+            getProfile.resultObject.cancellationPolicy ? getProfile.resultObject.cancellationPolicy : '',
+          password: this.state.password = getProfile.resultObject.password,
+          file: this.state.file = getProfile.resultObject.logoPath,
           isOpen: this.state.isOpen = getProfile.resultObject.isActive,
+          file1true: this.state.file1true = true,
+          file1: this.state.file1 = getProfile.resultObject.idProofPath,
+          file2: this.state.file2 = getProfile.resultObject.documentPath,
+          file2true: this.state.file2true = true,
+          file4: this.state.file4 = getProfile.resultObject.profilePhotoPath,
+          file4true: this.state.file4true = true,
         });
         if (this.state.city) {
           this.getCityById(this.state.city);
@@ -499,7 +513,7 @@ class Profile extends React.Component<{ history: any }> {
         this.state.shopname
       ) {
         let formData = new FormData();
-        formData.append("Id", this.state.userid.toString());
+        formData.append("Id", this.state.merchantId.toString());
         formData.append("FirstName", this.state.firstname);
         formData.append("LastName", this.state.lastname);
         formData.append("ShopName", this.state.shopname);
@@ -511,28 +525,63 @@ class Profile extends React.Component<{ history: any }> {
         formData.append("Latitude", this.state.latitude);
         formData.append("Longitude", this.state.longitude);
         formData.append("Website", this.state.website);
+        this.state.selectedProofFile !== '' ? (
+          formData.append(
+            "IDProoffiles",
+            this.state.selectedProofFile ? this.state.selectedProofFile[0] : ""
+          )
+        ) : (
+          formData.append(
+            "IDProoffiles",
+            this.state.selectedProofFile ? this.state.selectedProofFile : ""
+          )
+        )
+        this.state.selectedDocumentFile !== '' ? (
         formData.append(
-          "MerchantIDPoof",
-          this.state.selectedProofFile ? this.state.selectedProofFile[0] : ""
-        );
-        formData.append(
-          "MerchantDocument",
+          "Documentfiles",
           this.state.selectedDocumentFile
             ? this.state.selectedDocumentFile[0]
             : ""
-        );
+        )
+        ) : (
+          formData.append(
+            "Documentfiles",
+            this.state.selectedDocumentFile
+              ? this.state.selectedDocumentFile
+              : ""
+          )
+        )
         formData.append("ShippingPolicy", this.state.shoppingpolicy);
         formData.append("RefundPolicy", this.state.refundpolicy);
         formData.append("CancellationPolicy", this.state.cancellationpolicy);
-        formData.append(
-          "files",
-          this.state.selectedFile ? this.state.selectedFile[0] : ""
-        );
+        this.state.selectedFile !== '' ? (
+          formData.append(
+            "Logofiles",
+            this.state.selectedFile ? this.state.selectedFile[0] : ""
+          )
+        ) : (
+          formData.append(
+            "Logofiles",
+            this.state.selectedFile ? this.state.selectedFile : ""
+          )
+        )
+        this.state.selectedProfileFile !== '' ? (
+          formData.append(
+            "ProfilePhoto",
+            this.state.selectedProfileFile ? this.state.selectedProfileFile[0] : ""
+          )
+        ) : (
+          formData.append(
+            "ProfilePhoto",
+            this.state.selectedProfileFile ? this.state.selectedProfileFile : ""
+          )
+        )
         formData.append("UserId", "0");
 
         const updateMerchant = await API.updateMerchant(formData);
         console.log("updateMerchant", updateMerchant);
         if (updateMerchant) {
+          EventEmitter.dispatch('imageUpload', updateMerchant.resultObject.profilePhotoPath);
           this.props.history.push("/dashboard");
         } else {
           const msg1 = "Internal server error";
@@ -564,6 +613,7 @@ class Profile extends React.Component<{ history: any }> {
     this.setState({
       file4: this.state.file4 = "",
     });
+    EventEmitter.dispatch('imageUpload', this.state.file4);
   }
 
 
@@ -985,7 +1035,7 @@ class Profile extends React.Component<{ history: any }> {
                                 {this.state.file1true === true ? (
                                   <img
                                     className="picture"
-                                    src={constant.filepath + this.state.file1}
+                                    src={ constant.fileMerchantpath + this.state.file1}
                                   />
                                 ) : (
                                   <img
@@ -1037,7 +1087,7 @@ class Profile extends React.Component<{ history: any }> {
                                 {this.state.file2true === true ? (
                                   <img
                                     className="picture"
-                                    src={constant.filepath + this.state.file2}
+                                    src={ constant.fileMerchantpath + this.state.file2}
                                   />
                                 ) : (
                                   <img
@@ -1097,7 +1147,7 @@ class Profile extends React.Component<{ history: any }> {
                           style={{ display: "none" }}
                         />
                         <Editor
-                          initialValue={this.state.shoppingpolicy}
+                          initialValue={this.state.shoppingpolicy ? this.state.shoppingpolicy : ''}
                           init={{
                             height: 200,
                             menubar: false,
@@ -1166,7 +1216,7 @@ class Profile extends React.Component<{ history: any }> {
                           style={{ display: "none" }}
                         />
                         <Editor
-                          initialValue={this.state.refundpolicy}
+                          initialValue={this.state.refundpolicy ? this.state.refundpolicy : ''}
                           init={{
                             height: 200,
                             menubar: false,
@@ -1235,7 +1285,7 @@ class Profile extends React.Component<{ history: any }> {
                           style={{ display: "none" }}
                         />
                         <Editor
-                          initialValue={this.state.cancellationpolicy}
+                          initialValue={this.state.cancellationpolicy ? this.state.cancellationpolicy : ''}
                           init={{
                             height: 200,
                             menubar: false,
