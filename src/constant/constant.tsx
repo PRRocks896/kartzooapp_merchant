@@ -351,6 +351,51 @@ export default {
     },
   },
 
+  menuPage: {
+    title: {
+      menuTitle: "Menu Management",
+      viewMenuTitle: "View Menu",
+      addmenuTitle: "Add Menu",
+      updatemenuTitle: "Update Menu",
+    },
+    state: {
+      count: "10",
+      currentPage: "1",
+      items_per_page: "10",
+      upperPageBound: 3,
+      lowerPageBound: 0,
+      pageBound: 3,
+      onItemSelect: "",
+      menudata: [],
+      switchSort: false,
+      isStatus: false,
+
+      menuitemname: "",
+      menuitemnameerror: "",
+      menuitemcontoller:"",
+      menuitemview:"",
+      sortorder:0,
+      parentid:"",
+      isActive:true,
+      updateTrue:false,
+      menuid:''
+    },
+    menuTableColumn: {
+      menuname: "Menu Name",
+      menucontoller: "Menu Contoller",
+      menuview:'Menu View',
+      sortorder:'SortOrder',
+      parentid:'ParentID',
+      select:'Select ParentID',
+      isActive:'IsActive',
+      isadminrole: "IsAdminRole",
+    },
+    viewmenu: {
+      menuview: "View Menu",
+    },
+  },
+
+
   rolePrivileges: {
     state: {
       userrole: [],

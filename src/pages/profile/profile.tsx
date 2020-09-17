@@ -118,7 +118,7 @@ class Profile extends React.Component<{ history: any }> {
 
   async componentDidMount() {
     document.title =
-      constant.merchantPage.title.addMerchantTitle + utils.getAppName();
+      constant.profilePage.profile.updateprofile + utils.getAppName();
 
     const getCity = await LocationAPI.getCity();
     console.log("getCity", getCity);

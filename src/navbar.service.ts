@@ -25,6 +25,11 @@ export default {
         url: '/userroletorights'
       },
       {
+        name: 'Menu',
+         icon: 'fa fa-user fs-16',
+        url: '/listmenu'
+      },
+      {
         name:'Merchant Management',
         type:'header'
       },

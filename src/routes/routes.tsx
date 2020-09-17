@@ -54,239 +54,258 @@ import ListBussinessHours from "../pages/merchantmanagment/listhours/listhours";
 import ViewBusinessHours from "../pages/merchantmanagment/viewhours/viewhours";
 import ViewMerchant from "../pages/merchantmanagment/viewmerchant/viewmerchant";
 import NavBar from "../component/navbar/navbar";
+import ListMenu from "../pages/usersmanagment/menu/listmenu";
+import AddMenu from "../pages/usersmanagment/addmenu/addmenu";
+import ViewMenuItem from "../pages/usersmanagment/viewmenu/viewmenu";
 
 class Main extends React.Component<{ history: any }> {
   render() {
     return (
       <Router>
-       <NavBar>
-        <Switch>
-          <Route
-            path="/dashboard"
-            name="Dashboard"
-            render={(props: any) => <Dashboard {...props} />}
-          />
-          <Route
-            path="/signup"
-            render={(props: any) => <Signup {...props} />}
-          />
-          <Route path="/users" render={(props: any) => <Users {...props} />} />
-          <Route
-            path="/userrole"
-            render={(props: any) => <UserRole {...props} />}
-          />
-          <Route
-            path="/userroletorights"
-            render={(props: any) => <UserRoleToRights {...props} />}
-          />
-          <Route
-            path="/profile"
-            render={(props: any) => <Profile {...props} />}
-          />
-          <Route
-            path="/adduser"
-            render={(props: any) => <AddUser {...props} />}
-          />
-          <Route
-            path="/edituser/:id"
-            render={(props: any) => <AddUser {...props} />}
-          />
+        <NavBar>
+          <Switch>
+            <Route
+              path="/dashboard"
+              name="Dashboard"
+              render={(props: any) => <Dashboard {...props} />}
+            />
+            <Route
+              path="/signup"
+              render={(props: any) => <Signup {...props} />}
+            />
+            <Route path="/users" render={(props: any) => <Users {...props} />} />
+            <Route
+              path="/userrole"
+              render={(props: any) => <UserRole {...props} />}
+            />
+            <Route
+              path="/userroletorights"
+              render={(props: any) => <UserRoleToRights {...props} />}
+            />
+            <Route
+              path="/profile"
+              render={(props: any) => <Profile {...props} />}
+            />
+            <Route
+              path="/adduser"
+              render={(props: any) => <AddUser {...props} />}
+            />
+            <Route
+              path="/edituser/:id"
+              render={(props: any) => <AddUser {...props} />}
+            />
 
-          <Route
-            path="/adduserrole"
-            render={(props: any) => <AddUserRole {...props} />}
-          />
-          <Route
-            path="/edituserrole/:id"
-            render={(props: any) => <AddUserRole {...props} />}
-          />
+            <Route
+              path="/adduserrole"
+              render={(props: any) => <AddUserRole {...props} />}
+            />
+            <Route
+              path="/edituserrole/:id"
+              render={(props: any) => <AddUserRole {...props} />}
+            />
 
-          <Route
-            path="/viewuser/:id"
-            render={(props: any) => <ViewUser {...props} />}
-          />
-          <Route
-            path="/viewuserrole/:id"
-            render={(props: any) => <ViewUserRole {...props} />}
-          />
+            <Route
+              path="/viewuser/:id"
+              render={(props: any) => <ViewUser {...props} />}
+            />
+            <Route
+              path="/viewuserrole/:id"
+              render={(props: any) => <ViewUserRole {...props} />}
+            />
 
-          <Route path="/table" render={(props: any) => <Tables {...props} />} />
+            <Route path="/table" render={(props: any) => <Tables {...props} />} />
 
-          <Route
-            path="/merchant-review"
-            render={(props: any) => <MerchantReview {...props} />}
-          />
-          <Route
-            path="/product"
-            render={(props: any) => <AddProduct {...props} />}
-          />
-          <Route
-            path="/edit-product"
-            render={(props: any) => <AddProduct {...props} />}
-          />
-          <Route
-            path="/view-product/:id"
-            render={(props: any) => <ViewProduct {...props} />}
-          />
-          <Route
-            path="/product-image"
-            render={(props: any) => <ImageProduct {...props} />}
-          />
-          <Route
-            path="/product-inventory"
-            render={(props: any) => <InventoryProduct {...props} />}
-          />
-          <Route
-            path="/list-product"
-            render={(props: any) => <ListProduct {...props} />}
-          />
-          <Route
-            path="/product-review"
-            render={(props: any) => <ProductReview {...props} />}
-          />
-          <Route
-            path="/product-addondetail"
-            render={(props: any) => <AddOnProduct {...props} />}
-          />
+            <Route
+              path="/merchant-review"
+              render={(props: any) => <MerchantReview {...props} />}
+            />
+            <Route
+              path="/product"
+              render={(props: any) => <AddProduct {...props} />}
+            />
+            <Route
+              path="/edit-product"
+              render={(props: any) => <AddProduct {...props} />}
+            />
+            <Route
+              path="/view-product/:id"
+              render={(props: any) => <ViewProduct {...props} />}
+            />
+            <Route
+              path="/product-image"
+              render={(props: any) => <ImageProduct {...props} />}
+            />
+            <Route
+              path="/product-inventory"
+              render={(props: any) => <InventoryProduct {...props} />}
+            />
+            <Route
+              path="/list-product"
+              render={(props: any) => <ListProduct {...props} />}
+            />
+            <Route
+              path="/product-review"
+              render={(props: any) => <ProductReview {...props} />}
+            />
+            <Route
+              path="/product-addondetail"
+              render={(props: any) => <AddOnProduct {...props} />}
+            />
 
-          <Route
-            path="/list-product-image"
-            render={(props: any) => <ListProductImage {...props} />}
-          />
-          <Route
-            path="/edit-product-image"
-            render={(props: any) => <ImageProduct {...props} />}
-          />
-          <Route
-            path="/view-product-image"
-            render={(props: any) => <ViewProductImage {...props} />}
-          />
-          <Route
-            path="/list-merchant-review"
-            render={(props: any) => <ListMerchantReview {...props} />}
-          />
-          <Route
-            path="/list-product-inventory"
-            render={(props: any) => <ListProductInventory {...props} />}
-          />
-          <Route
-            path="/edit-product-inventory/:id"
-            render={(props: any) => <InventoryProduct {...props} />}
-          />
-          <Route
-            path="/view-product-inventory/:id"
-            render={(props: any) => <ViewProductInventory {...props} />}
-          />
-          <Route
-            path="/list-product-review"
-            render={(props: any) => <ListProductReview {...props} />}
-          />
-          <Route
-            path="/view-product-review"
-            render={(props: any) => <ViewProductReview {...props} />}
-          />
-          <Route
-            path="/view-merchant-review"
-            render={(props: any) => <ViewMerchantReview {...props} />}
-          />
+            <Route
+              path="/list-product-image"
+              render={(props: any) => <ListProductImage {...props} />}
+            />
+            <Route
+              path="/edit-product-image"
+              render={(props: any) => <ImageProduct {...props} />}
+            />
+            <Route
+              path="/view-product-image"
+              render={(props: any) => <ViewProductImage {...props} />}
+            />
+            <Route
+              path="/list-merchant-review"
+              render={(props: any) => <ListMerchantReview {...props} />}
+            />
+            <Route
+              path="/list-product-inventory"
+              render={(props: any) => <ListProductInventory {...props} />}
+            />
+            <Route
+              path="/edit-product-inventory/:id"
+              render={(props: any) => <InventoryProduct {...props} />}
+            />
+            <Route
+              path="/view-product-inventory/:id"
+              render={(props: any) => <ViewProductInventory {...props} />}
+            />
+            <Route
+              path="/list-product-review"
+              render={(props: any) => <ListProductReview {...props} />}
+            />
+            <Route
+              path="/view-product-review"
+              render={(props: any) => <ViewProductReview {...props} />}
+            />
+            <Route
+              path="/view-merchant-review"
+              render={(props: any) => <ViewMerchantReview {...props} />}
+            />
 
-          <Route
-            path="/list-user"
-            render={(props: any) => <ListUser {...props} />}
-          />
-          <Route
-            path="/add-user"
-            render={(props: any) => <AddCustomer {...props} />}
-          />
-          <Route
-            path="/edit-user"
-            render={(props: any) => <AddCustomer {...props} />}
-          />
-          <Route
-            path="/view-user"
-            render={(props: any) => <ViewCustomer {...props} />}
-          />
-          <Route
-            path="/list-address"
-            render={(props: any) => <ListAddress {...props} />}
-          />
-          <Route
-            path="/add-address"
-            render={(props: any) => <AddAddress {...props} />}
-          />
-          <Route
-            path="/edit-address"
-            render={(props: any) => <AddAddress {...props} />}
-          />
-          <Route
-            path="/view-address"
-            render={(props: any) => <ViewAddress {...props} />}
-          />
-          <Route
-            path="/list-card"
-            render={(props: any) => <ListCard {...props} />}
-          />
-          <Route
-            path="/add-card"
-            render={(props: any) => <AddCard {...props} />}
-          />
-          <Route
-            path="/edit-card"
-            render={(props: any) => <AddCard {...props} />}
-          />
-          <Route
-            path="/view-card"
-            render={(props: any) => <ViewCard {...props} />}
-          />
-          <Route
-            path="/change-password"
-            render={(props: any) => <ChangePassword {...props} />}
-          />
+            <Route
+              path="/list-user"
+              render={(props: any) => <ListUser {...props} />}
+            />
+            <Route
+              path="/add-user"
+              render={(props: any) => <AddCustomer {...props} />}
+            />
+            <Route
+              path="/edit-user"
+              render={(props: any) => <AddCustomer {...props} />}
+            />
+            <Route
+              path="/view-user"
+              render={(props: any) => <ViewCustomer {...props} />}
+            />
+            <Route
+              path="/list-address"
+              render={(props: any) => <ListAddress {...props} />}
+            />
+            <Route
+              path="/add-address"
+              render={(props: any) => <AddAddress {...props} />}
+            />
+            <Route
+              path="/edit-address"
+              render={(props: any) => <AddAddress {...props} />}
+            />
+            <Route
+              path="/view-address"
+              render={(props: any) => <ViewAddress {...props} />}
+            />
+            <Route
+              path="/list-card"
+              render={(props: any) => <ListCard {...props} />}
+            />
+            <Route
+              path="/add-card"
+              render={(props: any) => <AddCard {...props} />}
+            />
+            <Route
+              path="/edit-card"
+              render={(props: any) => <AddCard {...props} />}
+            />
+            <Route
+              path="/view-card"
+              render={(props: any) => <ViewCard {...props} />}
+            />
+            <Route
+              path="/change-password"
+              render={(props: any) => <ChangePassword {...props} />}
+            />
 
-          <Route
-            path="/list-merchant"
-            render={(props: any) => <ListMerchant {...props} />}
-          />
-          <Route
-            path="/merchant"
-            render={(props: any) => <Merchant {...props} />}
-          />
-          <Route
-            path="/edit-merchant/:id"
-            render={(props: any) => <Merchant {...props} />}
-          />
-          <Route
-            path="/view-merchant/:id"
-            render={(props: any) => <ViewMerchant {...props} />}
-          />
-          <Route
-            path="/list-business-hours"
-            render={(props: any) => <ListBussinessHours {...props} />}
-          />
-          <Route
-            path="/merchant-business"
-            render={(props: any) => <MerchantBusiness {...props} />}
-          />
-          <Route
-            path="/edit-merchant-business/:id"
-            render={(props: any) => <MerchantBusiness {...props} />}
-          />
-          <Route
-            path="/view-merchant-business/:id"
-            render={(props: any) => <ViewBusinessHours {...props} />}
-          />
-          <Route
-            path="/product"
-            render={(props: any) => <AddProduct {...props} />}
-          />
-          {this.props.history.location.pathname != "/" ? (
-            <Route path="*" component={Page404} />
-          ) : (
-            ""
-          )}
-          <Redirect from="/" to="/dashboard" />
-        </Switch>
-       </NavBar>
+            <Route
+              path="/list-merchant"
+              render={(props: any) => <ListMerchant {...props} />}
+            />
+            <Route
+              path="/merchant"
+              render={(props: any) => <Merchant {...props} />}
+            />
+            <Route
+              path="/edit-merchant/:id"
+              render={(props: any) => <Merchant {...props} />}
+            />
+            <Route
+              path="/view-merchant/:id"
+              render={(props: any) => <ViewMerchant {...props} />}
+            />
+            <Route
+              path="/list-business-hours"
+              render={(props: any) => <ListBussinessHours {...props} />}
+            />
+            <Route
+              path="/merchant-business"
+              render={(props: any) => <MerchantBusiness {...props} />}
+            />
+            <Route
+              path="/edit-merchant-business/:id"
+              render={(props: any) => <MerchantBusiness {...props} />}
+            />
+            <Route
+              path="/view-merchant-business/:id"
+              render={(props: any) => <ViewBusinessHours {...props} />}
+            />
+            <Route
+              path="/product"
+              render={(props: any) => <AddProduct {...props} />}
+            />
+            <Route
+              path="/listmenu"
+              render={(props: any) => <ListMenu {...props} />}
+            />
+            <Route
+              path="/add-menu"
+              render={(props: any) => <AddMenu {...props} />}
+            />
+            <Route
+              path="/edit-menu/:id"
+              render={(props: any) => <AddMenu {...props} />}
+            />
+            <Route
+              path="/view-menu/:id"
+              render={(props: any) => <ViewMenuItem {...props} />}
+            />
+            {this.props.history.location.pathname != "/" ? (
+              <Route path="*" component={Page404} />
+            ) : (
+                ""
+              )}
+            <Redirect from="/" to="/dashboard" />
+          </Switch>
+        </NavBar>
       </Router>
     );
   }

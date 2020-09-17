@@ -5,6 +5,7 @@ import StatusAPI from './status.service';
 import MerchantAPI from './merchant.service';
 import LocationAPI from './location.service';
 import DeleteAPI from './delete.service';
+import MenuAPI from './menu.service';
 
 
 export * from './service';
@@ -14,6 +15,7 @@ export * from './merchant.service';
 export * from './product.service';
 export * from './location.service';
 export * from './delete.service';
+export * from './menu.service';
 
 
 export {
@@ -23,5 +25,6 @@ export {
     MerchantAPI,
     ProductAPI,
     LocationAPI,
-    DeleteAPI
+    DeleteAPI,
+    MenuAPI
 }

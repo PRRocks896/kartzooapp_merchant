@@ -28,3 +28,4 @@ export * from './resetPasswordModel';
 export * from './changepasswordModel';
 export * from './navBarModel';
 export * from './productInventoryModel';
+export * from './menuModel';

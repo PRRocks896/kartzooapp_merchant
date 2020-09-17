@@ -1,46 +1,50 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import utils from "../../../utils";
 import {
   Button,
   Card,
   CardBody,
   CardHeader,
-  CardTitle,
   Col,
+  CardTitle,
   CustomInput,
   Row,
 } from "reactstrap";
-import {
-  StatusAPI,
-  MerchantAPI,
-  DeleteAPI,
-} from "../../../service/index.service";
+
+import "./listmenu.css";
+import utils from "../../../utils";
 import constant from "../../../constant/constant";
 import {
+  userRoleUpdateRequest,
   deleteByIdRequest,
-  getAllTableDataListRequest,
-  statusChangeRequest,
   deleteAllDataRequest,
-  listBusinessState,
+  roleStateRequest,
+  menuStateRequest,
   allStateRequest,
-} from "../../../modelController";
+  getAllTableDataListRequest,
+} from "../../../modelController/index";
+import { RoleAPI, StatusAPI, DeleteAPI, MenuAPI } from "../../../service/index.service";
 
-class ListBussinessHours extends React.Component<{ history: any }> {
-  merchantBusinessHoursState: listBusinessState =
-    constant.merchantBussinessPage.state;
+interface getUserRoleRequest {
+  searchText?: string;
+  page?: number;
+  size?: number;
+}
+
+class ListMenu extends React.Component<{ history: any }> {
+  menuState: menuStateRequest = constant.menuPage.state;
   userState: allStateRequest = constant.userPage.state;
   state = {
-    count: this.merchantBusinessHoursState.count,
-    currentPage: this.merchantBusinessHoursState.currentPage,
-    items_per_page: this.merchantBusinessHoursState.items_per_page,
-    upperPageBound: this.merchantBusinessHoursState.upperPageBound,
-    lowerPageBound: this.merchantBusinessHoursState.lowerPageBound,
-    pageBound: this.merchantBusinessHoursState.pageBound,
-    onItemSelect: this.merchantBusinessHoursState.onItemSelect,
-    businessdata: this.merchantBusinessHoursState.businessdata,
-    switchSort: this.merchantBusinessHoursState.switchSort,
-    isStatus: this.merchantBusinessHoursState.isStatus,
+    count: this.menuState.count,
+    currentPage: this.menuState.currentPage,
+    items_per_page: this.menuState.items_per_page,
+    upperPageBound: this.menuState.upperPageBound,
+    lowerPageBound: this.menuState.lowerPageBound,
+    pageBound: this.menuState.pageBound,
+    onItemSelect: this.menuState.onItemSelect,
+    menudata: this.menuState.menudata,
+    switchSort: this.menuState.switchSort,
+    isStatus: this.menuState.isStatus,
     deleteuserdata: this.userState.deleteuserdata,
     _maincheck: this.userState._maincheck,
     deleteFlag: this.userState.deleteFlag,
@@ -48,58 +52,57 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   constructor(props: any) {
     super(props);
-    this.editBusinessHours = this.editBusinessHours.bind(this);
-    this.deleteAllData = this.deleteAllData.bind(this);
-    // this.deleteBusinessHours = this.deleteBusinessHours.bind(this);
+    this.editMenu = this.editMenu.bind(this);
+    // this.deleteRole = this.deleteRole.bind(this);
     this.btnIncrementClick = this.btnIncrementClick.bind(this);
     this.btnDecrementClick = this.btnDecrementClick.bind(this);
-    this.viewBusinessHours = this.viewBusinessHours.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.viewMenu = this.viewMenu.bind(this);
+    this.onItemSelect = this.onItemSelect.bind(this);
     this.searchApplicationDataKeyUp = this.searchApplicationDataKeyUp.bind(
       this
     );
+    this.handleClick = this.handleClick.bind(this);
     this.handleSort = this.handleSort.bind(this);
-    this.onItemSelect = this.onItemSelect.bind(this);
     this.statusChange = this.statusChange.bind(this);
     this.pagination = this.pagination.bind(this);
     this.getTable = this.getTable.bind(this);
     this.getPageData = this.getPageData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleMainChange = this.handleMainChange.bind(this);
+    this.deleteDataById = this.deleteDataById.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     document.title =
-      constant.merchantBussinessPage.title.merchantHoursTitle +
-      utils.getAppName();
+      constant.menuPage.title.menuTitle + utils.getAppName();
     utils.dataTable();
-    this.getBusinessHoursData();
+    this.getMenuData();
   }
 
-  async getBusinessHoursData(
-    searchText: string = "",
-    page: number = 1,
-    size: number = 10
-  ) {
+  async getMenuData(searchText: string = "", page: number = 1, size: number = 10) {
     const obj: getAllTableDataListRequest = {
       searchText: searchText,
       page: page,
       size: size,
     };
+    var getMenuData = await MenuAPI.getMenuItemData(obj);
+    console.log("getMenuData", getMenuData);
 
-    var getBusinessHoursData = await MerchantAPI.getBusinessHoursData(obj);
-    console.log("getBusinessHoursData", getBusinessHoursData);
-
-    if (getBusinessHoursData) {
+    if (getMenuData) {
       this.setState({
-        businessdata: this.state.businessdata =
-          getBusinessHoursData.resultObject.data,
-        count: this.state.count = getBusinessHoursData.resultObject.totalcount,
+        menudata: this.state.menudata = getMenuData.resultObject.data,
+        count: this.state.count = getMenuData.resultObject.totalcount,
       });
     } else {
       const msg1 = "Internal server error";
       utils.showError(msg1);
     }
+  }
+
+  handlePageChange(pageNumber: number) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({ activePage: pageNumber });
   }
 
   btnIncrementClick() {
@@ -124,22 +127,22 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
-  editBusinessHours(id: any) {
-    this.props.history.push("/edit-merchant-business/" + id);
+  editMenu(data: any) {
+    this.props.history.push("/edit-menu/" + data.menuItemId);
   }
 
-  viewBusinessHours(id: any) {
-    this.props.history.push("/view-merchant-business/" + id);
+  viewMenu(data: any) {
+    this.props.history.push("/view-menu/" + data.menuItemId);
   }
 
-  // async deleteBusinessHours(data: any, text: string, btext: string) {
+  // async deleteRole(data: any, text: string, btext: string) {
   //   if (await utils.alertMessage(text, btext)) {
   //     const obj: deleteByIdRequest = {
-  //       id: data.merchantBusinessHoursId,
+  //       id: data.roleId,
   //     };
-  //     var deleteBusinessHours = await MerchantAPI.deleteBusinessHours(obj);
-  //     if (deleteBusinessHours) {
-  //       this.getBusinessHoursData(
+  //     var deleteUser = await RoleAPI.deleteRole(obj);
+  //     if (deleteUser) {
+  //       this.getMenuData(
   //         "",
   //         parseInt(this.state.currentPage),
   //         parseInt(this.state.items_per_page)
@@ -151,16 +154,16 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   //   }
   // }
 
-  async deleteAllData(text: string, btext: string) {
+  async deleteDataById(text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj: deleteAllDataRequest = {
-        moduleName: "MerchantBusinessHour",
+        moduleName: "Role",
         id: this.state.deleteuserdata,
       };
       var deleteUser = await DeleteAPI.deleteData(obj);
       console.log("deleteuser", deleteUser);
       if (deleteUser) {
-        this.getBusinessHoursData(
+        this.getMenuData(
           "",
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
@@ -174,62 +177,59 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   onItemSelect(event: any) {
     this.setState({
-      items_per_page:
+      items_per_page: this.state.items_per_page =
         event.target.options[event.target.selectedIndex].value,
     });
-
-    this.getBusinessHoursData(
+    this.getMenuData(
       "",
       parseInt(this.state.currentPage),
       parseInt(this.state.items_per_page)
     );
   }
 
-  async handleClick(event: any) {
-    this.setState({
-      currentPage:event.target.id,
-    });
-    const obj: getAllTableDataListRequest = {
-      searchText: "",
-      page: parseInt(event.target.id),
-      size: parseInt(this.state.items_per_page),
-    };
-
-    this.getBusinessHoursData(obj.searchText, obj.page, obj.size);
-  }
-
-  async searchApplicationDataKeyUp(e: any) {
-    const obj: getAllTableDataListRequest = {
-      searchText: e.target.value,
-      page: 1,
-      size: parseInt(this.state.items_per_page),
-    };
-
-    this.getBusinessHoursData(obj.searchText, obj.page, obj.size);
-  }
-
   handleSort(key: any) {
     this.setState({
       switchSort: !this.state.switchSort,
     });
-    let copyTableData = [...this.state.businessdata];
+    let copyTableData = [...this.state.menudata];
     copyTableData.sort(utils.compareByDesc(key, this.state.switchSort));
     this.setState({
-      businessdata: this.state.businessdata = copyTableData,
+      menudata: this.state.menudata = copyTableData,
     });
+  }
+
+  async handleClick(event: any) {
+    this.setState({
+      currentPage: this.state.currentPage = event.target.id,
+    });
+    const obj: getUserRoleRequest = {
+      searchText: "",
+      page: parseInt(event.target.id),
+      size: parseInt(this.state.items_per_page),
+    };
+    this.getMenuData(obj.searchText, obj.page, obj.size);
+  }
+
+  async searchApplicationDataKeyUp(e: any) {
+    const obj: getUserRoleRequest = {
+      searchText: e.target.value,
+      page: 1,
+      size: parseInt(this.state.items_per_page),
+    };
+    this.getMenuData(obj.searchText, obj.page, obj.size);
   }
 
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
-      const obj: statusChangeRequest = {
-        moduleName: "MerchantBusinessHour",
-        id: data.merchantBusinessHoursId,
+      const obj = {
+        moduleName: "Role",
+        id: data.roleId,
         isActive: data.isActive === true ? false : true,
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
       console.log("getStatusChange", getStatusChange);
       if (getStatusChange) {
-        this.getBusinessHoursData(
+        this.getMenuData(
           "",
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
@@ -242,16 +242,14 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   }
 
   handleChange(item: any, e: any) {
-    let _id = item.merchantBusinessHoursId;
-    let ind: any = this.state.businessdata.findIndex(
-      (x: any) => x.merchantBusinessHoursId === _id
-    );
-    let data: any = this.state.businessdata;
+    let _id = item.roleId;
+    let ind: any = this.state.menudata.findIndex((x: any) => x.roleId === _id);
+    let data: any = this.state.menudata;
     if (ind > -1) {
       let newState: any = !item._rowChecked;
       data[ind]._rowChecked = newState;
       this.setState({
-        businessdata: this.state.businessdata = data,
+        menudata: this.state.menudata = data,
       });
     }
     if (
@@ -269,7 +267,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     let newarray: any = [];
     data.map((res: any, index: number) => {
       if (res._rowChecked === true) {
-        newarray.push(res.merchantBusinessHoursId);
+        newarray.push(res.roleId);
       }
     });
     this.setState({
@@ -289,19 +287,19 @@ class ListBussinessHours extends React.Component<{ history: any }> {
 
   handleMainChange(e: any) {
     let _val = e.target.checked;
-    this.state.businessdata.forEach((element: any) => {
+    this.state.menudata.forEach((element: any) => {
       element._rowChecked = _val;
     });
     this.setState({
-      businessdata: this.state.businessdata,
+      menudata: this.state.menudata,
     });
     this.setState({
       _maincheck: _val,
     });
     let newmainarray: any = [];
-    this.state.businessdata.map((res: any, index: number) => {
+    this.state.menudata.map((res: any, index: number) => {
       if (res._rowChecked === true) {
-        newmainarray.push(res.merchantBusinessHoursId);
+        newmainarray.push(res.roleId);
       }
     });
     this.setState({
@@ -361,7 +359,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     return res;
   }
 
-  getTable(merchantdata: any) {
+  getTable(userrole: any) {
     return (
       <table
         id="dtBasicExample"
@@ -369,7 +367,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         width="100%"
       >
         <thead>
-          <tr onClick={() => this.handleSort("days")}>
+          <tr onClick={() => this.handleSort("menuItemName")}>
             <th className="centers">
               <CustomInput
                 name="name"
@@ -380,12 +378,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                 checked={this.state._maincheck}
               />
             </th>
-            <th>
-              {constant.merchantBussinessPage.merchantHoursTableColumn.days}
-            </th>
-            <th>
-              {constant.merchantBussinessPage.merchantHoursTableColumn.hours}
-            </th>
+            <th>{constant.menuPage.menuTableColumn.menuname}</th>
             <th style={{ textAlign: "center" }}>
               {constant.tableAction.status}
             </th>
@@ -393,31 +386,31 @@ class ListBussinessHours extends React.Component<{ history: any }> {
           </tr>
         </thead>
         <tbody>
-          {this.state.businessdata.length > 0 ? (
+          {this.state.menudata.length > 0 ? (
             <>
-              {this.state.businessdata.map((data: any, index: any) => (
+              {this.state.menudata.map((data: any, index: any) => (
                 <tr key={index}>
                   <td className="centers">
                     <CustomInput
                       // name="name"
                       type="checkbox"
-                      id={data.merchantBusinessHoursId}
+                      id={data.roleId}
                       onChange={(e) => this.handleChange(data, e)}
                       checked={
-                        this.state.businessdata[index]["_rowChecked"] === true
+                        this.state.menudata[index]["_rowChecked"] === true
                       }
                     />
                   </td>
-                  <td>{data.days}</td>
-                  <td>{data.hours}</td>
+                  <td>{data.menuItemName}</td>
+                  {/* <td>{data.description}</td> */}
                   <td style={{ textAlign: "center" }}>
-                    {data.isOpen === true ? (
+                    {data.isActive === true ? (
                       <button
                         className="status_active_color"
                         onClick={() =>
                           this.statusChange(
                             data,
-                            "You should be inActive business hours",
+                            "You should be inActive menu",
                             "Yes, inActive it"
                           )
                         }
@@ -430,7 +423,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                         onClick={() =>
                           this.statusChange(
                             data,
-                            "You should be Active business hours",
+                            "You should be Active menu",
                             "Yes, Active it"
                           )
                         }
@@ -443,22 +436,18 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                     <span className="padding">
                       <i
                         className="fa fa-eye"
-                        onClick={() =>
-                          this.viewBusinessHours(data.merchantBusinessHoursId)
-                        }
+                        onClick={() => this.viewMenu(data)}
                       ></i>
                       <i
                         className="fas fa-edit"
-                        onClick={() =>
-                          this.editBusinessHours(data.merchantBusinessHoursId)
-                        }
+                        onClick={() => this.editMenu(data)}
                       ></i>
                       {/* <i
                         className="fas fa-trash"
                         onClick={() =>
-                          this.deleteBusinessHours(
+                          this.deleteRole(
                             data,
-                            "You should be Delete Business Hours",
+                            "You should be Delete Role",
                             "Yes, Role it"
                           )
                         }
@@ -554,15 +543,12 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                   <Row>
                     <Col xs="12" sm="12" md="6" lg="6" xl="6">
                       <CardTitle className="font">
-                        {
-                          constant.merchantBussinessPage.title
-                            .merchantHoursTitle
-                        }
+                        {constant.menuPage.title.menuTitle}
                       </CardTitle>
                     </Col>
                     <Col xs="12" sm="12" md="6" lg="6" xl="6">
                       <div className="right">
-                        <Link to="/merchant-business">
+                        <Link to="/add-menu">
                           <Button
                             className="mb-2 mr-2 custom-button"
                             color="primary"
@@ -585,22 +571,30 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                     />
                   </div>
 
-                  {this.state.businessdata.length > 0 ? (
-                    <>{this.getTable(this.state.businessdata)}</>
+                  {this.state.menudata.length > 0 ? (
+                    <>{this.getTable(this.state.menudata)}</>
                   ) : (
                     <h1 className="text-center mt-5">
                       {constant.noDataFound.nodatafound}
                     </h1>
                   )}
                   {this.state.deleteFlag === true ? (
-                    <Button className="mb-2 mr-2 custom-button" color="primary" onClick={() => this.deleteAllData("You should be Delete Business Hours",
-                    "Yes, Role it")}>
+                    <Button
+                      className="mb-2 mr-2 custom-button"
+                      color="primary"
+                      onClick={() =>
+                        this.deleteDataById(
+                          "You should be Delete Role",
+                            "Yes, Role it"
+                        )
+                      }
+                    >
                       {constant.button.remove}
                     </Button>
                   ) : (
                     ""
                   )}
-                  {this.state.businessdata.length > 0
+                  {this.state.menudata.length > 0
                     ? this.getPageData(
                         pageIncrementBtn,
                         renderPageNumbers,
@@ -617,4 +611,4 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   }
 }
 
-export default ListBussinessHours;
+export default ListMenu;
