@@ -374,15 +374,15 @@ export default {
       menuitemnameerror: "",
       menuitemcontoller:"",
       menuitemview:"",
-      sortorder:0,
-      parentid:"",
+      sortorder:'0',
+      parentid:0,
       isActive:true,
       updateTrue:false,
       menuid:''
     },
     menuTableColumn: {
       menuname: "Menu Name",
-      menucontoller: "Menu Contoller",
+      menucontoller: "Menu Controller",
       menuview:'Menu View',
       sortorder:'SortOrder',
       parentid:'ParentID',

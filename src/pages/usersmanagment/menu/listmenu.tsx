@@ -157,12 +157,15 @@ class ListMenu extends React.Component<{ history: any }> {
   async deleteDataById(text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj: deleteAllDataRequest = {
-        moduleName: "Role",
+        moduleName: "MenuItem",
         id: this.state.deleteuserdata,
       };
       var deleteUser = await DeleteAPI.deleteData(obj);
       console.log("deleteuser", deleteUser);
       if (deleteUser) {
+        this.setState({
+          deleteFlag:this.state.deleteFlag = false
+        })
         this.getMenuData(
           "",
           parseInt(this.state.currentPage),
@@ -222,8 +225,8 @@ class ListMenu extends React.Component<{ history: any }> {
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj = {
-        moduleName: "Role",
-        id: data.roleId,
+        moduleName: "MenuItem",
+        id: data.menuItemId,
         isActive: data.isActive === true ? false : true,
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
@@ -242,8 +245,8 @@ class ListMenu extends React.Component<{ history: any }> {
   }
 
   handleChange(item: any, e: any) {
-    let _id = item.roleId;
-    let ind: any = this.state.menudata.findIndex((x: any) => x.roleId === _id);
+    let _id = item.menuItemId;
+    let ind: any = this.state.menudata.findIndex((x: any) => x.menuItemId === _id);
     let data: any = this.state.menudata;
     if (ind > -1) {
       let newState: any = !item._rowChecked;
@@ -267,7 +270,7 @@ class ListMenu extends React.Component<{ history: any }> {
     let newarray: any = [];
     data.map((res: any, index: number) => {
       if (res._rowChecked === true) {
-        newarray.push(res.roleId);
+        newarray.push(res.menuItemId);
       }
     });
     this.setState({
@@ -299,7 +302,7 @@ class ListMenu extends React.Component<{ history: any }> {
     let newmainarray: any = [];
     this.state.menudata.map((res: any, index: number) => {
       if (res._rowChecked === true) {
-        newmainarray.push(res.roleId);
+        newmainarray.push(res.menuItemId);
       }
     });
     this.setState({
@@ -378,6 +381,7 @@ class ListMenu extends React.Component<{ history: any }> {
                 checked={this.state._maincheck}
               />
             </th>
+            <th>{constant.menuPage.menuTableColumn.menucontoller}</th>
             <th>{constant.menuPage.menuTableColumn.menuname}</th>
             <th style={{ textAlign: "center" }}>
               {constant.tableAction.status}
@@ -387,20 +391,21 @@ class ListMenu extends React.Component<{ history: any }> {
         </thead>
         <tbody>
           {this.state.menudata.length > 0 ? (
-            <>
-              {this.state.menudata.map((data: any, index: any) => (
+           
+              this.state.menudata.map((data: any, index: any) => (
                 <tr key={index}>
                   <td className="centers">
                     <CustomInput
                       // name="name"
                       type="checkbox"
-                      id={data.roleId}
+                      id={data.menuItemId}
                       onChange={(e) => this.handleChange(data, e)}
                       checked={
                         this.state.menudata[index]["_rowChecked"] === true
                       }
                     />
                   </td>
+                  <td>{data.menuItemController ? data.menuItemController : 'N/A' }</td>
                   <td>{data.menuItemName}</td>
                   {/* <td>{data.description}</td> */}
                   <td style={{ textAlign: "center" }}>
@@ -455,8 +460,7 @@ class ListMenu extends React.Component<{ history: any }> {
                     </span>
                   </td>
                 </tr>
-              ))}
-            </>
+              ))
           ) : (
             ""
           )}
@@ -584,8 +588,8 @@ class ListMenu extends React.Component<{ history: any }> {
                       color="primary"
                       onClick={() =>
                         this.deleteDataById(
-                          "You should be Delete Role",
-                            "Yes, Role it"
+                          "You should be Delete MenuItem",
+                            "Yes, Delete it"
                         )
                       }
                     >

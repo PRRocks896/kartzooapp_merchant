@@ -160,6 +160,9 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       var deleteUser = await DeleteAPI.deleteData(obj);
       console.log("deleteuser", deleteUser);
       if (deleteUser) {
+        this.setState({
+          deleteFlag:this.state.deleteFlag = false
+        })
         this.getBusinessHoursData(
           "",
           parseInt(this.state.currentPage),
@@ -594,7 +597,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                   )}
                   {this.state.deleteFlag === true ? (
                     <Button className="mb-2 mr-2 custom-button" color="primary" onClick={() => this.deleteAllData("You should be Delete Business Hours",
-                    "Yes, Role it")}>
+                    "Yes, Delete it")}>
                       {constant.button.remove}
                     </Button>
                   ) : (

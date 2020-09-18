@@ -159,6 +159,9 @@ class UserRole extends React.Component<{ history: any }> {
       var deleteUser = await DeleteAPI.deleteData(obj);
       console.log("deleteuser", deleteUser);
       if (deleteUser) {
+        this.setState({
+          deleteFlag:this.state.deleteFlag = false
+        })
         this.getRole(
           "",
           parseInt(this.state.currentPage),
@@ -581,7 +584,7 @@ class UserRole extends React.Component<{ history: any }> {
                       onClick={() =>
                         this.deleteDataById(
                           "You should be Delete Role",
-                            "Yes, Role it"
+                            "Yes, Delete it"
                         )
                       }
                     >

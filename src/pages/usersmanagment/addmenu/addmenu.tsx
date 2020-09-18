@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 // import {CategoryAPI} from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { addMenuStateRequest, getDataByIdRequest } from "../../../modelController";
+import { addMenuRequest, addMenuStateRequest, getDataByIdRequest } from "../../../modelController";
 import { MenuAPI } from "../../../service/index.service";
 // import { getDataByIdRequest, addCategoryStateRequest } from "../../../modelController";
 
@@ -78,15 +78,15 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
     const getMenuItemById: any = await MenuAPI.getMenuItemById(obj);
     if (getMenuItemById) {
       if (getMenuItemById.status === 200) {
-        // this.setState({
-        //     userdata: {
-        //         firstName: getMenuItemById.resultObject.firstName,
-        //         lastName: getMenuItemById.resultObject.lastName,
-        //         email: getMenuItemById.resultObject.email,
-        //         phone: getMenuItemById.resultObject.phone,
-        //         file: getMenuItemById.resultObject.photoPath,
-        //     },
-        // });
+        this.setState({
+          menuid:getMenuItemById.resultObject.menuItemId,
+          parentid:getMenuItemById.resultObject.parentID,
+          menuitemname: getMenuItemById.resultObject.menuItemName,
+          menuitemcontoller: getMenuItemById.resultObject.menuItemController ? getMenuItemById.resultObject.menuItemController : 'N/A',
+          menuitemview: getMenuItemById.resultObject.menuItemView ? getMenuItemById.resultObject.menuItemView : 'N/A',
+          sortorder: getMenuItemById.resultObject.sortOrder
+
+      });
       } else {
         const msg1 = getMenuItemById.message;
         utils.showError(msg1);
@@ -100,8 +100,8 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
 
   onItemSelect(event: any) {
     this.setState({
-      parentid:
-        event.target.value,
+      parentid:this.state.parentid = 
+        parseInt(event.target.value),
     });
   }
 
@@ -135,13 +135,13 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
         menuitemnameerror: ""
       });
       if (this.state.menuitemname) {
-        const obj = {
-          MenuItemName: this.state.menuitemname,
-          MenuItemController: this.state.menuitemcontoller,
-          MenuItemView: this.state.menuitemview,
-          SortOrder: this.state.sortorder,
-          ParentID: this.state.parentid,
-          IsActive: this.state.isActive
+        const obj : addMenuRequest = {
+          menuItemName: this.state.menuitemname,
+          menuItemController: this.state.menuitemcontoller,
+          menuItemView: this.state.menuitemview,
+          sortOrder: parseInt(this.state.sortorder),
+          parentID: this.state.parentid,
+          isActive: this.state.isActive
         }
         const addMenu = await MenuAPI.addMenu(obj);
         console.log("addMenu", addMenu);
@@ -162,14 +162,14 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
         menuitemnameerror: ""
       });
       if (this.state.menuitemname) {
-        const obj = {
-          MenuItemId: this.state.menuid,
-          MenuItemName: this.state.menuitemname,
-          MenuItemController: this.state.menuitemcontoller,
-          MenuItemView: this.state.menuitemview,
-          SortOrder: this.state.sortorder,
-          ParentID: this.state.parentid,
-          IsActive: this.state.isActive
+        const obj : addMenuRequest = {
+          menuItemId: parseInt(this.state.menuid),
+          menuItemName: this.state.menuitemname,
+          menuItemController: this.state.menuitemcontoller,
+          menuItemView: this.state.menuitemview,
+          sortOrder: parseInt(this.state.sortorder),
+          parentID: this.state.parentid,
+          isActive: this.state.isActive
         }
         const editMenu = await MenuAPI.editMenu(obj);
         console.log("editMenu", editMenu);
