@@ -215,7 +215,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.setState({
       switchSort: !this.state.switchSort,
     });
-    let copyTableData = [...this.state.businessdata];
+    let copyTableData = [...this.state.businessdata]; 
     copyTableData.sort(utils.compareByDesc(key, this.state.switchSort));
     this.setState({
       businessdata: this.state.businessdata = copyTableData,

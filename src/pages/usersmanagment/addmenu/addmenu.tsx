@@ -84,7 +84,8 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
           menuitemname: getMenuItemById.resultObject.menuItemName,
           menuitemcontoller: getMenuItemById.resultObject.menuItemController ? getMenuItemById.resultObject.menuItemController : 'N/A',
           menuitemview: getMenuItemById.resultObject.menuItemView ? getMenuItemById.resultObject.menuItemView : 'N/A',
-          sortorder: getMenuItemById.resultObject.sortOrder
+          sortorder: getMenuItemById.resultObject.sortOrder,
+          isActive: getMenuItemById.resultObject.isActive
 
       });
       } else {

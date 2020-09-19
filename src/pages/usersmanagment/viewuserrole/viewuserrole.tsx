@@ -45,10 +45,10 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
 
     if (getRoleById) {
       this.setState({
-        roledata: {
+       
           rolename: getRoleById.resultObject.role,
           description: getRoleById.resultObject.description,
-        },
+       
       });
     } else {
       // const msg1 = "Internal server error";
