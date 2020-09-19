@@ -15,13 +15,13 @@ import {
 import './viewhours.css';
 import {MerchantAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { getDataByIdRequest } from "../../../modelController";
+import { businessState, getDataByIdRequest } from "../../../modelController";
 
 class ViewBusinessHours extends React.Component<{
   history: any;
   location: any;
 }> {
-  businessState = constant.merchantBussinessPage.state;
+  businessState : businessState = constant.merchantBussinessPage.state;
   state = {
     days: this.businessState.days,
     hours: this.businessState.hours,
@@ -48,18 +48,13 @@ class ViewBusinessHours extends React.Component<{
     console.log("getBusinessById", getBusinessById);
 
     if (getBusinessById) {
-      if (getBusinessById.status === 200) {
-        this.setState({
-          days: this.state.days = getBusinessById.resultObject.days,
-          hours: this.state.hours = getBusinessById.resultObject.hours,
-        });
-      } else {
-        const msg1 = getBusinessById.message;
-        utils.showError(msg1);
-      }
+      this.setState({
+        days: this.state.days = getBusinessById.resultObject.days,
+        hours: this.state.hours = getBusinessById.resultObject.hours,
+      });
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 

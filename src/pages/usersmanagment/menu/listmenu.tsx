@@ -10,26 +10,16 @@ import {
   CustomInput,
   Row,
 } from "reactstrap";
-
 import "./listmenu.css";
 import utils from "../../../utils";
 import constant from "../../../constant/constant";
 import {
-  userRoleUpdateRequest,
-  deleteByIdRequest,
   deleteAllDataRequest,
-  roleStateRequest,
   menuStateRequest,
   allStateRequest,
   getAllTableDataListRequest,
 } from "../../../modelController/index";
-import { RoleAPI, StatusAPI, DeleteAPI, MenuAPI } from "../../../service/index.service";
-
-interface getUserRoleRequest {
-  searchText?: string;
-  page?: number;
-  size?: number;
-}
+import { StatusAPI, DeleteAPI, MenuAPI } from "../../../service/index.service";
 
 class ListMenu extends React.Component<{ history: any }> {
   menuState: menuStateRequest = constant.menuPage.state;
@@ -205,7 +195,7 @@ class ListMenu extends React.Component<{ history: any }> {
     this.setState({
       currentPage: this.state.currentPage = event.target.id,
     });
-    const obj: getUserRoleRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: "",
       page: parseInt(event.target.id),
       size: parseInt(this.state.items_per_page),
@@ -214,7 +204,7 @@ class ListMenu extends React.Component<{ history: any }> {
   }
 
   async searchApplicationDataKeyUp(e: any) {
-    const obj: getUserRoleRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: e.target.value,
       page: 1,
       size: parseInt(this.state.items_per_page),

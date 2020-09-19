@@ -1,13 +1,4 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Input,
-  InputGroupAddon,
-  InputGroup,
-} from "reactstrap";
 import './pagenotfound.css';
 import { Link } from "react-router-dom";
 import constant from "../../constant/constant";

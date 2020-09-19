@@ -118,12 +118,12 @@ class UserRoleToRights extends React.Component {
           roleprivileges: this.state.roleprivileges = data,
         });
       } else {
-        const msg1 = "Error";
-        utils.showError(msg1);
+        // const msg1 = "Error";
+        // utils.showError(msg1);
       }
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -308,8 +308,8 @@ class UserRoleToRights extends React.Component {
         const msg = "Role privileges Updated Successfully";
         utils.showSuccess(msg);
       } else {
-        const msg1 = "Error";
-        utils.showError(msg1);
+        // const msg1 = "Error";
+        // utils.showError(msg1);
       }
     } else {
       const msg1 = "Internal server error";

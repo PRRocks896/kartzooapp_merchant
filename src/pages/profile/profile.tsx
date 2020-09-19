@@ -128,8 +128,8 @@ class Profile extends React.Component<{ history: any }> {
         citydata: this.state.citydata = getCity.resultObject,
       });
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
     this.getUserById();
   }
@@ -191,8 +191,8 @@ class Profile extends React.Component<{ history: any }> {
           this.getCityById(this.state.city);
         }
       } else {
-        const msg1 = "Internal server error";
-        utils.showError(msg1);
+        // const msg1 = "Internal server error";
+        // utils.showError(msg1);
       }
     }
   }
@@ -209,8 +209,8 @@ class Profile extends React.Component<{ history: any }> {
         cityname: this.state.cityname = getCityById.resultObject.cityName,
       });
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -584,8 +584,8 @@ class Profile extends React.Component<{ history: any }> {
           EventEmitter.dispatch('imageUpload', updateMerchant.resultObject.profilePhotoPath);
           this.props.history.push("/dashboard");
         } else {
-          const msg1 = "Internal server error";
-          utils.showError(msg1);
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }

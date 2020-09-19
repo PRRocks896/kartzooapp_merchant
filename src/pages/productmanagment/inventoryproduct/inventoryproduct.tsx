@@ -84,8 +84,8 @@ class InventoryProduct extends React.Component<{
         product: this.state.product = getInventoryData.resultObject.product,
       });
     } else {
-      const msg1 = "Internal server error";
-          utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      //     utils.showError(msg1);
     }
   }
 
@@ -97,8 +97,8 @@ class InventoryProduct extends React.Component<{
         productdata: this.state.productdata = getAllProduct.resultObject,
       });
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -116,8 +116,11 @@ class InventoryProduct extends React.Component<{
       productiderror = "please select product";
     }
 
+    var regex = /^[0-9\b]+$/;
     if (!this.state.stockqty) {
       stockqtyerror = "please enter qty";
+    } else if(!regex.test(this.state.stockqty)) {
+      stockqtyerror = "please enter valid qty";
     }
 
     if (productiderror || stockqtyerror) {
@@ -131,9 +134,13 @@ class InventoryProduct extends React.Component<{
    
     let stockqtyerror = "";
 
+    var regex1 = /^[0-9\b]+$/;
     if (!this.state.stockqty) {
       stockqtyerror = "please enter qty";
+    } else if(!regex1.test(this.state.stockqty)) {
+      stockqtyerror = "please enter valid qty";
     }
+
 
     if (stockqtyerror) {
       this.setState({stockqtyerror });
@@ -168,8 +175,8 @@ class InventoryProduct extends React.Component<{
         if (addProductInventory) {
           this.props.history.push("/list-product-inventory");
         } else {
-          const msg1 = "Internal server error";
-          utils.showError(msg1);
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }
@@ -196,8 +203,8 @@ class InventoryProduct extends React.Component<{
         if (editProductInventory) {
           this.props.history.push("/list-product-inventory");
         } else {
-          const msg1 = "Internal server error";
-          utils.showError(msg1);
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }

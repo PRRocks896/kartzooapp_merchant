@@ -135,8 +135,8 @@ class Login extends React.Component<{ history: any }> {
             forgot: this.state.forgot = false,
           });
         } else {
-          const msg1 = "Internal server error";
-          utils.showError(msg1);
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }
@@ -198,8 +198,8 @@ class Login extends React.Component<{ history: any }> {
               this.setState({
                 isButton: this.state.isButton = false,
               });
-              const msg1 = "Internal server error";
-              utils.showError(msg1);
+              // const msg1 = "Internal server error";
+              // utils.showError(msg1);
             }
           });
       }

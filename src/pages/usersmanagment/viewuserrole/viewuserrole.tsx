@@ -14,14 +14,13 @@ import {
 
 import { RoleAPI } from "../../../service/index.service";
 import constant from "../../../constant/constant";
-import { getDataByIdRequest } from "../../../modelController";
+import { addUserRoleState, getDataByIdRequest } from "../../../modelController";
 
 class ViewUserRole extends React.Component<{ history: any; location: any }> {
+  userState : addUserRoleState = constant.userRolePage.state;
   state = {
-    roledata: {
-      rolename: "",
-      description: "",
-    },
+    rolename: this.userState.rolename,
+    description: this.userState.description
   };
 
   constructor(props: any) {
@@ -52,8 +51,8 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
         },
       });
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -103,7 +102,7 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
                               }
                             </b>
                           </Label>
-                          <p>{this.state.roledata.rolename}</p>
+                          <p>{this.state.rolename}</p>
                         </FormGroup>
                       </Col>
                       <Col xs="12" sm="12" md="6" lg="6" xl="6">
@@ -116,7 +115,7 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
                               }
                             </b>
                           </Label>
-                          <p>{this.state.roledata.description}</p>
+                          <p>{this.state.description}</p>
                         </FormGroup>
                       </Col>
                     </Row>

@@ -10,13 +10,17 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import utils from "../../utils";
 import "./resetpassword.css";
 import constant from '../../constant/constant';
 import { resetPasswordRequest } from "../../modelController";
 
+interface resetPasswordState {
+  password:string,
+  passwordError:string
+}
+
 class ResetPassword extends React.Component<{ location: any; history: any }> {
-  state = {
+  state : resetPasswordState = {
     password: "",
     passwordError: "",
   };
@@ -70,8 +74,8 @@ class ResetPassword extends React.Component<{ location: any; history: any }> {
     if (resetPassword) {
       this.props.history.push("/login");
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 

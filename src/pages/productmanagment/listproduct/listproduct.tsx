@@ -2,24 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import utils from "../../../utils";
 import {
-  Button,
   Card,
   CardBody,
   CardHeader,
   CardTitle,
-  Table,
-  Input,
   Col,
-  FormGroup,
   CustomInput,
-  Label,
   Row,
 } from "reactstrap";
-
 import {
   StatusAPI,
-  ProductAPI,
-  MerchantAPI,
+  ProductAPI
 } from "../../../service/index.service";
 import constant from "../../../constant/constant";
 import { getAllTableDataListRequest, statusChangeRequest,productStateRequest } from "../../../modelController";
@@ -85,8 +78,8 @@ class ListProduct extends React.Component<{ history: any }> {
         count: this.state.count = getProductData.resultObject.totalcount,
       });
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
