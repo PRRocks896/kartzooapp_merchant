@@ -386,9 +386,13 @@ class Profile extends React.Component<{ history: any }> {
       lastnameerror = "please enter lastname";
     }
 
+    var regex = /^\d{6}$/;
     if (!this.state.zipcode) {
       zipcodeerror = "please enter zipcode";
+    } else if(!regex.test(this.state.zipcode)) {
+      zipcodeerror = "please enter valid zipcode";
     }
+
 
     if (!this.state.address) {
       addresserror = "please enter address";
