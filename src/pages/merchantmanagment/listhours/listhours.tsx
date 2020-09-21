@@ -389,9 +389,9 @@ class ListBussinessHours extends React.Component<{ history: any }> {
             <th>
               {constant.merchantBussinessPage.merchantHoursTableColumn.hours}
             </th>
-            <th style={{ textAlign: "center" }}>
+            {/* <th style={{ textAlign: "center" }}>
               {constant.tableAction.status}
-            </th>
+            </th> */}
             <th className="action">{constant.tableAction.action}</th>
           </tr>
         </thead>
@@ -413,7 +413,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                   </td>
                   <td>{data.days}</td>
                   <td>{data.hours}</td>
-                  <td style={{ textAlign: "center" }}>
+                  {/* <td style={{ textAlign: "center" }}>
                     {data.isOpen === true ? (
                       <button
                         className="status_active_color"
@@ -441,7 +441,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                         InActive
                       </button>
                     )}
-                  </td>
+                  </td> */}
                   <td className="action">
                     <span className="padding">
                       <i

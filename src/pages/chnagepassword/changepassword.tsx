@@ -31,7 +31,17 @@ class ChangePassword extends Component<{history:any,location:any}> {
     constructor(props: any) {
         super(props);
         this.ChangePassword = this.ChangePassword.bind(this);
+        this.handleChangeEvent = this.handleChangeEvent.bind(this);
+        this.resetForm = this.resetForm.bind(this);
     }
+
+    resetForm(){
+        this.setState({
+          oldpassword: this.state.oldpassword = '',
+          newpassword: this.state.newpassword = '',
+          confirmpassword: this.state.confirmpassword = ''
+        })
+      }
 
     async componentDidMount() {
         let userid: any = localStorage.getItem('user');
@@ -65,6 +75,13 @@ class ChangePassword extends Component<{history:any,location:any}> {
 
     }
 
+    handleChangeEvent(event: any) {
+    event.preventDefault();
+    const state: any = this.state;
+    state[event.target.name] = event.target.value;
+    this.setState(state);
+  }
+
     async ChangePassword() {
         const isValid = this.validate();
         if (isValid) {
@@ -86,9 +103,11 @@ class ChangePassword extends Component<{history:any,location:any}> {
                     utils.showError(msg1);
                 }
             } else if (this.state.newpassword !== this.state.confirmpassword) {
+                this.resetForm();
                 const msg1 = constant.alertMsg.msg;
                 utils.showError(msg1);
             } else if (this.state.oldpassword === this.state.newpassword) {
+                this.resetForm();
                 const msg1 = constant.alertMsg.newmsg;
                 utils.showError(msg1);
             } else {
@@ -118,10 +137,8 @@ class ChangePassword extends Component<{history:any,location:any}> {
                                                     id="oldpassword"
                                                     name="oldpassword"
                                                     className="form-control"
-                                                    onChange={(e) => this.setState({
-                                                        oldpassword:e.target.value
-                                                    })
-                                                    }
+                                                    value={this.state.oldpassword}
+                                                    onChange={this.handleChangeEvent}
                                                     placeholder="Enter your Old Password"
                                                     required
                                                 />
@@ -140,10 +157,8 @@ class ChangePassword extends Component<{history:any,location:any}> {
                                                     id="newpassword"
                                                     name="newpassword"
                                                     className="form-control"
-                                                    onChange={(e) => this.setState({
-                                                    newpassword: e.target.value
-                                                    })
-                                                    }
+                                                    value={this.state.newpassword}
+                                                    onChange={this.handleChangeEvent}
                                                     placeholder="Enter your New Password"
                                                     required
                                                 />
@@ -162,10 +177,8 @@ class ChangePassword extends Component<{history:any,location:any}> {
                                                     id="confirmpassword"
                                                     name="confirmpassword"
                                                     className="form-control"
-                                                    onChange={(e) => this.setState({
-                                                        confirmpassword : e.target.value
-                                                    })
-                                                    }
+                                                    value={this.state.confirmpassword}
+                          onChange={this.handleChangeEvent}
                                                     placeholder="Enter your Confirm Password"
                                                     required
                                                 />
