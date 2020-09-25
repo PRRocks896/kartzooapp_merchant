@@ -76,6 +76,7 @@ class InventoryProduct extends React.Component<{
     console.log("getInventoryData", getInventoryData);
 
     if (getInventoryData) {
+      if(getInventoryData.status === 200) {
       this.setState({
         updateTrue: this.state.updateTrue = true,
         productid: this.state.productid =
@@ -83,6 +84,10 @@ class InventoryProduct extends React.Component<{
         stockqty: this.state.stockqty = getInventoryData.resultObject.stockQty,
         product: this.state.product = getInventoryData.resultObject.product,
       });
+    } else {
+      const msg1 = getInventoryData.message;
+      utils.showError(msg1);
+    }
     } else {
       // const msg1 = "Internal server error";
       //     utils.showError(msg1);
@@ -93,9 +98,14 @@ class InventoryProduct extends React.Component<{
     const getAllProduct = await ProductAPI.getAllProduct();
     console.log("getAllProduct", getAllProduct);
     if (getAllProduct) {
+      if(getAllProduct.status === 200) {
       this.setState({
         productdata: this.state.productdata = getAllProduct.resultObject,
       });
+    } else {
+      const msg1 = getAllProduct.message;
+      utils.showError(msg1);
+    }
     } else {
       // const msg1 = "Internal server error";
       // utils.showError(msg1);
@@ -173,7 +183,14 @@ class InventoryProduct extends React.Component<{
         console.log("addProductInventory", addProductInventory);
 
         if (addProductInventory) {
+          if(addProductInventory.status === 200) {
+            const msg1 = addProductInventory.message;
+            utils.showSuccess(msg1);
           this.props.history.push("/list-product-inventory");
+        } else {
+          const msg1 = addProductInventory.message;
+          utils.showError(msg1);
+        }
         } else {
           // const msg1 = "Internal server error";
           // utils.showError(msg1);
@@ -201,7 +218,14 @@ class InventoryProduct extends React.Component<{
         console.log("editProductInventory", editProductInventory);
 
         if (editProductInventory) {
+          if(editProductInventory.status === 200) {
+            const msg1 = editProductInventory.message;
+            utils.showSuccess(msg1);
           this.props.history.push("/list-product-inventory");
+        } else {
+          const msg1 = editProductInventory.message;
+          utils.showError(msg1);
+        }
         } else {
           // const msg1 = "Internal server error";
           // utils.showError(msg1);

@@ -46,11 +46,16 @@ class ViewProductInventory extends React.Component<{
     console.log("getInventoryData", getInventoryData);
 
     if (getInventoryData) {
+      if(getInventoryData.status === 200) {
       this.setState({
         productdata: this.state.productdata =
           getInventoryData.resultObject.product,
         stockqty: this.state.stockqty = getInventoryData.resultObject.stockQty,
       });
+    } else {
+      const msg1 = getInventoryData.message;
+      utils.showError(msg1);
+    }
     } else {
       // const msg1 = "Internal server error";
       //     utils.showError(msg1);

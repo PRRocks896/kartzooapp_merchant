@@ -50,12 +50,19 @@ class ViewMenuItem extends React.Component<{ history: any; location: any }> {
         };
         const getMenuItemById: any = await MenuAPI.getMenuItemById(obj);
         if (getMenuItemById) {
-            this.setState({
-                menuitemname: getMenuItemById.resultObject.menuItemName,
-                menuitemcontoller: getMenuItemById.resultObject.menuItemController ? getMenuItemById.resultObject.menuItemController : 'N/A',
-                menuitemview: getMenuItemById.resultObject.menuItemView ? getMenuItemById.resultObject.menuItemView : 'N/A',
-                sortorder: getMenuItemById.resultObject.sortOrder
-            });
+            if (getMenuItemById.status === 200) {
+                this.setState({
+
+                    menuitemname: getMenuItemById.resultObject.menuItemName,
+                    menuitemcontoller: getMenuItemById.resultObject.menuItemController ? getMenuItemById.resultObject.menuItemController : 'N/A',
+                    menuitemview: getMenuItemById.resultObject.menuItemView ? getMenuItemById.resultObject.menuItemView : 'N/A',
+                    sortorder: getMenuItemById.resultObject.sortOrder
+
+                });
+            } else {
+                const msg1 = getMenuItemById.message;
+                utils.showError(msg1);
+            }
         } else {
             // const msg1 = "Internal server error";
             // utils.showError(msg1);

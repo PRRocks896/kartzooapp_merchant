@@ -91,14 +91,19 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     console.log("getBusinessHoursData", getBusinessHoursData);
 
     if (getBusinessHoursData) {
+      if(getBusinessHoursData.status === 200) {
       this.setState({
         businessdata: this.state.businessdata =
           getBusinessHoursData.resultObject.data,
         count: this.state.count = getBusinessHoursData.resultObject.totalcount,
       });
     } else {
-      const msg1 = "Internal server error";
+      const msg1 = getBusinessHoursData.message;
       utils.showError(msg1);
+    }
+    } else {
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -160,6 +165,9 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       var deleteUser = await DeleteAPI.deleteData(obj);
       console.log("deleteuser", deleteUser);
       if (deleteUser) {
+        if (deleteUser.data.status === 200) {
+          const msg1 = deleteUser.data.message;
+          utils.showSuccess(msg1);
         this.setState({
           deleteFlag:this.state.deleteFlag = false
         })
@@ -169,8 +177,12 @@ class ListBussinessHours extends React.Component<{ history: any }> {
           parseInt(this.state.items_per_page)
         );
       } else {
-        const msg1 = "Internal server error";
+        const msg1 = deleteUser.data.message;
         utils.showError(msg1);
+      }
+      } else {
+        // const msg1 = "Internal server error";
+        // utils.showError(msg1);
       }
     }
   }
@@ -232,14 +244,21 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       var getStatusChange = await StatusAPI.getStatusChange(obj);
       console.log("getStatusChange", getStatusChange);
       if (getStatusChange) {
+        if (getStatusChange.status === 200) {
+          const msg1 = getStatusChange.message;
+          utils.showSuccess(msg1);
         this.getBusinessHoursData(
           "",
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
         );
       } else {
-        const msg1 = "Internal server error";
+        const msg1 = getStatusChange.message;
         utils.showError(msg1);
+      }
+      } else {
+        // const msg1 = "Internal server error";
+        // utils.showError(msg1);
       }
     }
   }

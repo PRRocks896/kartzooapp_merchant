@@ -476,7 +476,7 @@ class UserRoleToRights extends React.Component {
                                       <>
                                         {this.state.roleprivileges.map(
                                           (data: any, index: any) => (
-                                            <tr>
+                                            <tr key={index}>
                                               <td className="centers">
                                                 <CustomInput
                                                   name={data.module}
@@ -488,7 +488,7 @@ class UserRoleToRights extends React.Component {
                                                       : 0
                                                   }
                                                   type="checkbox"
-                                                  id={data.menuItemID}
+                                                  id={data.menuItemId}
                                                   onChange={(e) =>
                                                     this.handleChange(
                                                       data,
@@ -519,7 +519,7 @@ class UserRoleToRights extends React.Component {
                                                       : 0
                                                   }
                                                   type="checkbox"
-                                                  id={data.menuItemID + "view"}
+                                                  id={data.menuItemId + "view"}
                                                   data_type="view"
                                                   onChange={(e) =>
                                                     this.handleChange(
@@ -546,7 +546,7 @@ class UserRoleToRights extends React.Component {
                                                       : 0
                                                   }
                                                   type="checkbox"
-                                                  id={data.menuItemID + "add"}
+                                                  id={data.menuItemId + "add"}
                                                   data_type="add"
                                                   onChange={(e) =>
                                                     this.handleChange(
@@ -573,7 +573,7 @@ class UserRoleToRights extends React.Component {
                                                       : 0
                                                   }
                                                   type="checkbox"
-                                                  id={data.menuItemID + "edit"}
+                                                  id={data.menuItemId + "edit"}
                                                   data_type="edit"
                                                   onChange={(e) =>
                                                     this.handleChange(
@@ -601,7 +601,7 @@ class UserRoleToRights extends React.Component {
                                                   }
                                                   type="checkbox"
                                                   id={
-                                                    data.menuItemID + "delete"
+                                                    data.menuItemId + "delete"
                                                   }
                                                   data_type="delete"
                                                   onChange={(e) =>
@@ -630,7 +630,7 @@ class UserRoleToRights extends React.Component {
                                                   }
                                                   type="checkbox"
                                                   id={
-                                                    data.menuItemID + "detail"
+                                                    data.menuItemId + "detail"
                                                   }
                                                   data_type="detail"
                                                   onChange={(e) =>

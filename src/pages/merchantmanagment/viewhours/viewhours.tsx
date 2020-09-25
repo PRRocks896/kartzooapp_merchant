@@ -48,10 +48,15 @@ class ViewBusinessHours extends React.Component<{
     console.log("getBusinessById", getBusinessById);
 
     if (getBusinessById) {
+      if(getBusinessById.status === 200) {
       this.setState({
         days: this.state.days = getBusinessById.resultObject.days,
         hours: this.state.hours = getBusinessById.resultObject.hours,
       });
+    } else {
+      const msg1 = getBusinessById.message;
+      utils.showError(msg1);
+    }
     } else {
       // const msg1 = "Internal server error";
       // utils.showError(msg1);

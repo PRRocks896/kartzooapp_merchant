@@ -10,27 +10,19 @@ import {
   CustomInput,
   Row,
 } from "reactstrap";
-
 import "./userrole.css";
 import utils from "../../../utils";
 import constant from "../../../constant/constant";
 import {
-  userRoleUpdateRequest,
-  deleteByIdRequest,
-  deleteAllDataRequest,
-  roleStateRequest,
+  getAllTableDataListRequest,
+  statusChangeRequest,
+  roleStateRequest,deleteAllDataRequest
 } from "../../../modelController/index";
-import { RoleAPI, StatusAPI, DeleteAPI } from "../../../service/index.service";
-
-interface getUserRoleRequest {
-  searchText?: string;
-  page?: number;
-  size?: number;
-}
+import { DeleteAPI, RoleAPI, StatusAPI } from "../../../service/index.service";
 
 class UserRole extends React.Component<{ history: any }> {
-  userState: roleStateRequest = constant.userPage.state;
-  state = {
+  userState = constant.userPage.state;
+  state:roleStateRequest = {
     count: this.userState.count,
     currentPage: this.userState.currentPage,
     items_per_page: this.userState.items_per_page,
@@ -66,7 +58,7 @@ class UserRole extends React.Component<{ history: any }> {
     this.getPageData = this.getPageData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleMainChange = this.handleMainChange.bind(this);
-    this.deleteDataById = this.deleteDataById.bind(this);
+    this.delleteAllData = this.delleteAllData.bind(this);
   }
 
   componentDidMount() {
@@ -77,7 +69,7 @@ class UserRole extends React.Component<{ history: any }> {
   }
 
   async getRole(searchText: string = "", page: number = 1, size: number = 10) {
-    const obj: getUserRoleRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: searchText,
       page: page,
       size: size,
@@ -86,18 +78,22 @@ class UserRole extends React.Component<{ history: any }> {
     console.log("getRole", getRole);
 
     if (getRole) {
-      this.setState({
-        userrole: this.state.userrole = getRole.resultObject.data,
-        count: this.state.count = getRole.resultObject.totalcount,
-      });
+      if(getRole.status === 200) {
+        this.setState({
+          userrole: this.state.userrole = getRole.resultObject.data,
+          count: this.state.count = getRole.resultObject.totalcount,
+        });
+      } else {
+        const msg1 = getRole.message;
+        utils.showError(msg1);
+      }
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
   handlePageChange(pageNumber: number) {
-    console.log(`active page is ${pageNumber}`);
     this.setState({ activePage: pageNumber });
   }
 
@@ -137,46 +133,22 @@ class UserRole extends React.Component<{ history: any }> {
   //       id: data.roleId,
   //     };
   //     var deleteUser = await RoleAPI.deleteRole(obj);
-  //     if (deleteUser) {
-  //       this.getRole(
-  //         "",
-  //         parseInt(this.state.currentPage),
-  //         parseInt(this.state.items_per_page)
-  //       );
-  //     } else {
-  //       const msg1 = "Internal server error";
-  //       utils.showError(msg1);
-  //     }
+  //   if(deleteUser) {
+  //     this.getRole(
+  //       "",
+  //       parseInt(this.state.currentPage),
+  //       parseInt(this.state.items_per_page)
+  //     );
+  //   } else {
+  //     const msg1 = "Internal server error";
+  //     utils.showError(msg1);
+  //   }
   //   }
   // }
 
-  async deleteDataById(text: string, btext: string) {
-    if (await utils.alertMessage(text, btext)) {
-      const obj: deleteAllDataRequest = {
-        moduleName: "Role",
-        id: this.state.deleteuserdata,
-      };
-      var deleteUser = await DeleteAPI.deleteData(obj);
-      console.log("deleteuser", deleteUser);
-      if (deleteUser) {
-        this.setState({
-          deleteFlag:this.state.deleteFlag = false
-        })
-        this.getRole(
-          "",
-          parseInt(this.state.currentPage),
-          parseInt(this.state.items_per_page)
-        );
-      } else {
-        const msg1 = "Internal server error";
-        utils.showError(msg1);
-      }
-    }
-  }
-
   onItemSelect(event: any) {
     this.setState({
-      items_per_page: this.state.items_per_page =
+      items_per_page: 
         event.target.options[event.target.selectedIndex].value,
     });
     this.getRole(
@@ -191,7 +163,7 @@ class UserRole extends React.Component<{ history: any }> {
       switchSort: !this.state.switchSort,
     });
     let copyTableData = [...this.state.userrole];
-    copyTableData.sort(utils.compareByDesc(key, this.state.switchSort));
+    copyTableData.sort(utils.compareByDesc(key,this.state.switchSort));
     this.setState({
       userrole: this.state.userrole = copyTableData,
     });
@@ -201,7 +173,7 @@ class UserRole extends React.Component<{ history: any }> {
     this.setState({
       currentPage: this.state.currentPage = event.target.id,
     });
-    const obj: getUserRoleRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: "",
       page: parseInt(event.target.id),
       size: parseInt(this.state.items_per_page),
@@ -210,7 +182,7 @@ class UserRole extends React.Component<{ history: any }> {
   }
 
   async searchApplicationDataKeyUp(e: any) {
-    const obj: getUserRoleRequest = {
+    const obj: getAllTableDataListRequest = {
       searchText: e.target.value,
       page: 1,
       size: parseInt(this.state.items_per_page),
@@ -220,7 +192,7 @@ class UserRole extends React.Component<{ history: any }> {
 
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
-      const obj = {
+      const obj: statusChangeRequest = {
         moduleName: "Role",
         id: data.roleId,
         isActive: data.isActive === true ? false : true,
@@ -228,14 +200,50 @@ class UserRole extends React.Component<{ history: any }> {
       var getStatusChange = await StatusAPI.getStatusChange(obj);
       console.log("getStatusChange", getStatusChange);
       if (getStatusChange) {
+        if(getStatusChange.status === 200) {
+          const msg1 = getStatusChange.message;
+          utils.showSuccess(msg1);
         this.getRole(
           "",
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
         );
+        } else {
+          const msg1 = getStatusChange.message;
+          utils.showError(msg1);
+        }
+       
       } else {
-        const msg1 = "Internal server error";
-        utils.showError(msg1);
+        // const msg1 = "Internal server error";
+        // utils.showError(msg1);
+      }
+    }
+  }
+
+  async delleteAllData(text: string, btext: string) {
+    if (await utils.alertMessage(text, btext)) {
+      const obj: deleteAllDataRequest = {
+        moduleName: "Role",
+        id: this.state.deleteuserdata
+      };
+      var deleteAllData = await DeleteAPI.deleteData(obj);
+      console.log("deleteAllData", deleteAllData);
+      if (deleteAllData) {
+        if(deleteAllData.data.status === 200) {
+          const msg1 = deleteAllData.data.message;
+          utils.showSuccess(msg1);
+        this.getRole(
+          "",
+          parseInt(this.state.currentPage),
+          parseInt(this.state.items_per_page)
+        );
+        } else {
+          const msg1 = deleteAllData.data.message;
+          utils.showError(msg1);
+        }
+      } else {
+        // const msg1 = "Internal server error";
+        // utils.showError(msg1);
       }
     }
   }
@@ -395,9 +403,7 @@ class UserRole extends React.Component<{ history: any }> {
                       type="checkbox"
                       id={data.roleId}
                       onChange={(e) => this.handleChange(data, e)}
-                      checked={
-                        this.state.userrole[index]["_rowChecked"] === true
-                      }
+                      checked={this.state.userrole[index]["_rowChecked"] === true}
                     />
                   </td>
                   <td>{data.role}</td>
@@ -534,77 +540,73 @@ class UserRole extends React.Component<{ history: any }> {
 
     return (
       <>
-        <div className="ms-content-wrapper">
-          <div className="row">
-            <Col xs="12" sm="12" md="12" lg="12" xl="12">
-              <Card className="main-card mb-12">
-                <CardHeader>
-                  <Row>
-                    <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                      <CardTitle className="font">
-                        {constant.userRolePage.title.userRoleTitle}
-                      </CardTitle>
-                    </Col>
-                    <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                      <div className="right">
-                        <Link to="/adduserrole">
-                          <Button
-                            className="mb-2 mr-2 custom-button"
-                            color="primary"
-                          >
-                            {constant.button.add}
-                          </Button>
-                        </Link>
-                      </div>
-                    </Col>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  <div className="search_right">
-                    <input
-                      className="form-control custom_text_width search"
-                      type="text"
-                      placeholder="Search"
-                      aria-label="Search"
-                      onKeyUp={this.searchApplicationDataKeyUp}
-                    />
-                  </div>
+        <>
+          <div className="ms-content-wrapper">
+            <div className="row">
+              <Col xs="12" sm="12" md="12" lg="12" xl="12">
+                <Card className="main-card mb-12">
+                  <CardHeader>
+                    <Row>
+                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                        <CardTitle className="font">
+                          {constant.userRolePage.title.userRoleTitle}
+                        </CardTitle>
+                      </Col>
+                      <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                        <div className="right">
+                          <Link to="/adduserrole">
+                            <Button
+                              className="mb-2 mr-2 custom-button"
+                              color="primary"
+                            >
+                              {constant.button.add}
+                            </Button>
+                          </Link>
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="search_right">
+                      <input
+                        className="form-control custom_text_width search"
+                        type="text"
+                        placeholder="Search"
+                        aria-label="Search"
+                        onKeyUp={this.searchApplicationDataKeyUp}
+                      />
+                    </div>
 
-                  {this.state.userrole.length > 0 ? (
-                    <>{this.getTable(this.state.userrole)}</>
-                  ) : (
-                    <h1 className="text-center mt-5">
-                      {constant.noDataFound.nodatafound}
-                    </h1>
-                  )}
-                  {this.state.deleteFlag === true ? (
-                    <Button
-                      className="mb-2 mr-2 custom-button"
-                      color="primary"
-                      onClick={() =>
-                        this.deleteDataById(
-                          "You should be Delete Role",
-                            "Yes, Delete it"
+                    {this.state.userrole.length > 0 ? (
+                      <>{this.getTable(this.state.userrole)}</>
+                    ) : (
+                    <h1 className="text-center mt-5">{constant.noDataFound.nodatafound}</h1>
+                    )}
+                     {this.state.deleteFlag === true ? (
+                      <Button
+                        className="mb-2 mr-2 custom-button"
+                        color="primary"
+                        onClick={() => this.delleteAllData( "You should be Delete Role",
+                        "Yes, Role it")}
+                      >
+                        {constant.button.remove}
+                      </Button>
+                    ) : (
+                      ""
+                    )}
+                    {this.state.userrole.length > 0
+                      ? this.getPageData(
+                          pageIncrementBtn,
+                          renderPageNumbers,
+                          pageDecrementBtn
                         )
-                      }
-                    >
-                      {constant.button.remove}
-                    </Button>
-                  ) : (
-                    ""
-                  )}
-                  {this.state.userrole.length > 0
-                    ? this.getPageData(
-                        pageIncrementBtn,
-                        renderPageNumbers,
-                        pageDecrementBtn
-                      )
-                    : ""}
-                </CardBody>
-              </Card>
-            </Col>
+                      : ""}
+                  </CardBody>
+                </Card>
+              </Col>
+            </div>
           </div>
-        </div>
+        </>
       </>
     );
   }

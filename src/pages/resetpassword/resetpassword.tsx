@@ -13,6 +13,7 @@ import {
 import "./resetpassword.css";
 import constant from '../../constant/constant';
 import { resetPasswordRequest } from "../../modelController";
+import utils from '../../utils';
 
 interface resetPasswordState {
   password:string,
@@ -72,7 +73,14 @@ class ResetPassword extends React.Component<{ location: any; history: any }> {
     console.log("resetPassword", resetPassword);
 
     if (resetPassword) {
+      if(resetPassword.status === 200) {
+        const msg1 = resetPassword.message;
+        utils.showSuccess(msg1);
       this.props.history.push("/login");
+    } else {
+      const msg1 = resetPassword.message;
+        utils.showError(msg1);
+    }
     } else {
       // const msg1 = "Internal server error";
       // utils.showError(msg1);

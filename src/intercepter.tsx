@@ -37,17 +37,17 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response: any) => {
     console.log("res", response);
-    if (response.data.status) {
-      if (response.data.status === 200) {
-        if (response.data.message !== null) {
-          const msg1 = response.data.message;
-          utils.showSuccess(msg1);
-        }
-      } else {
-        const msg1 = response.data.message;
-        utils.showError(msg1);
-      }
-    }
+    // if (response.data.status) {
+    //   if (response.data.status === 200) {
+    //     if (response.data.message !== null) {
+    //       const msg1 = response.data.message;
+    //       utils.showSuccess(msg1);
+    //     }
+    //   } else {
+    //     const msg1 = response.data.message;
+    //     utils.showError(msg1);
+    //   }
+    // }
     return response;
 
   },
@@ -64,9 +64,12 @@ axios.interceptors.response.use(
         } else if (err.response.data.status === 415) {
           const msg1 = err.response.statusText;
           utils.showError(msg1);
+        } else if (err.response.data.status === 404) {
+          const msg1 = err.response.data.message;
+          utils.showError(msg1);
         }
         else if (err.response.data.status === 401 || err.response.status === 401) {
-      
+         
           const users: any = localStorage.getItem("user");
           let user = JSON.parse(users);
           return new Promise(async (resolve, reject) => {
@@ -84,9 +87,11 @@ axios.interceptors.response.use(
               refreshToken: user.refreshToken,
             };
 
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            localStorage.removeItem('adminToken');
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("merchantToken");
+            localStorage.removeItem("rolePreveliges");
+            localStorage.removeItem("menuItems");
             window.location.href = "/#/login";
 
             // let res = axios

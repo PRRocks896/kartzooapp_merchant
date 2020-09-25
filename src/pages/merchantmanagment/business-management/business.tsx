@@ -91,7 +91,7 @@ class MerchantBusiness extends React.Component<{
     console.log("getHoursById", getHoursById);
 
     if (getHoursById) {
-    
+      if(getHoursById.status === 200) {
       this.setState({
         updateTrue: this.state.updateTrue = true,
         // merchant:this.state.merchant =  getHoursById.resultObject.merchantId,
@@ -100,8 +100,12 @@ class MerchantBusiness extends React.Component<{
         isOpen: this.state.isOpen = getHoursById.resultObject.isOpen,
       });
     } else {
-      const msg1 = "Internal Server Error";
+      const msg1 = getHoursById.message;
       utils.showError(msg1);
+    }
+    } else {
+      // const msg1 = "Internal Server Error";
+      // utils.showError(msg1);
     }
   }
 
@@ -110,12 +114,17 @@ class MerchantBusiness extends React.Component<{
     console.log("getMerchantList", getMerchantList);
 
     if (getMerchantList) {
+      if(getMerchantList.status === 200) {
       this.setState({
         merchantdata: this.state.merchantdata = getMerchantList.resultObject,
       });
     } else {
-      const msg1 = "Internal server error";
+      const msg1 = getMerchantList.message;
       utils.showError(msg1);
+    }
+    } else {
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -186,10 +195,17 @@ class MerchantBusiness extends React.Component<{
         console.log("addMerchantBusiness", addMerchantBusiness);
 
         if (addMerchantBusiness) {
+          if(addMerchantBusiness.status === 200) {
+            const msg1 = addMerchantBusiness.message;
+            utils.showSuccess(msg1);
           this.props.history.push("/list-business-hours");
         } else {
-          const msg1 = "Internal server error";
+          const msg1 = addMerchantBusiness.message;
           utils.showError(msg1);
+        }
+        } else {
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }
@@ -218,10 +234,17 @@ class MerchantBusiness extends React.Component<{
         console.log("updateMerchantBusiness", updateMerchantBusiness);
 
         if (updateMerchantBusiness) {
+          if(updateMerchantBusiness.status === 200) {
+            const msg1 = updateMerchantBusiness.message;
+            utils.showSuccess(msg1);
           this.props.history.push("/list-business-hours");
         } else {
-          const msg1 = "Internal server error";
+          const msg1 = updateMerchantBusiness.message;
           utils.showError(msg1);
+        }
+        } else {
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }

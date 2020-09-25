@@ -12,7 +12,6 @@ import {
   Label,
   Row,
 } from "reactstrap";
-
 import {RoleAPI} from "../../../service/index.service";
 import Switch from "react-switch";
 import constant from "../../../constant/constant";
@@ -20,8 +19,8 @@ import {
   userRoleCreateRequest,
   userRoleUpdateRequest,
   getDataByIdRequest,
+  addUserRoleState,
 } from "../../../modelController";
-import { addUserRoleState } from "../../../modelController/userRoleModel/addUserRoleState";
 
 class AddUserRole extends React.Component<{ history: any; location: any }> {
   userState : addUserRoleState = constant.userRolePage.state;
@@ -70,6 +69,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
     console.log("getRoleById", getRoleById);
 
     if (getRoleById) {
+      if(getRoleById.status === 200) {
       this.setState({
         updateTrue: this.state.updateTrue = true,
         rolename: this.state.rolename = getRoleById.resultObject.role,
@@ -80,8 +80,12 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
         isActive: this.state.isActive = getRoleById.resultObject.isActive
       });
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      const msg1 = getRoleById.message;
+        utils.showError(msg1);
+    }
+    } else {
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -116,7 +120,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
       this.setState({
         rolenameerror: "",
       });
-      if (this.state.rolename) {
+      if (this.state.rolename && this.state.isOpen) {
         const obj: userRoleCreateRequest = {
           role: this.state.rolename,
           description: this.state.description,
@@ -130,10 +134,17 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
         console.log("addUserRole", addUserRole);
 
         if (addUserRole) {
+          if(addUserRole.status === 200) {
+            const msg1 = addUserRole.message;
+            utils.showSuccess(msg1);
           this.props.history.push("/userrole");
+          }  else {
+            const msg1 = addUserRole.message;
+              utils.showError(msg1);
+          }
         } else {
-          const msg1 = "Internal server error";
-          utils.showError(msg1);
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }
@@ -145,7 +156,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
       this.setState({
         rolenameerror: "",
       });
-      if (this.state.rolename) {
+      if (this.state.rolename && this.state.isOpen) {
         const obj: userRoleUpdateRequest = {
           roleId: this.state.roleid,
           role: this.state.rolename,
@@ -159,10 +170,17 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
         console.log("editUserRole", editUserRole);
 
         if (editUserRole) {
+          if(editUserRole.status === 200) {
+            const msg1 = editUserRole.message;
+            utils.showSuccess(msg1);
           this.props.history.push("/userrole");
+          } else {
+            const msg1 = editUserRole.message;
+            utils.showError(msg1);
+          }
         } else {
-          const msg1 = "Internal server error";
-          utils.showError(msg1);
+          // const msg1 = "Internal server error";
+          // utils.showError(msg1);
         }
       }
     }
@@ -171,7 +189,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
   render() {
     return (
       <>
-       
+        <>
           <div className="ms-content-wrapper">
             <div className="row">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -184,7 +202,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
                         </Col>
                       ) : (
                         <Col xs="12" sm="6" md="9" lg="9" xl="9">
-                          <h1>{constant.userRolePage.title.adduserRoleTitle}</h1>
+                          <h1>{constant.userRolePage.title.updateRoleTitle}</h1>
                         </Col>
                       )}
                       <Col
@@ -291,7 +309,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
               </Col>
             </div>
           </div>
-       
+        </>
       </>
     );
   }

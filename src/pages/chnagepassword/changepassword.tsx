@@ -97,11 +97,18 @@ class ChangePassword extends Component<{history:any,location:any}> {
                 }
                 const updatePassword = await API.updatePassword(obj);
                 if (updatePassword) {
+                    if(updatePassword.status === 200) {
+                      const msg1 = updatePassword.message;
+                      utils.showSuccess(msg1);
                     this.props.history.push("/dashboard");
-                } else {
+                  } else {
                     const msg1 = updatePassword.message;
-                    utils.showError(msg1);
-                }
+                      utils.showError(msg1);
+                  }
+                  } else {
+                    // const msg1 = "Internal Server";
+                    // utils.showError(msg1);
+                  }
             } else if (this.state.newpassword !== this.state.confirmpassword) {
                 this.resetForm();
                 const msg1 = constant.alertMsg.msg;

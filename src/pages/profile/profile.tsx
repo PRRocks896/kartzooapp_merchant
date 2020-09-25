@@ -124,9 +124,14 @@ class Profile extends React.Component<{ history: any }> {
     console.log("getCity", getCity);
 
     if (getCity) {
+      if(getCity.status === 200) {
       this.setState({
         citydata: this.state.citydata = getCity.resultObject,
       });
+    } else {
+      const msg1 = getCity.message;
+        utils.showError(msg1);
+    }
     } else {
       // const msg1 = "Internal server error";
       // utils.showError(msg1);
@@ -145,6 +150,7 @@ class Profile extends React.Component<{ history: any }> {
       console.log("getprofile", getProfile);
 
       if (getProfile) {
+        if(getProfile.status === 200) {
         this.setState({
           merchantId: this.state.merchantId =
           getProfile.resultObject.merchantID,
@@ -191,6 +197,10 @@ class Profile extends React.Component<{ history: any }> {
           this.getCityById(this.state.city);
         }
       } else {
+        const msg1 = getProfile.message;
+          utils.showError(msg1);
+      }
+      } else {
         // const msg1 = "Internal server error";
         // utils.showError(msg1);
       }
@@ -205,9 +215,14 @@ class Profile extends React.Component<{ history: any }> {
     console.log("getCityById", getCityById);
 
     if (getCityById) {
+      if(getCityById.status === 200) {
       this.setState({
         cityname: this.state.cityname = getCityById.resultObject.cityName,
       });
+    } else {
+      const msg1 = getCityById.message;
+        utils.showError(msg1);
+    }
     } else {
       // const msg1 = "Internal server error";
       // utils.showError(msg1);
@@ -585,8 +600,15 @@ class Profile extends React.Component<{ history: any }> {
         const updateMerchant = await API.updateMerchant(formData);
         console.log("updateMerchant", updateMerchant);
         if (updateMerchant) {
+          if(updateMerchant.status === 200) {
+            const msg1 = updateMerchant.message;
+            utils.showSuccess(msg1);
           EventEmitter.dispatch('imageUpload', updateMerchant.resultObject.profilePhotoPath);
           this.props.history.push("/dashboard");
+        } else {
+          const msg1 = updateMerchant.message;
+          utils.showError(msg1);
+        }
         } else {
           // const msg1 = "Internal server error";
           // utils.showError(msg1);

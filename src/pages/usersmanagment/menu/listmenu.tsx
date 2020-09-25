@@ -17,7 +17,7 @@ import {
   deleteAllDataRequest,
   menuStateRequest,
   allStateRequest,
-  getAllTableDataListRequest,
+  getAllTableDataListRequest,statusChangeRequest
 } from "../../../modelController/index";
 import { StatusAPI, DeleteAPI, MenuAPI } from "../../../service/index.service";
 
@@ -80,13 +80,18 @@ class ListMenu extends React.Component<{ history: any }> {
     console.log("getMenuData", getMenuData);
 
     if (getMenuData) {
-      this.setState({
-        menudata: this.state.menudata = getMenuData.resultObject.data,
-        count: this.state.count = getMenuData.resultObject.totalcount,
-      });
+      if(getMenuData.status === 200) {
+        this.setState({
+          menudata: this.state.menudata = getMenuData.resultObject.data,
+          count: this.state.count = getMenuData.resultObject.totalcount,
+        });
+      } else {
+        const msg1 = getMenuData.message;
+        utils.showError(msg1);
+      }
     } else {
-      const msg1 = "Internal server error";
-      utils.showError(msg1);
+      // const msg1 = "Internal server error";
+      // utils.showError(msg1);
     }
   }
 
@@ -153,6 +158,9 @@ class ListMenu extends React.Component<{ history: any }> {
       var deleteUser = await DeleteAPI.deleteData(obj);
       console.log("deleteuser", deleteUser);
       if (deleteUser) {
+        if(deleteUser.data.status === 200) {
+          const msg1 = deleteUser.data.message;
+          utils.showSuccess(msg1);
         this.setState({
           deleteFlag:this.state.deleteFlag = false
         })
@@ -161,9 +169,13 @@ class ListMenu extends React.Component<{ history: any }> {
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
         );
+        } else {
+          const msg1 = deleteUser.data.message;
+          utils.showError(msg1);
+        }
       } else {
-        const msg1 = "Internal server error";
-        utils.showError(msg1);
+        // const msg1 = "Internal server error";
+        // utils.showError(msg1);
       }
     }
   }
@@ -214,7 +226,7 @@ class ListMenu extends React.Component<{ history: any }> {
 
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
-      const obj = {
+      const obj : statusChangeRequest = {
         moduleName: "MenuItem",
         id: data.menuItemId,
         isActive: data.isActive === true ? false : true,
@@ -222,14 +234,21 @@ class ListMenu extends React.Component<{ history: any }> {
       var getStatusChange = await StatusAPI.getStatusChange(obj);
       console.log("getStatusChange", getStatusChange);
       if (getStatusChange) {
+        if(getStatusChange.status === 200) {
+          const msg1 = getStatusChange.message;
+          utils.showSuccess(msg1);
         this.getMenuData(
           "",
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
         );
+        } else {
+          const msg1 = getStatusChange.message;
+          utils.showError(msg1);
+        }
       } else {
-        const msg1 = "Internal server error";
-        utils.showError(msg1);
+        // const msg1 = "Internal server error";
+        // utils.showError(msg1);
       }
     }
   }
