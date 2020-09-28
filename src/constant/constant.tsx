@@ -865,8 +865,8 @@ export default {
       isFeatured: "Is Featured",
       metadescritption: "Meta Description",
       metakeyword: "Meta Keyword",
-      merchantid: "Merchant ID",
-      categoryid: "Category ID",
+      merchantid: "Merchant Name",
+      categoryid: "Category Name",
       isActive:'Is Active',
       images:'Product Images'
     },

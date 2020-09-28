@@ -63,9 +63,9 @@ class ViewProduct extends React.Component<{ history: any; location: any }> {
       if(getProductById.status === 200) {
       this.setState({
         merchantid: this.state.merchantid =
-          getProductById.resultObject.merchantId,
+          getProductById.resultObject.merchantName,
         maincategoryid: this.state.maincategoryid =
-          getProductById.resultObject.categoryId,
+          getProductById.resultObject.categoryName,
         prodctname: this.state.productname =
           getProductById.resultObject.productName,
         price: this.state.price = getProductById.resultObject.price,
