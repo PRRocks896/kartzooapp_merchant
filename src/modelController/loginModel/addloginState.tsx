@@ -7,4 +7,5 @@ export interface addLoginStateRequest {
     isButton: boolean,
     type: string,
     forgot:boolean,
+    disabled:boolean
 }

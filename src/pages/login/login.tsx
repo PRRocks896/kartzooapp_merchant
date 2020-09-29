@@ -27,6 +27,7 @@ class Login extends React.Component<{ history: any }> {
     isButton: this.loginState.isButton,
     type: this.loginState.type,
     forgot: this.loginState.forgot,
+    disabled:this.loginState.disabled
   };
 
   constructor(props: any) {
@@ -152,6 +153,7 @@ class Login extends React.Component<{ history: any }> {
   async login() {
     this.setState({
       isButton: true,
+      disabled: true
     });
     const isValid = this.validate();
     if (isValid) {
@@ -177,6 +179,7 @@ class Login extends React.Component<{ history: any }> {
               if (res.data.status === 200) {
                 this.setState({
                   isButton: false,
+                  disabled: true
                 });
                 var userData = res.data.resultObject;
                 localStorage.setItem("user", JSON.stringify(userData));
@@ -192,11 +195,13 @@ class Login extends React.Component<{ history: any }> {
               } else {
                 this.setState({
                   isButton: this.state.isButton = false,
+                  disabled:false
                 });
               }
             } else {
               this.setState({
                 isButton: this.state.isButton = false,
+                disabled:false
               });
               // const msg1 = "Internal server error";
               // utils.showError(msg1);
@@ -206,6 +211,7 @@ class Login extends React.Component<{ history: any }> {
     } else {
       this.setState({
         isButton: this.state.isButton = false,
+        disabled:false
       });
     }
   }
@@ -331,6 +337,7 @@ class Login extends React.Component<{ history: any }> {
                           color: "#fff",
                           fontWeight: 500,
                         }}
+                        disabled={this.state.disabled}
                         onClick={this.login}
                       >
                         {constant.signin}
