@@ -70,7 +70,7 @@ class ListMerchant extends React.Component<{ history: any }> {
     };
 
     var getMerchantData = await MerchantAPI.getMerchantData(obj);
-    console.log("getMerchantData", getMerchantData);
+    // console.log("getMerchantData", getMerchantData);
 
     if (getMerchantData) {
       if (getMerchantData.status === 200) {
@@ -190,7 +190,7 @@ class ListMerchant extends React.Component<{ history: any }> {
         isActive: data.isActive === true ? false : true,
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
-      console.log("getStatusChange", getStatusChange);
+      // console.log("getStatusChange", getStatusChange);
       if (getStatusChange.status === 200) {
         const msg = getStatusChange.message;
         utils.showSuccess(msg);

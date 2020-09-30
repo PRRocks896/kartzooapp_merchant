@@ -69,7 +69,7 @@ class ListProduct extends React.Component<{ history: any }> {
     };
 
     var getProductData = await ProductAPI.getProductData(obj);
-    console.log("getProductData", getProductData);
+    // console.log("getProductData", getProductData);
 
     if (getProductData) {
       if(getProductData.status === 200) {
@@ -173,7 +173,7 @@ class ListProduct extends React.Component<{ history: any }> {
         isActive: data.isActive === true ? false : true,
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
-      console.log("getStatusChange", getStatusChange);
+      // console.log("getStatusChange", getStatusChange);
       if (getStatusChange) {
         if (getStatusChange.status === 200) {
           const msg1 = getStatusChange.message;

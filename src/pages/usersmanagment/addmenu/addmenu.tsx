@@ -65,7 +65,7 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
 
   async getAllMenu() {
     const getAllMenu = await MenuAPI.getAllMenu();
-    console.log("getAllMenu", getAllMenu);
+    // console.log("getAllMenu", getAllMenu);
     if(getAllMenu) {
       if(getAllMenu.status === 200) {
         this.setState({
@@ -152,7 +152,7 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
           isActive: this.state.isActive
         }
         const addMenu = await MenuAPI.addMenu(obj);
-        console.log("addMenu", addMenu);
+        // console.log("addMenu", addMenu);
         if (addMenu) {
           if(addMenu.status === 200) {
             const msg1 = addMenu.message;
@@ -187,7 +187,7 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
           isActive: this.state.isActive
         }
         const editMenu = await MenuAPI.editMenu(obj);
-        console.log("editMenu", editMenu);
+        // console.log("editMenu", editMenu);
         if (editMenu) {
           if(editMenu.status === 200) {
             const msg1 = editMenu.message;

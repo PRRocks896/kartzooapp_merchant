@@ -17,9 +17,9 @@ class App extends React.Component {
       <Route
         {...rest}
         render={(props) =>
-          // console.log(Component)
+          // // console.log(Component)
           localStorage.getItem("token") !== null ? (
-            // console.log("msg")
+            // // console.log("msg")
             <Component {...props} />
           ) : (
             <Redirect

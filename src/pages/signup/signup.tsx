@@ -88,7 +88,7 @@ class Signup extends React.Component<{ history: any }> {
                 }
 
                 // var signupUser = await API.signupUser(obj);
-                // console.log("signupUser",signupUser);
+                // // console.log("signupUser",signupUser);
 
                 if (this.state.firstname === obj.firstname && this.state.lastname === obj.lastname && this.state.email === obj.email && this.state.password === obj.password) {
                     const msg = "Signup Successfully";

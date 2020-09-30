@@ -73,7 +73,7 @@ class InventoryProduct extends React.Component<{
       id: inventoryId,
     };
     const getInventoryData: any = await ProductAPI.getInventoryData(obj);
-    console.log("getInventoryData", getInventoryData);
+    // console.log("getInventoryData", getInventoryData);
 
     if (getInventoryData) {
       if(getInventoryData.status === 200) {
@@ -96,7 +96,7 @@ class InventoryProduct extends React.Component<{
 
   async getAllProduct() {
     const getAllProduct = await ProductAPI.getAllProduct();
-    console.log("getAllProduct", getAllProduct);
+    // console.log("getAllProduct", getAllProduct);
     if (getAllProduct) {
       if(getAllProduct.status === 200) {
       this.setState({
@@ -180,7 +180,7 @@ class InventoryProduct extends React.Component<{
         };
 
         const addProductInventory = await ProductAPI.addProductInventory(obj);
-        console.log("addProductInventory", addProductInventory);
+        // console.log("addProductInventory", addProductInventory);
 
         if (addProductInventory) {
           if(addProductInventory.status === 200) {
@@ -215,7 +215,7 @@ class InventoryProduct extends React.Component<{
         const editProductInventory = await ProductAPI.editProductInventory(
           obj
         );
-        console.log("editProductInventory", editProductInventory);
+        // console.log("editProductInventory", editProductInventory);
 
         if (editProductInventory) {
           if(editProductInventory.status === 200) {

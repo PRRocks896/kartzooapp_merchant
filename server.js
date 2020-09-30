@@ -27,5 +27,5 @@ app.use(function(err, req, res, next) {
 });
   
 app.listen(5004, function() {
-    console.log('Server is listen on localhost:' + 5004);
+    // console.log('Server is listen on localhost:' + 5004);
 })

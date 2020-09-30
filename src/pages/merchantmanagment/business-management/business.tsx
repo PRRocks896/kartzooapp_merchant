@@ -88,7 +88,7 @@ class MerchantBusiness extends React.Component<{
       id: businessId,
     };
     const getHoursById: any = await MerchantAPI.getHoursById(obj);
-    console.log("getHoursById", getHoursById);
+    // console.log("getHoursById", getHoursById);
 
     if (getHoursById) {
       if(getHoursById.status === 200) {
@@ -111,7 +111,7 @@ class MerchantBusiness extends React.Component<{
 
   async getMerchantList() {
     var getMerchantList = await MerchantAPI.getMerchantList();
-    console.log("getMerchantList", getMerchantList);
+    // console.log("getMerchantList", getMerchantList);
 
     if (getMerchantList) {
       if(getMerchantList.status === 200) {
@@ -192,7 +192,7 @@ class MerchantBusiness extends React.Component<{
         };
 
         const addMerchantBusiness = await MerchantAPI.addMerchantBusiness(obj);
-        console.log("addMerchantBusiness", addMerchantBusiness);
+        // console.log("addMerchantBusiness", addMerchantBusiness);
 
         if (addMerchantBusiness) {
           if(addMerchantBusiness.status === 200) {
@@ -231,7 +231,7 @@ class MerchantBusiness extends React.Component<{
         const updateMerchantBusiness = await MerchantAPI.updateMerchantBusiness(
           obj
         );
-        console.log("updateMerchantBusiness", updateMerchantBusiness);
+        // console.log("updateMerchantBusiness", updateMerchantBusiness);
 
         if (updateMerchantBusiness) {
           if(updateMerchantBusiness.status === 200) {

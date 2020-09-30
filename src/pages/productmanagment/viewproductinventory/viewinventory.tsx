@@ -43,7 +43,7 @@ class ViewProductInventory extends React.Component<{
       id: inventoryId,
     };
     const getInventoryData: any = await ProductAPI.getInventoryData(obj);
-    console.log("getInventoryData", getInventoryData);
+    // console.log("getInventoryData", getInventoryData);
 
     if (getInventoryData) {
       if(getInventoryData.status === 200) {

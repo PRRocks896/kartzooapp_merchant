@@ -75,7 +75,7 @@ class UserRole extends React.Component<{ history: any }> {
       size: size,
     };
     var getRole = await RoleAPI.getRoles(obj);
-    console.log("getRole", getRole);
+    // console.log("getRole", getRole);
 
     if (getRole) {
       if(getRole.status === 200) {
@@ -198,7 +198,7 @@ class UserRole extends React.Component<{ history: any }> {
         isActive: data.isActive === true ? false : true,
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
-      console.log("getStatusChange", getStatusChange);
+      // console.log("getStatusChange", getStatusChange);
       if (getStatusChange) {
         if(getStatusChange.status === 200) {
           const msg1 = getStatusChange.message;
@@ -227,7 +227,7 @@ class UserRole extends React.Component<{ history: any }> {
         id: this.state.deleteuserdata
       };
       var deleteAllData = await DeleteAPI.deleteData(obj);
-      console.log("deleteAllData", deleteAllData);
+      // console.log("deleteAllData", deleteAllData);
       if (deleteAllData) {
         if(deleteAllData.data.status === 200) {
           const msg1 = deleteAllData.data.message;
@@ -289,7 +289,7 @@ class UserRole extends React.Component<{ history: any }> {
         deleteFlag: this.state.deleteFlag = false,
       });
     }
-    console.log("deleteuserdata array", this.state.deleteuserdata);
+    // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
   handleMainChange(e: any) {
@@ -321,7 +321,7 @@ class UserRole extends React.Component<{ history: any }> {
         deleteFlag: this.state.deleteFlag = false,
       });
     }
-    console.log("deleteuserdata array", this.state.deleteuserdata);
+    // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
   pagination(pageNumbers: any) {

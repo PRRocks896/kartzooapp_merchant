@@ -52,7 +52,7 @@ class ImageProduct extends React.Component<{ history: any }> {
         document.title = constant.imageProduct + utils.getAppName();
 
         // const getProduct = await API.getProduct();
-        // console.log("getProduct",getProduct);
+        // // console.log("getProduct",getProduct);
     }
 
     validate() {
@@ -120,10 +120,10 @@ class ImageProduct extends React.Component<{ history: any }> {
                 }
 
                 // const addProductImage = await API.addProductImage(obj);
-                // console.log("addProductImage",addProductImage);
+                // // console.log("addProductImage",addProductImage);
 
                 // const editProductImage = await API.editProductImage(obj);
-                // console.log("editProductImage",editProductImage);
+                // // console.log("editProductImage",editProductImage);
 
                 if (this.state.productid === obj.productid && this.state.imagename === obj.imagename && this.state.altertag === obj.altertag && this.state.sortorder === obj.sortorder) {
                     const msg = "Product Image Added Successfully";
@@ -146,7 +146,7 @@ class ImageProduct extends React.Component<{ history: any }> {
     onChangeHandler(event: any) {
         // let data = new FormData();
         // data.append('file_name', event.target.files[0]);
-        // console.log("event",event.target.files[0].name);
+        // // console.log("event",event.target.files[0].name);
         this.setState({
             imagename: this.state.imagename = event.target.files[0].name
         })
@@ -160,7 +160,7 @@ class ImageProduct extends React.Component<{ history: any }> {
 
     onChange = (imageList: any) => {
         // data for submit
-        console.log("imagelist", imageList);
+        // console.log("imagelist", imageList);
     };
 
     render() {

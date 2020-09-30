@@ -48,7 +48,7 @@ class ProductReview extends React.Component<{ history: any }> {
         document.title = constant.reviewProduct + utils.getAppName();
 
           // const getProduct = await API.getProduct();
-        // console.log("getProduct",getProduct);
+        // // console.log("getProduct",getProduct);
     }
 
     onUserSelect(event: any) {
@@ -117,7 +117,7 @@ class ProductReview extends React.Component<{ history: any }> {
                 }
 
                 // const addProductReview = await API.addProductReview(obj);
-                // console.log("addProductReview",addProductReview);
+                // // console.log("addProductReview",addProductReview);
 
                 if (this.state.productid === obj.productid && this.state.user === obj.user && this.state.reviewdetails === obj.reviewdetails && this.state.rating === obj.rating) {
                     const msg = "Product Review Added Successfully";

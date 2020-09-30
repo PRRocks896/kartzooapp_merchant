@@ -87,7 +87,7 @@ class ViewMerchant extends React.Component<{
 
   async getMerchantById(id: any) {
     const getMerchantById: any = await MerchantAPI.getMerchantById(id);
-    console.log("getMerchantById", getMerchantById);
+    // console.log("getMerchantById", getMerchantById);
 
     if (getMerchantById) {
       if (getMerchantById.status === 200) {

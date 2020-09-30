@@ -12,21 +12,21 @@ const WebReqUrl = {
                 response = await axios.get(url,{headers: utils.getHeaderDetail()})
             }
            
-            console.log("response",response);
+            // console.log("response",response);
             if(response) {
                 try {
                     if (response.status === 200) {
-                        console.log(response);
+                        // console.log(response);
                         return response?.data;
                     } else {
-                        console.log(response);
+                        // console.log(response);
                         return [];
                     }
                 } catch (err) {
                     console.error(err);
                 }
             } else {
-                console.log("err");
+                // console.log("err");
             }
         } catch (err) {
             console.error(err);
@@ -41,21 +41,21 @@ const WebReqUrl = {
                 response = await axios.delete(url, {headers: utils.getHeaderDetail()})
             }
            
-            console.log("response",response);
+            // console.log("response",response);
             if(response) {
                 try {
                     if (response.status === 200) {
-                        console.log(response);
+                        // console.log(response);
                         return response?.data;
                     } else {
-                        console.log(response);
+                        // console.log(response);
                         return [];
                     }
                 } catch (err) {
                     console.error(err);
                 }
             } else {
-                console.log("err");
+                // console.log("err");
             }
         } catch (err) {
             console.error(err);
@@ -69,21 +69,21 @@ const WebReqUrl = {
             } else {
                 response = await axios.put(url, body, {headers: utils.getHeaderDetail()})
             }
-            console.log("response",response);
+            // console.log("response",response);
             if(response) {
                 try {
                     if (response.status === 200) {
-                        console.log(response);
+                        // console.log(response);
                         return response?.data;
                     } else {
-                        console.log(response);
+                        // console.log(response);
                         return [];
                     }
                 } catch (err) {
                     console.error(err);
                 }
             } else {
-                console.log("err");
+                // console.log("err");
             }
         } catch (err) {
             console.error(err);
@@ -97,21 +97,21 @@ const WebReqUrl = {
             } else {
                 response = await axios.post(url, body, {headers: utils.getHeaderDetail()})
             }
-            console.log("response",response);
+            // console.log("response",response);
             if(response) {
                 try {
                     if (response.status === 200) {
-                        console.log(response);
+                        // console.log(response);
                         return response?.data;
                     } else {
-                        console.log(response);
+                        // console.log(response);
                         return [];
                     }
                 } catch (err) {
                     console.error(err);
                 }
             } else {
-                console.log("err");
+                // console.log("err");
             }
         } catch (err) {
             console.error(err);

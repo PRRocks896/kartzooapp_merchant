@@ -34,10 +34,7 @@ class ResetPassword extends React.Component<{ location: any; history: any }> {
 
   /** first this method call */
   componentDidMount() {
-    console.log(
-      "query=",
-      this.props.location.pathname.split("/")[2].split("=")[1]
-    );
+  
   }
 
   /** validation of reset form */
@@ -70,7 +67,7 @@ class ResetPassword extends React.Component<{ location: any; history: any }> {
       password: this.state.password,
     };
     var resetPassword: any = await API.resetPassword(obj);
-    console.log("resetPassword", resetPassword);
+    // console.log("resetPassword", resetPassword);
 
     if (resetPassword) {
       if(resetPassword.status === 200) {

@@ -42,7 +42,7 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
       id: roleId,
     };
     const getRoleById: any = await RoleAPI.getRoleById(obj);
-    console.log("getRoleById", getRoleById);
+    // console.log("getRoleById", getRoleById);
 
     if (getRoleById) {
       if (getRoleById.status === 200) {

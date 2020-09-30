@@ -59,7 +59,7 @@ class AddCustomer extends React.Component<{ history: any }> {
     onChangeHandler(event: any) {
         // let data = new FormData();
         // data.append('file_name', event.target.files[0]);
-        // console.log("event",event.target.files[0].name);
+        // // console.log("event",event.target.files[0].name);
         this.setState({
             selectedFile: this.state.selectedFile = event.target.files[0].name
         })
@@ -145,10 +145,10 @@ class AddCustomer extends React.Component<{ history: any }> {
                 }
 
                 // const addCustomer = await API.addCustomer(obj);
-                // console.log("addCustomer",addCustomer);
+                // // console.log("addCustomer",addCustomer);
 
                   // const editCustomer = await API.editCustomer(obj);
-                // console.log("editCustomer",editCustomer);
+                // // console.log("editCustomer",editCustomer);
 
                 if (this.state.firstname === obj.firstname && this.state.lastname === obj.lastname && this.state.email === obj.email && this.state.mobilenumber === obj.mobilenumber && this.state.password === obj.password) {
                     const msg = "Customer Added Successfully";

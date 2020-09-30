@@ -66,7 +66,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
       id: roleId,
     };
     const getRoleById: any = await RoleAPI.getRoleById(obj);
-    console.log("getRoleById", getRoleById);
+    // console.log("getRoleById", getRoleById);
 
     if (getRoleById) {
       if(getRoleById.status === 200) {
@@ -128,10 +128,10 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
           isAdminRole: this.state.isOpen,
         };
 
-        console.log("userole", obj);
+        // console.log("userole", obj);
 
         const addUserRole = await RoleAPI.addUserRole(obj);
-        console.log("addUserRole", addUserRole);
+        // console.log("addUserRole", addUserRole);
 
         if (addUserRole) {
           if(addUserRole.status === 200) {
@@ -164,10 +164,10 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
           isActive: this.state.isActive,
           isAdminRole: this.state.isOpen,
         };
-        console.log("userole", obj);
+        // console.log("userole", obj);
 
         const editUserRole = await RoleAPI.editUserRole(obj);
-        console.log("editUserRole", editUserRole);
+        // console.log("editUserRole", editUserRole);
 
         if (editUserRole) {
           if(editUserRole.status === 200) {

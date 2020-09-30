@@ -121,7 +121,7 @@ class Profile extends React.Component<{ history: any }> {
       constant.profilePage.profile.updateprofile + utils.getAppName();
 
     const getCity = await LocationAPI.getCity();
-    console.log("getCity", getCity);
+    // console.log("getCity", getCity);
 
     if (getCity) {
       if(getCity.status === 200) {
@@ -147,7 +147,7 @@ class Profile extends React.Component<{ history: any }> {
         id: profile.merchantID,
       };
       const getProfile = await API.getMerchantById(obj);
-      console.log("getprofile", getProfile);
+      // console.log("getprofile", getProfile);
 
       if (getProfile) {
         if(getProfile.status === 200) {
@@ -212,7 +212,7 @@ class Profile extends React.Component<{ history: any }> {
       id: id,
     };
     const getCityById: any = await LocationAPI.getCityById(obj);
-    console.log("getCityById", getCityById);
+    // console.log("getCityById", getCityById);
 
     if (getCityById) {
       if(getCityById.status === 200) {
@@ -598,7 +598,7 @@ class Profile extends React.Component<{ history: any }> {
         formData.append("UserId", "0");
 
         const updateMerchant = await API.updateMerchant(formData);
-        console.log("updateMerchant", updateMerchant);
+        // console.log("updateMerchant", updateMerchant);
         if (updateMerchant) {
           if(updateMerchant.status === 200) {
             const msg1 = updateMerchant.message;

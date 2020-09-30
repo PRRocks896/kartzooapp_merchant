@@ -118,7 +118,7 @@ class Users extends React.Component<{ history: any }> {
         event.target.options[event.target.selectedIndex].innerHTML,
     });
 
-    console.log("roleid", this.state.roleid);
+    // console.log("roleid", this.state.roleid);
 
     const obj: getUserRequest = {
       roleID: parseInt(this.state.roleid),
@@ -128,7 +128,7 @@ class Users extends React.Component<{ history: any }> {
     };
 
     var getUserDataPagination = await API.getUserDataPagination(obj);
-    console.log("getUserDataPagination", getUserDataPagination);
+    // console.log("getUserDataPagination", getUserDataPagination);
     if (getUserDataPagination) {
       if (getUserDataPagination.status === 200) {
         this.setState({
@@ -240,7 +240,7 @@ class Users extends React.Component<{ history: any }> {
     };
 
     var getUserDataPagination = await API.getUserDataPagination(obj);
-    console.log("getUserDataPagination", getUserDataPagination);
+    // console.log("getUserDataPagination", getUserDataPagination);
 
     if (getUserDataPagination) {
       if (getUserDataPagination.status === 200) {
@@ -294,7 +294,7 @@ class Users extends React.Component<{ history: any }> {
       isActive: data.isActive === true ? false : true
      }
      var getStatusChange = await StatusAPI.getStatusChange(obj);
-     console.log("getStatusChange", getStatusChange);
+     // console.log("getStatusChange", getStatusChange);
      if (getStatusChange.status === 200) {
       const msg = getStatusChange.message;
       utils.showSuccess(msg);

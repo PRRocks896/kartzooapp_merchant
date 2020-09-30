@@ -24,12 +24,12 @@ class TableComponent extends React.Component<{column:any,row:any}> {
                 <tbody>
                     {
                         this.props.row.map((data:any,index1:any) => {
-                            console.log("index1",index1)
+                            // console.log("index1",index1)
                             return (
                                 <tr key={index1}>
                                  {
                             this.props.column.map((col:any,index:any) => {
-                                console.log("index",index)
+                                // console.log("index",index)
                                 return (
                                     <td key={index} className="td-sm">
                                         {data[index1][col[index].name]}

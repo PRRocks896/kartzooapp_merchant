@@ -107,7 +107,7 @@ class Merchant extends React.Component<{ history: any }> {
       constant.merchantPage.title.addMerchantTitle + utils.getAppName();
 
     // const getCity = await LocationAPI.getCity();
-    // console.log("getCity", getCity);
+    // // console.log("getCity", getCity);
 
     // if (getCity) {
     //   if (getCity.status === 200) {
@@ -225,21 +225,21 @@ class Merchant extends React.Component<{ history: any }> {
     }));
 
   handleEditorChange = (content: any, editor: any) => {
-    console.log("handleEditorChange Content was updated:", content);
+    // console.log("handleEditorChange Content was updated:", content);
     this.setState({
       refundpolicy: this.state.refundpolicy = content,
     });
   };
 
   handleEditorMainChange = (content: any, editor: any) => {
-    console.log("handleEditorMainChange Content was updated:", content);
+    // console.log("handleEditorMainChange Content was updated:", content);
     this.setState({
       shoppingpolicy: this.state.shoppingpolicy = content,
     });
   };
 
   handleEditorUpChange = (content: any, editor: any) => {
-    console.log("handleEditorMainChange Content was updated:", content);
+    // console.log("handleEditorMainChange Content was updated:", content);
     this.setState({
       cancellationpolicy: this.state.cancellationpolicy = content,
     });
@@ -451,7 +451,7 @@ class Merchant extends React.Component<{ history: any }> {
         formData.append("UserId", "0");
 
         const addMerchant = await MerchantAPI.addMerchant(formData);
-        console.log("addMerchant", addMerchant);
+        // console.log("addMerchant", addMerchant);
         if (addMerchant) {
         } else {
           const msg1 = "Internal server error";

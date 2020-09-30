@@ -282,7 +282,7 @@ class UserRoleToRights extends React.Component {
   }
 
   async updateRights() {
-    console.log("userdata", this.state.roleprivileges);
+    // console.log("userdata", this.state.roleprivileges);
     let privilegesArray = [];
     for (var i = 0; i < this.state.roleprivileges.length; i++) {
       privilegesArray.push({
@@ -301,7 +301,7 @@ class UserRoleToRights extends React.Component {
     };
 
     const updateRolePreveliges = await RoleAPI.updateRolePreveliges(obj);
-    console.log("updateRolePreveliges", updateRolePreveliges);
+    // console.log("updateRolePreveliges", updateRolePreveliges);
 
     if (updateRolePreveliges) {
       if (updateRolePreveliges.resultObject !== null) {

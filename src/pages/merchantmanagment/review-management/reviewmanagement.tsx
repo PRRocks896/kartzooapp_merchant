@@ -125,7 +125,7 @@ class MerchantReview extends React.Component<{ history: any }> {
 
 
                 // const addMerchantReview = await API.addMerchantReview(obj);
-                // console.log("addMerchantReview",addMerchantReview);
+                // // console.log("addMerchantReview",addMerchantReview);
 
                 if (this.state.merchantid === obj.merchantid && this.state.user === obj.user && this.state.reviewdetails === obj.reviewdetails && this.state.rating === obj.rating) {
                     const msg = "Merchant Review Added Successfully";

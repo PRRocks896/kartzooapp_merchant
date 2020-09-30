@@ -24,19 +24,19 @@ axios.interceptors.request.use(
       oldRequest["headers"] = req.headers;
     } else {
       //reqCount = 0;
-      //console.log("auth".auth)
-      console.log("config", req);
+      //// console.log("auth".auth)
+      // console.log("config", req);
     }
     return req;
   },
   function (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 );
 
 axios.interceptors.response.use(
   (response: any) => {
-    console.log("res", response);
+    // console.log("res", response);
     // if (response.data.status) {
     //   if (response.data.status === 200) {
     //     if (response.data.message !== null) {
@@ -52,7 +52,7 @@ axios.interceptors.response.use(
 
   },
   (err: any) => {
-    console.log("err", err.response);
+    // console.log("err", err.response);
     if (err.response !== undefined) {
       if (err.response.data !== null) {
         if (err.response.data.message && err.response.data.message.length > 0 && err.response.data.status === 400) {
@@ -97,27 +97,27 @@ axios.interceptors.response.use(
             // let res = axios
             //   .post(constant.apiUrl + "token", data)
             //   .then((res: any) => {
-            //     console.log("res", res);
+            //     // console.log("res", res);
             //     localStorage.setItem("token", JSON.stringify(res.data.token));
             //     // oldRequest
             //     if (oldCount === 0) {
             //       oldCount = 1;
             //       oldRequest.headers["Authorization"] =
             //         "Barier " + (res.data ? res.data.token : "");
-            //       console.log("oldRequest", oldRequest);
-            //       // console.log("oldRequest.url",oldRequest.url)
+            //       // console.log("oldRequest", oldRequest);
+            //       // // console.log("oldRequest.url",oldRequest.url)
             //       switch (oldRequest['method']) {
             //         case "GET":
             //           axios
             //             .get(oldRequest.url, { headers: oldRequest.headers })
             //             .then((result: any) => {
-            //               // console.log("oldrequest result ", result1)
-            //               // console.log("oldrequest result response", response)
+            //               // // console.log("oldrequest result ", result1)
+            //               // // console.log("oldrequest result response", response)
             //               //return result1;
             //               return result;
             //             })
             //             .catch((error1: any) => {
-            //               // console.log("oldrequest error ", error1)
+            //               // // console.log("oldrequest error ", error1)
             //               return error1;
             //             });
             //           break;
@@ -127,13 +127,13 @@ axios.interceptors.response.use(
             //               headers: oldRequest.headers,
             //             })
             //             .then((result: any) => {
-            //               // console.log("oldrequest result ", result1)
-            //               // console.log("oldrequest result response", response)
+            //               // // console.log("oldrequest result ", result1)
+            //               // // console.log("oldrequest result response", response)
             //               //return result1;
             //               return result;
             //             })
             //             .catch((error1: any) => {
-            //               // console.log("oldrequest error ", error1)
+            //               // // console.log("oldrequest error ", error1)
             //               return error1;
             //             });
             //           break;
@@ -143,13 +143,13 @@ axios.interceptors.response.use(
             //               headers: oldRequest.headers,
             //             })
             //             .then((result: any) => {
-            //               // console.log("oldrequest result ", result1)
-            //               // console.log("oldrequest result response", response)
+            //               // // console.log("oldrequest result ", result1)
+            //               // // console.log("oldrequest result response", response)
             //               //return result1;
             //               return result;
             //             })
             //             .catch((error1: any) => {
-            //               // console.log("oldrequest error ", error1)
+            //               // // console.log("oldrequest error ", error1)
             //               return error1;
             //             });
             //           break;
@@ -159,13 +159,13 @@ axios.interceptors.response.use(
             //               headers: oldRequest.headers,
             //             })
             //             .then((result: any) => {
-            //               // console.log("oldrequest result ", result1)
-            //               // console.log("oldrequest result response", response)
+            //               // // console.log("oldrequest result ", result1)
+            //               // // console.log("oldrequest result response", response)
             //               //return result1;
             //               return result;
             //             })
             //             .catch((error1: any) => {
-            //               // console.log("oldrequest error ", error1)
+            //               // // console.log("oldrequest error ", error1)
             //               return error1;
             //             });
             //           break;

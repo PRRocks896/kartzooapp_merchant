@@ -75,7 +75,7 @@ class AddProduct extends React.Component<{ history: any }> {
         document.title = constant.addProduct + utils.getAppName();
 
         // const getAllCategory = await CategoryAPI.getAllCategory();
-        // console.log("getAllCategory",getAllCategory);
+        // // console.log("getAllCategory",getAllCategory);
     }
 
     onMerchantSelect(event: any) {
@@ -99,7 +99,7 @@ class AddProduct extends React.Component<{ history: any }> {
 
 
     handleMainChange = (content: any, editor: any) => {
-        console.log('handleEditorChange Content was updated:', content);
+        // console.log('handleEditorChange Content was updated:', content);
         this.setState({
             productdescription: this.state.productdescription = content
         })
@@ -107,7 +107,7 @@ class AddProduct extends React.Component<{ history: any }> {
     }
 
     handleDescChange = (content: any, editor: any) => {
-        console.log('handleDescChange Content was updated:', content);
+        // console.log('handleDescChange Content was updated:', content);
         this.setState({
             metadiscription: this.state.metadiscription = content
         })
@@ -115,7 +115,7 @@ class AddProduct extends React.Component<{ history: any }> {
     }
 
     handleKeywordChange = (content: any, editor: any) => {
-        console.log('handleKeywordChange Content was updated:', content);
+        // console.log('handleKeywordChange Content was updated:', content);
         this.setState({
             metakeyword: this.state.metakeyword = content
         })
@@ -244,11 +244,11 @@ class AddProduct extends React.Component<{ history: any }> {
 
 
                 // const addProduct = await API.addProduct(obj);
-                // console.log("addProduct",addProduct);
+                // // console.log("addProduct",addProduct);
 
                 
                 // const editProduct = await API.editProduct(obj);
-                // console.log("editProduct",editProduct);
+                // // console.log("editProduct",editProduct);
 
                 if (this.state.merchantid === obj.merchantid && this.state.maincategoryid === obj.maincategoryid && this.state.subcategoryid === obj.subcategoryid && this.state.productname === obj.productname
                     && this.state.productdescription === obj.productdescription && this.state.price === obj.price && this.state.discountprice === obj.discountprice && this.state.metadiscription === obj.metadiscription

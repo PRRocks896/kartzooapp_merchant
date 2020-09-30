@@ -13,7 +13,7 @@ export default {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.userController.createData, data,false);
     },
     forgotPassword: async function (data: any) {
-        console.log("data",data);
+        // console.log("data",data);
         const params = data.email;
         return await axios.post(Constant.apiUrl + apiUrl.userController.forgotpassword + '?email=' +  params);
     },

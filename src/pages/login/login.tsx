@@ -129,7 +129,7 @@ class Login extends React.Component<{ history: any }> {
         };
 
         var forgotPassword: any = await API.forgotPassword(obj);
-        console.log("forgotPassword", forgotPassword);
+        // console.log("forgotPassword", forgotPassword);
 
         if (forgotPassword) {
           this.setState({
@@ -174,7 +174,7 @@ class Login extends React.Component<{ history: any }> {
         axios
           .post(constant.apiUrl + apiUrl.userController.createData, obj)
           .then(async(res: any) => {
-            console.log("login", res);
+            // console.log("login", res);
             if (res) {
               if (res.data.status === 200) {
                 this.setState({
@@ -187,7 +187,7 @@ class Login extends React.Component<{ history: any }> {
                 const users: any = localStorage.getItem("user");
                 // let user = JSON.parse(users);
                 var getToken = await API.getToken();
-                console.log("getToken", getToken);
+                // console.log("getToken", getToken);
                 if (getToken) {
                   localStorage.setItem("adminToken", getToken.token);
                 }

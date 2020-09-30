@@ -57,7 +57,7 @@ class ViewProduct extends React.Component<{ history: any; location: any }> {
 
   async getProductById(id: any) {
     const getProductById: any = await ProductAPI.getProductById(id);
-    console.log("getProductById", getProductById);
+    // console.log("getProductById", getProductById);
 
     if (getProductById) {
       if(getProductById.status === 200) {

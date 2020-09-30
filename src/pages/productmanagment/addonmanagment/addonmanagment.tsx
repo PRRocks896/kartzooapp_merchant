@@ -43,7 +43,7 @@ class AddOnProduct extends React.Component<{ history: any }> {
         document.title = constant.addonProduct + utils.getAppName();
 
         // const getProduct = await API.getProduct();
-        // console.log("getProduct",getProduct);
+        // // console.log("getProduct",getProduct);
     }
 
     onProductSelect(event: any) {
@@ -72,7 +72,7 @@ class AddOnProduct extends React.Component<{ history: any }> {
     };
 
     handleEditorMainChange = (content: any, editor: any) => {
-        console.log('handleEditorMainChange Content was updated:', content);
+        // console.log('handleEditorMainChange Content was updated:', content);
         this.setState({
             addondetail: this.state.addondetail = content
         })
@@ -101,7 +101,7 @@ class AddOnProduct extends React.Component<{ history: any }> {
                 }
 
                 // const addOnProduct = await API.addOnProduct(obj);
-                // console.log("addOnProduct",addOnProduct);
+                // // console.log("addOnProduct",addOnProduct);
 
                 if (this.state.productid === obj.productid && this.state.addondetail === obj.addondetail) {
                     const msg = "Product details Added Successfully";

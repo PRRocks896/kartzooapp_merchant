@@ -133,10 +133,10 @@ class AddCard extends React.Component<{ history: any }> {
                 }
 
                 // const addCard = await API.addCard(obj);
-                // console.log("addCard",addCard);
+                // // console.log("addCard",addCard);
 
                   // const editCard = await API.editCard(obj);
-                // console.log("editCard",editCard);
+                // // console.log("editCard",editCard);
 
                 if (this.state.userid === obj.userid && this.state.cardtype === obj.cardtype && this.state.cardname === obj.cardname && this.state.cardnumber === obj.cardnumber && this.state.expiryyear === obj.expiryyear) {
                     const msg = "Card Added Successfully";

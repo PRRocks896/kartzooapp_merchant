@@ -145,10 +145,10 @@ class AddAddress extends React.Component<{ history: any }> {
                 }
 
                 // const addAddress = await API.addAddress(obj);
-                // console.log("addAddress",addAddress);
+                // // console.log("addAddress",addAddress);
 
                   // const editAddress = await API.editAddress(obj);
-                // console.log("editAddress",editAddress);
+                // // console.log("editAddress",editAddress);
 
                 if (this.state.userid === obj.userid && this.state.address === obj.address && this.state.city === obj.city && this.state.state === obj.state && this.state.country === obj.country) {
                     const msg = "Address Added Successfully";

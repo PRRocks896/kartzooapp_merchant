@@ -88,7 +88,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     };
 
     var getBusinessHoursData = await MerchantAPI.getBusinessHoursData(obj);
-    console.log("getBusinessHoursData", getBusinessHoursData);
+    // console.log("getBusinessHoursData", getBusinessHoursData);
 
     if (getBusinessHoursData) {
       if(getBusinessHoursData.status === 200) {
@@ -163,7 +163,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         id: this.state.deleteuserdata,
       };
       var deleteUser = await DeleteAPI.deleteData(obj);
-      console.log("deleteuser", deleteUser);
+      // console.log("deleteuser", deleteUser);
       if (deleteUser) {
         if (deleteUser.data.status === 200) {
           const msg1 = deleteUser.data.message;
@@ -242,7 +242,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         isActive: data.isActive === true ? false : true,
       };
       var getStatusChange = await StatusAPI.getStatusChange(obj);
-      console.log("getStatusChange", getStatusChange);
+      // console.log("getStatusChange", getStatusChange);
       if (getStatusChange) {
         if (getStatusChange.status === 200) {
           const msg1 = getStatusChange.message;
@@ -306,7 +306,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         deleteFlag: this.state.deleteFlag = false,
       });
     }
-    console.log("deleteuserdata array", this.state.deleteuserdata);
+    // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
   handleMainChange(e: any) {
@@ -338,7 +338,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
         deleteFlag: this.state.deleteFlag = false,
       });
     }
-    console.log("deleteuserdata array", this.state.deleteuserdata);
+    // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
   pagination(pageNumbers: any) {
