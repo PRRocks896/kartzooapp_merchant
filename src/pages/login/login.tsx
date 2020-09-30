@@ -178,7 +178,7 @@ class Login extends React.Component<{ history: any }> {
             if (res) {
               if (res.data.status === 200) {
                 this.setState({
-                  isButton: false,
+                  isButton: true,
                   disabled: true
                 });
                 var userData = res.data.resultObject;
@@ -348,12 +348,14 @@ class Login extends React.Component<{ history: any }> {
                           <button
                             className="btn mt-4 d-block w-100"
                             type="button"
+                            disabled={this.state.disabled}
                             style={{
                               backgroundColor: "#eea218",
                               color: "#fff",
                               fontWeight: 500,
                             }}
                           >
+                            
                             {constant.signin}
                           </button>
                         </div>
