@@ -347,8 +347,8 @@ class Login extends React.Component<{ history: any }> {
                         <div>
                           <button
                             className="btn mt-4 d-block w-100"
-                            type="button"
                             disabled={this.state.disabled}
+                            type="button"
                             style={{
                               backgroundColor: "#eea218",
                               color: "#fff",
