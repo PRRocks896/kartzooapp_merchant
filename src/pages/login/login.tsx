@@ -197,6 +197,8 @@ class Login extends React.Component<{ history: any }> {
                   isButton: this.state.isButton = false,
                   disabled:false
                 });
+                const msg1 = res.data.message;
+                utils.showError(msg1);
               }
             } else {
               this.setState({

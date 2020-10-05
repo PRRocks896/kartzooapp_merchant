@@ -586,12 +586,12 @@ class Profile extends React.Component<{ history: any }> {
         )
         this.state.selectedProfileFile !== '' ? (
           formData.append(
-            "ProfilePhoto",
+            "profilephotofiles",
             this.state.selectedProfileFile ? this.state.selectedProfileFile[0] : ""
           )
         ) : (
           formData.append(
-            "ProfilePhoto",
+            "profilephotofiles",
             this.state.selectedProfileFile ? this.state.selectedProfileFile : ""
           )
         )
