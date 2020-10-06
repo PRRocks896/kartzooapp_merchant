@@ -28,6 +28,7 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
     menuitemcontoller: this.menuState.menuitemcontoller,
     menuitemview: this.menuState.menuitemview,
     sortorder: this.menuState.sortorder,
+    sortordererror: this.menuState.sortordererror,
     parentid: this.menuState.parentid,
     isActive: this.menuState.isActive,
     updateTrue: this.menuState.updateTrue,
@@ -114,16 +115,21 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
   }
 
 
-
   validate() {
     let menuitemnameerror = "";
+    let sortordererror = "";
 
     if (!this.state.menuitemname) {
       menuitemnameerror = "please enter menu item name";
     }
 
-    if (menuitemnameerror) {
-      this.setState({ menuitemnameerror });
+    var regex1 = /^[0-9]+$/;
+    if(!regex1.test(this.state.sortorder)) {
+      sortordererror = "please enter valid order"
+    }
+
+    if (menuitemnameerror || sortordererror) {
+      this.setState({ menuitemnameerror,sortordererror });
       return false;
     }
     return true;
@@ -140,7 +146,8 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
     const isValid = this.validate();
     if (isValid) {
       this.setState({
-        menuitemnameerror: ""
+        menuitemnameerror: "",
+        sortordererror:""
       });
       if (this.state.menuitemname) {
         const obj : addMenuRequest = {
@@ -174,7 +181,8 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
     const isValid = this.validate();
     if (isValid) {
       this.setState({
-        menuitemnameerror: ""
+        menuitemnameerror: "",
+        sortordererror:""
       });
       if (this.state.menuitemname) {
         const obj : addMenuRequest = {
@@ -364,6 +372,9 @@ class AddMenu extends React.Component<{ history: any; location: any }> {
                             placeholder="Enter your sort order"
                             required
                           />
+                            <div className="mb-4 text-danger">
+                            {this.state.sortordererror}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>

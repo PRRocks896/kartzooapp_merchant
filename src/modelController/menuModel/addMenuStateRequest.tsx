@@ -8,5 +8,6 @@ export interface addMenuStateRequest {
       isActive:boolean,
       updateTrue:boolean,
       menuid:string,
-      menudata:any
+      menudata:any,
+      sortordererror?:string
 }
