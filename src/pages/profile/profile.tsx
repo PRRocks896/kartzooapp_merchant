@@ -420,8 +420,11 @@ class Profile extends React.Component<{ history: any }> {
       emailerror = "please enter valid email";
     }
 
+    const mobile:any = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
     if (!this.state.mobilenumber) {
       mobilenumbererror = "please enter mobile number";
+    } else if(!mobile.test(this.state.mobilenumber)) {
+      mobilenumbererror = "please enter valid mobile number";
     }
 
     if (!this.state.password) {
