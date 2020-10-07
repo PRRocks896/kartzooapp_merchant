@@ -606,7 +606,14 @@ class Profile extends React.Component<{ history: any }> {
           if(updateMerchant.status === 200) {
             const msg1 = updateMerchant.message;
             utils.showSuccess(msg1);
+            const users: any = localStorage.getItem("user");
+            let user = JSON.parse(users);
+            user.firstName = updateMerchant.resultObject.firstName;
+            user.lastName =  updateMerchant.resultObject.lastName;
+            localStorage.setItem("user",JSON.stringify(user));
           EventEmitter.dispatch('imageUpload', updateMerchant.resultObject.profilePhotoPath);
+          EventEmitter.dispatch('firstname', updateMerchant.resultObject.firstName);
+          EventEmitter.dispatch('lastname', updateMerchant.resultObject.lastName);
           this.props.history.push("/dashboard");
         } else {
           const msg1 = updateMerchant.message;

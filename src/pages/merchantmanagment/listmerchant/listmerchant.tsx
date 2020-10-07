@@ -279,8 +279,8 @@ class ListMerchant extends React.Component<{ history: any }> {
                         onClick={() =>
                           this.statusChange(
                             data,
-                            "You should be inActive merchant",
-                            "Yes, inActive it"
+                            "You should be Inactive merchant",
+                            "Yes, Inactive it"
                           )
                         }
                       >
@@ -288,7 +288,7 @@ class ListMerchant extends React.Component<{ history: any }> {
                       </button>
                     ) : (
                       <button
-                        className="status_inactive_color"
+                        className="status_Inactive_color"
                         onClick={() =>
                           this.statusChange(
                             data,
@@ -297,7 +297,7 @@ class ListMerchant extends React.Component<{ history: any }> {
                           )
                         }
                       >
-                        InActive
+                        Inactive
                       </button>
                     )}
                   </td>

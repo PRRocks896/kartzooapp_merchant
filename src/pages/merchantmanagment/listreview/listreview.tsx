@@ -50,7 +50,7 @@ class ListMerchantReview extends React.Component<{ history: any }> {
         isFetch: false,
         data: '',
         allRecords: '',
-        upperPageBound: 3,
+       upperPageBound: 6,
         lowerPageBound: 0,
         pageBound: 3,
         isPrevBtnActive: 'disabled',

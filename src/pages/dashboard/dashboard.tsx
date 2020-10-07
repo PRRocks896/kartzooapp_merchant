@@ -9,6 +9,7 @@ import TimingChart from './component/timingchart/timingchart';
 import FavouriteCharts from './component/favouritecharts/favouritecharts';
 import PlaceOrders from './component/placeorders/placeorders';
 import ResturantListings from './component/resturantslisting/resturantslisting';
+import EventEmitter from '../../event';
 
 interface User {
     firstName?: string,
@@ -26,6 +27,18 @@ class Dashboard extends React.Component {
     
     constructor(props:any) {
         super(props);
+        EventEmitter.subscribe('firstname', (data:any) => {
+            this.setState({
+                firstName: this.state.firstName = data,
+            })
+
+        });
+        EventEmitter.subscribe('lastname', (data:any) => {
+            this.setState({
+                lastName: this.state.lastName = data,
+            })
+
+        });
     }
     
     toggleCollapse = () => {

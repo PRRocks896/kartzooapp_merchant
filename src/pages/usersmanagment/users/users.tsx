@@ -384,8 +384,8 @@ class Users extends React.Component<{ history: any }> {
                         onClick={() =>
                           this.statusChange(
                             data,
-                            "You should be inActive user",
-                            "Yes, inActive it"
+                            "You should be Inactive user",
+                            "Yes, Inactive it"
                           )
                         }
                       >
@@ -393,7 +393,7 @@ class Users extends React.Component<{ history: any }> {
                       </button>
                     ) : (
                       <button
-                        className="status_inactive_color"
+                        className="status_Inactive_color"
                         onClick={() =>
                           this.statusChange(
                             data,
@@ -402,7 +402,7 @@ class Users extends React.Component<{ history: any }> {
                           )
                         }
                       >
-                        InActive
+                        Inactive
                       </button>
                     )}
                   </td>

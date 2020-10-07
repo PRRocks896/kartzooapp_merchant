@@ -27,6 +27,18 @@ class NavBar extends React.Component {
             })
 
         });
+        EventEmitter.subscribe('firstname', (data:any) => {
+            this.setState({
+                firstName: this.state.firstName = data,
+            })
+
+        });
+        EventEmitter.subscribe('lastname', (data:any) => {
+            this.setState({
+                lastName: this.state.lastName = data,
+            })
+
+        });
     }
 
     componentDidMount() {

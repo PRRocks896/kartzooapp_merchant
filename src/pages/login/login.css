@@ -45,3 +45,8 @@
     right: 0px;
     padding: 12px 12px;
 }
+
+button.bbg.btn.btn-secondary {
+	background-color: #eea218 !important;
+	font-weight: 600px;
+}

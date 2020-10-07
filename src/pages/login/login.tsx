@@ -5,19 +5,17 @@ import utils from "../../utils";
 import constant from "../../constant/constant";
 import axios from "axios";
 import apiUrl from "../../apicontroller/apicontrollers";
-import { loginCreateRequest,addLoginStateRequest } from "../../modelController";
 import {
-  Button,
-  Input,
-  FormGroup,
-  Label
-} from "reactstrap";
+  loginCreateRequest,
+  addLoginStateRequest,
+} from "../../modelController";
+import { Button, Input, FormGroup, Label } from "reactstrap";
 import { Modal } from "react-bootstrap";
 const interceptor = require("../../intercepter");
 const publicIp = require("public-ip");
 
 class Login extends React.Component<{ history: any }> {
-  loginState : addLoginStateRequest = constant.loginPage.state;
+  loginState: addLoginStateRequest = constant.loginPage.state;
   state = {
     email: this.loginState.email,
     emailerror: this.loginState.emailerror,
@@ -27,7 +25,7 @@ class Login extends React.Component<{ history: any }> {
     isButton: this.loginState.isButton,
     type: this.loginState.type,
     forgot: this.loginState.forgot,
-    disabled:this.loginState.disabled
+    disabled: this.loginState.disabled,
   };
 
   constructor(props: any) {
@@ -153,7 +151,7 @@ class Login extends React.Component<{ history: any }> {
   async login() {
     this.setState({
       isButton: true,
-      disabled: true
+      disabled: true,
     });
     const isValid = this.validate();
     if (isValid) {
@@ -173,13 +171,13 @@ class Login extends React.Component<{ history: any }> {
 
         axios
           .post(constant.apiUrl + apiUrl.userController.createData, obj)
-          .then(async(res: any) => {
+          .then(async (res: any) => {
             // console.log("login", res);
             if (res) {
               if (res.data.status === 200) {
                 this.setState({
                   isButton: true,
-                  disabled: true
+                  disabled: true,
                 });
                 var userData = res.data.resultObject;
                 localStorage.setItem("user", JSON.stringify(userData));
@@ -195,7 +193,7 @@ class Login extends React.Component<{ history: any }> {
               } else {
                 this.setState({
                   isButton: this.state.isButton = false,
-                  disabled:false
+                  disabled: false,
                 });
                 const msg1 = res.data.message;
                 utils.showError(msg1);
@@ -203,7 +201,7 @@ class Login extends React.Component<{ history: any }> {
             } else {
               this.setState({
                 isButton: this.state.isButton = false,
-                disabled:false
+                disabled: false,
               });
               // const msg1 = "Internal server error";
               // utils.showError(msg1);
@@ -213,7 +211,7 @@ class Login extends React.Component<{ history: any }> {
     } else {
       this.setState({
         isButton: this.state.isButton = false,
-        disabled:false
+        disabled: false,
       });
     }
   }
@@ -357,7 +355,6 @@ class Login extends React.Component<{ history: any }> {
                               fontWeight: 500,
                             }}
                           >
-                            
                             {constant.signin}
                           </button>
                         </div>
@@ -400,7 +397,11 @@ class Login extends React.Component<{ history: any }> {
             </Modal.Body>
             <Modal.Footer>
               <div className="button-ct">
-                <Button variant="primary" onClick={this.forgotpassword}>
+                <Button
+                  onClick={this.forgotpassword}
+                  className="bbg"
+               
+                >
                   {constant.reset}
                 </Button>
               </div>

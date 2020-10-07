@@ -417,8 +417,8 @@ class UserRole extends React.Component<{ history: any }> {
                         onClick={() =>
                           this.statusChange(
                             data,
-                            "You should be inActive user role",
-                            "Yes, inActive it"
+                            "You should be Inactive user role",
+                            "Yes, Inactive it"
                           )
                         }
                       >
@@ -426,7 +426,7 @@ class UserRole extends React.Component<{ history: any }> {
                       </button>
                     ) : (
                       <button
-                        className="status_inactive_color"
+                        className="status_Inactive_color"
                         onClick={() =>
                           this.statusChange(
                             data,
@@ -435,7 +435,7 @@ class UserRole extends React.Component<{ history: any }> {
                           )
                         }
                       >
-                        InActive
+                        Inactive
                       </button>
                     )}
                   </td>

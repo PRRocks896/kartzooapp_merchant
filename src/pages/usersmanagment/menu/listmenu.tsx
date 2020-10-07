@@ -426,8 +426,8 @@ class ListMenu extends React.Component<{ history: any }> {
                         onClick={() =>
                           this.statusChange(
                             data,
-                            "You should be inActive menu",
-                            "Yes, inActive it"
+                            "You should be Inactive menu",
+                            "Yes, Inactive it"
                           )
                         }
                       >
@@ -435,7 +435,7 @@ class ListMenu extends React.Component<{ history: any }> {
                       </button>
                     ) : (
                       <button
-                        className="status_inactive_color"
+                        className="status_Inactive_color"
                         onClick={() =>
                           this.statusChange(
                             data,
@@ -444,7 +444,7 @@ class ListMenu extends React.Component<{ history: any }> {
                           )
                         }
                       >
-                        InActive
+                        Inactive
                       </button>
                     )}
                   </td>
