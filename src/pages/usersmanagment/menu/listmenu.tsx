@@ -212,7 +212,9 @@ class ListMenu extends React.Component<{ history: any }> {
       page: parseInt(event.target.id),
       size: parseInt(this.state.items_per_page),
     };
+    if(event.target.id > 1) {
     this.getMenuData(obj.searchText, obj.page, obj.size);
+    }
   }
 
   async searchApplicationDataKeyUp(e: any) {
@@ -583,14 +585,6 @@ class ListMenu extends React.Component<{ history: any }> {
                       onKeyUp={this.searchApplicationDataKeyUp}
                     />
                   </div>
-
-                  {this.state.menudata.length > 0 ? (
-                    <>{this.getTable(this.state.menudata)}</>
-                  ) : (
-                    <h1 className="text-center mt-5">
-                      {constant.noDataFound.nodatafound}
-                    </h1>
-                  )}
                   {this.state.deleteFlag === true ? (
                     <Button
                       className="mb-2 mr-2 custom-button"
@@ -607,6 +601,14 @@ class ListMenu extends React.Component<{ history: any }> {
                   ) : (
                     ""
                   )}
+                  {this.state.menudata.length > 0 ? (
+                    <>{this.getTable(this.state.menudata)}</>
+                  ) : (
+                    <h1 className="text-center mt-5">
+                      {constant.noDataFound.nodatafound}
+                    </h1>
+                  )}
+                 
                   {this.state.menudata.length > 0
                     ? this.getPageData(
                         pageIncrementBtn,

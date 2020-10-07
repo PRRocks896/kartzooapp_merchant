@@ -6,19 +6,30 @@ import { Line } from 'react-chartjs-2';
 class OrderGraph extends React.Component {
 
     state = {
-        isOpen: true,
-        // labels: ['12AM', '2PM', '4PM',
-        //     '6PM', '8PM', '10PM', '12PM', '2PM', '4PM',
-        //     '6PM', '8PM', '10PM'],
-        datasets: [
-            {
-                label: 'Graphs',
-                backgroundColor: '#fbb132',
-                // borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [65, 59, 80, 81, 56]
-            }
-        ]
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  datasets: [
+    {
+      label: 'My First dataset',
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: '#fbb132',
+      borderColor: '#fbb132',
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: 'rgba(75,192,192,1)',
+      pointBackgroundColor: '#fff',
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+      pointHoverBorderColor: 'rgba(220,220,220,1)',
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data: [65, 59, 80, 81, 56, 55, 40]
+    }
+  ]
     };
 
 
@@ -34,7 +45,8 @@ class OrderGraph extends React.Component {
                                 <h2>$8,451</h2>
                             </div>
                         </div>
-                        <Line
+                        <Line data={this.state} />
+                        {/* <Line
                             data={this.state}
                             options={{
                                 title: {
@@ -46,7 +58,7 @@ class OrderGraph extends React.Component {
                                     position: 'right'
                                 }
                             }}
-                        />
+                        /> */}
                         {/* <canvas id="line-chart"></canvas> */}
                     </div>
                 </div>
@@ -59,19 +71,7 @@ class OrderGraph extends React.Component {
                                 <h2>3,973</h2>
                             </div>
                         </div>
-                        <Line
-                            data={this.state}
-                            options={{
-                                title: {
-                                    display: true,
-                                    fontSize: 24
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'right'
-                                }
-                            }}
-                        />
+                        <Line  data={this.state} />
                         {/* <canvas id="line-chart-2"></canvas> */}
                     </div>
                 </div>
@@ -84,19 +84,7 @@ class OrderGraph extends React.Component {
                                 <h2>7,333</h2>
                             </div>
                         </div>
-                        <Line
-                            data={this.state}
-                            options={{
-                                title: {
-                                    display: true,
-                                    fontSize: 24
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'right'
-                                }
-                            }}
-                        />
+                        <Line  data={this.state} />
                         {/* <canvas id="line-chart-3"></canvas> */}
                     </div>
                 </div>
@@ -109,19 +97,7 @@ class OrderGraph extends React.Component {
                                 <h2>48,973</h2>
                             </div>
                         </div>
-                        <Line
-                            data={this.state}
-                            options={{
-                                title: {
-                                    display: true,
-                                    fontSize: 24
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'right'
-                                }
-                            }}
-                        />
+                        <Line  data={this.state} />
                         {/* <canvas id="line-chart-4"></canvas> */}
                     </div>
                 </div>

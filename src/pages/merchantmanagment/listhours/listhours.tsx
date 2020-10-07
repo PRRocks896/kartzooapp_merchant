@@ -210,7 +210,9 @@ class ListBussinessHours extends React.Component<{ history: any }> {
       size: parseInt(this.state.items_per_page),
     };
 
-    this.getBusinessHoursData(obj.searchText, obj.page, obj.size);
+    if(event.target.id > 1) {
+      this.getBusinessHoursData(obj.searchText, obj.page, obj.size);
+    }
   }
 
   async searchApplicationDataKeyUp(e: any) {
@@ -606,14 +608,6 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                       onKeyUp={this.searchApplicationDataKeyUp}
                     />
                   </div>
-
-                  {this.state.businessdata.length > 0 ? (
-                    <>{this.getTable(this.state.businessdata)}</>
-                  ) : (
-                    <h1 className="text-center mt-5">
-                      {constant.noDataFound.nodatafound}
-                    </h1>
-                  )}
                   {this.state.deleteFlag === true ? (
                     <Button className="mb-2 mr-2 custom-button" color="primary" onClick={() => this.deleteAllData("You should be Delete Business Hours",
                     "Yes, Delete it")}>
@@ -622,6 +616,14 @@ class ListBussinessHours extends React.Component<{ history: any }> {
                   ) : (
                     ""
                   )}
+                  {this.state.businessdata.length > 0 ? (
+                    <>{this.getTable(this.state.businessdata)}</>
+                  ) : (
+                    <h1 className="text-center mt-5">
+                      {constant.noDataFound.nodatafound}
+                    </h1>
+                  )}
+                 
                   {this.state.businessdata.length > 0
                     ? this.getPageData(
                         pageIncrementBtn,

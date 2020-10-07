@@ -178,7 +178,9 @@ class UserRole extends React.Component<{ history: any }> {
       page: parseInt(event.target.id),
       size: parseInt(this.state.items_per_page),
     };
-    this.getRole(obj.searchText, obj.page, obj.size);
+    if(event.target.id > 1) {
+      this.getRole(obj.searchText, obj.page, obj.size);
+    }
   }
 
   async searchApplicationDataKeyUp(e: any) {
@@ -577,12 +579,7 @@ class UserRole extends React.Component<{ history: any }> {
                       />
                     </div>
 
-                    {this.state.userrole.length > 0 ? (
-                      <>{this.getTable(this.state.userrole)}</>
-                    ) : (
-                    <h1 className="text-center mt-5">{constant.noDataFound.nodatafound}</h1>
-                    )}
-                     {this.state.deleteFlag === true ? (
+                    {this.state.deleteFlag === true ? (
                       <Button
                         className="mb-2 mr-2 custom-button"
                         color="primary"
@@ -594,6 +591,12 @@ class UserRole extends React.Component<{ history: any }> {
                     ) : (
                       ""
                     )}
+                    {this.state.userrole.length > 0 ? (
+                      <>{this.getTable(this.state.userrole)}</>
+                    ) : (
+                    <h1 className="text-center mt-5">{constant.noDataFound.nodatafound}</h1>
+                    )}
+                    
                     {this.state.userrole.length > 0
                       ? this.getPageData(
                           pageIncrementBtn,

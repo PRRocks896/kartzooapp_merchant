@@ -202,7 +202,9 @@ class ListProductInventory extends React.Component<{ history: any }> {
       size: parseInt(this.state.items_per_page),
     };
 
-    this.getProductInventoryData(obj.searchText, obj.page, obj.size);
+    if(event.target.id > 1) {
+      this.getProductInventoryData(obj.searchText, obj.page, obj.size);
+    }
   }
 
   async searchApplicationDataKeyUp(e: any) {
