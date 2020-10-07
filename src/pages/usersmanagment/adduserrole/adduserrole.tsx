@@ -120,7 +120,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
       this.setState({
         rolenameerror: "",
       });
-      if (this.state.rolename && this.state.isOpen) {
+      if (this.state.rolename) {
         const obj: userRoleCreateRequest = {
           role: this.state.rolename,
           description: this.state.description,
@@ -156,7 +156,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
       this.setState({
         rolenameerror: "",
       });
-      if (this.state.rolename && this.state.isOpen) {
+      if (this.state.rolename) {
         const obj: userRoleUpdateRequest = {
           roleId: this.state.roleid,
           role: this.state.rolename,

@@ -328,7 +328,7 @@ class AddUser extends React.Component<{ history: any; location: any }> {
         formData.append("phone", this.state.mobilenumber.toString());
         formData.append("password", this.state.password);
         formData.append("isActive", new Boolean(this.state.isActive).toString());
-        formData.append("files", this.state.selectedFile[0]);
+        formData.append("files", this.state.selectedFile ? this.state.selectedFile[0] : "null");
         formData.append("userId", "0");
 
         const addUser: any = await API.addUser(formData);
@@ -380,7 +380,7 @@ class AddUser extends React.Component<{ history: any; location: any }> {
         formData.append("phone", this.state.mobilenumber.toString());
         formData.append("password", this.state.password);
         formData.append("isActive", new Boolean(this.state.isActive).toString());
-        formData.append("files", this.state.selectedFile[0]);
+        formData.append("files", this.state.selectedFile ? this.state.selectedFile[0] : "null");
         formData.append("userId", "0");
 
         const editUser: any = await API.editUser(formData, this.state.userid);

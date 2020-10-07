@@ -555,7 +555,7 @@ class Profile extends React.Component<{ history: any }> {
         ) : (
           formData.append(
             "IDProoffiles",
-            this.state.selectedProofFile ? this.state.selectedProofFile : ""
+            this.state.selectedProofFile ? this.state.selectedProofFile : "null"
           )
         )
         this.state.selectedDocumentFile !== '' ? (
@@ -570,7 +570,7 @@ class Profile extends React.Component<{ history: any }> {
             "Documentfiles",
             this.state.selectedDocumentFile
               ? this.state.selectedDocumentFile
-              : ""
+              : "null"
           )
         )
         formData.append("ShippingPolicy", this.state.shoppingpolicy);
@@ -584,7 +584,7 @@ class Profile extends React.Component<{ history: any }> {
         ) : (
           formData.append(
             "Logofiles",
-            this.state.selectedFile ? this.state.selectedFile : ""
+            this.state.selectedFile ? this.state.selectedFile : "null"
           )
         )
         this.state.selectedProfileFile !== '' ? (
@@ -595,7 +595,7 @@ class Profile extends React.Component<{ history: any }> {
         ) : (
           formData.append(
             "profilephotofiles",
-            this.state.selectedProfileFile ? this.state.selectedProfileFile : ""
+            this.state.selectedProfileFile ? this.state.selectedProfileFile : "null"
           )
         )
         formData.append("UserId", "0");
@@ -630,24 +630,28 @@ class Profile extends React.Component<{ history: any }> {
   removeIcon() {
     this.setState({
       file: this.state.file = "",
+      selectedFile: this.state.selectedFile = ""
     });
   }
 
   removeDocumentIcon() {
     this.setState({
       file2: this.state.file2 = "",
+      selectedDocumentFile: this.state.selectedDocumentFile = ""
     });
   }
 
   removeProofIcon() {
     this.setState({
       file1: this.state.file1 = "",
+      selectedProofFile: this.state.selectedProofFile = ""
     });
   }
 
   removeProfilePhotoIcon() {
     this.setState({
       file4: this.state.file4 = "",
+      selectedProfileFile: this.state.selectedProfileFile = ""
     });
     EventEmitter.dispatch('imageUpload', this.state.file4);
   }

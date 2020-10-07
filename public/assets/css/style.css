@@ -859,7 +859,7 @@ body:not(.ms-aside-left-open) .ms-aside-toggler .ms-toggler-bar{
   height: 100%;
   display: inline-block;
   vertical-align: middle;
-  padding: 1.1rem 25px;
+  padding: 1.1rem 0px;
 }
 .ms-navbar li.ms-nav-item .ms-user-img{
   display: block;
@@ -1440,16 +1440,16 @@ a.ms-confirm-trigger:hover{
     padding: 0.25rem 15px;
   }
   .ms-navbar .ms-nav-list{
-    position: absolute;
-    width: 100%;
+    /* position: absolute;
+    width: 100%; */
     background-color: transparent;
     top: 0;
     left: 0;
     z-index: 10;
     text-align: right;
-    padding: 0 1.25rem;
-    opacity: 0;
-    visibility: hidden;
+    padding: 0 0.1rem;
+    opacity: 1;
+    visibility: visible;
   }
   .ms-dark-theme .ms-navbar .ms-nav-list{
     background-color: #252851;
@@ -1724,7 +1724,7 @@ a.ms-confirm-trigger:hover{
   font-weight: 500;
   font-size: 12px;
   padding: 0.25rem 0.75rem;
-}}
+}
 .ms-infographics-widget.has-graph .ms-card-body + p{
   margin: 1rem;
   margin-top: 0;
