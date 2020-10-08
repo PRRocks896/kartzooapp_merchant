@@ -388,9 +388,9 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   getTable(merchantdata: any) {
     return (
       <table
-        id="dtBasicExample"
-        className="table table-striped table-bordered table-sm"
-        width="100%"
+      id="dtBasicExample"
+      className="table table-striped table-bordered table_responsive table-sm sortable"
+      width="100%"
       >
         <thead>
           <tr onClick={() => this.handleSort("days")}>

@@ -194,7 +194,7 @@ class ViewProduct extends React.Component<{ history: any; location: any }> {
                               {constant.productPage.productTableColumn.price}
                             </b>
                           </Label>
-                          <p>{this.state.price ? this.state.price : 'N/A'}</p>
+                          <p>{this.state.price ? this.state.price : '0'}</p>
                         </FormGroup>
                       </Col>
                       <Col xs="12" sm="12" md="4" lg="4" xl="4">
@@ -207,7 +207,7 @@ class ViewProduct extends React.Component<{ history: any; location: any }> {
                               }
                             </b>
                           </Label>
-                          <p>{this.state.discountprice ? this.state.discountprice : 'N/A'}</p>
+                          <p>{this.state.discountprice ? this.state.discountprice : '0'}</p>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -241,7 +241,7 @@ class ViewProduct extends React.Component<{ history: any; location: any }> {
                           <p>{this.state.sortorder ? this.state.sortorder : 'N/A'}</p>
                         </FormGroup>
                       </Col>
-                      <Col xs="12" sm="12" md="4" lg="4" xl="4">
+                      {/* <Col xs="12" sm="12" md="4" lg="4" xl="4">
                         <FormGroup>
                           <Label htmlFor="mobile_no">
                             <b>
@@ -253,7 +253,7 @@ class ViewProduct extends React.Component<{ history: any; location: any }> {
                           </Label>
                           <p>{this.state.isFeatured ? this.state.isFeatured : 'N/A'}</p>
                         </FormGroup>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <Row>
                       <Col xs="12" sm="12" md="4" lg="4" xl="4">
