@@ -22,9 +22,9 @@ export default {
   logout: "Logout",
   filepath: "http://api.kartzoapp.com/",
   fileMerchantpath: "http://api-merchant.kartzoapp.com/",
-  mainUrl: "http://api.kartzoapp.com/api/",
-  apiUrl: "http://api-merchant.kartzoapp.com/v1/",
-  apiMerchantUrl:"http://api-merchant.kartzoapp.com/v1/",
+  mainUrl: "http://api.kartzoapp.com/v1/api/",
+  apiUrl: "http://api-merchant.kartzoapp.com/v1/api/",
+  apiMerchantUrl:"http://api-merchant.kartzoapp.com/v1/api/",
   headers: {
     Authorization:
       "Bearer " +
@@ -238,7 +238,11 @@ export default {
       updateTrue:false,
       userid:0,
       cityname:'',
-      merchantId:''
+      merchantId:'',
+      s1:'',
+      s2:'',
+      s3:'',
+      s4:'',
     },
     profile: {
       updateprofile:'Update Profile',
