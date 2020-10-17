@@ -169,6 +169,9 @@ class ListMenu extends React.Component<{ history: any }> {
           parseInt(this.state.currentPage),
           parseInt(this.state.items_per_page)
         );
+        this.setState({
+          deleteFlag:this.state.deleteFlag = false
+        })
         } else {
           const msg1 = deleteUser.data.message;
           utils.showError(msg1);
