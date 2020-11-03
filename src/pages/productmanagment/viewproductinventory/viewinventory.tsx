@@ -19,6 +19,8 @@ class ViewProductInventory extends React.Component<{
   history: any;
   location: any;
 }> {
+
+  /** View Product Inventory State */
   productState : addInventoryState = constant.productInventoryPage.state;
   state = {
     productid: this.productState.productid,
@@ -26,10 +28,12 @@ class ViewProductInventory extends React.Component<{
     productdata: this.productState.productdata,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
   }
 
+  /** Page Render Call */
   async componentDidMount() {
     document.title = constant.viewInventoryProduct + utils.getAppName();
     const inventoryId = this.props.location.pathname.split("/")[2];
@@ -38,6 +42,10 @@ class ViewProductInventory extends React.Component<{
     }
   }
 
+  /**
+   * 
+   * @param inventoryId : get inventory data
+   */
   async getInventoryData(inventoryId: any) {
     const obj:getDataByIdRequest = {
       id: inventoryId,
@@ -62,6 +70,7 @@ class ViewProductInventory extends React.Component<{
     }
   }
 
+  /** Render DOM */
   render() {
     return (
       <>

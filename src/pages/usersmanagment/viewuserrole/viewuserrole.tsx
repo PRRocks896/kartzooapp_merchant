@@ -17,17 +17,20 @@ import constant from "../../../constant/constant";
 import { addUserRoleState, getDataByIdRequest } from "../../../modelController";
 
 class ViewUserRole extends React.Component<{ history: any; location: any }> {
+
+  /** View User Role */
   userState : addUserRoleState = constant.userRolePage.state;
   state = {
       rolename: this.userState.rolename,
       description: this.userState.description
-  
   };
 
+  /** Constructor Call */
   constructor(props: any) {
     super(props);
   }
 
+  /** Page Render Call */
   async componentDidMount() {
     document.title =
       constant.userRolePage.title.viewUserRoleTitle + utils.getAppName();
@@ -37,6 +40,10 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
     }
   }
 
+  /**
+   * 
+   * @param roleId : get role
+   */
   async getUserRole(roleId: any) {
     const obj: getDataByIdRequest = {
       id: roleId,
@@ -62,6 +69,7 @@ class ViewUserRole extends React.Component<{ history: any; location: any }> {
     }
   }
 
+  /** Render DOM */
   render() {
     return (
       <>

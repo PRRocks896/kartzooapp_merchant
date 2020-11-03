@@ -17,6 +17,8 @@ import { changePasswordStateRequest } from '../../modelController/changepassword
 
 
 class ChangePassword extends Component<{history:any,location:any}> {
+
+    /** Change Password State */
     changeState : changePasswordStateRequest = constant.changePasswordPage.state;
     state = {
         oldpassword: this.changeState.oldpassword,
@@ -28,6 +30,7 @@ class ChangePassword extends Component<{history:any,location:any}> {
         userid: this.changeState.userid
     }
 
+    /** Constructor Call */
     constructor(props: any) {
         super(props);
         this.ChangePassword = this.ChangePassword.bind(this);
@@ -35,6 +38,7 @@ class ChangePassword extends Component<{history:any,location:any}> {
         this.resetForm = this.resetForm.bind(this);
     }
 
+    /** Reset Form */
     resetForm(){
         this.setState({
           oldpassword: this.state.oldpassword = '',
@@ -43,13 +47,14 @@ class ChangePassword extends Component<{history:any,location:any}> {
         })
       }
 
+    /** Page Render Call */
     async componentDidMount() {
         let userid: any = localStorage.getItem('user');
         this.state.userid = JSON.parse(userid).merchantID
         document.title = constant.changepassword + utils.getAppName();
     }
 
-
+    /** Check Validate or not */
     validate() {
         let oldpassworderror = "";
         let newpassworderror = "";
@@ -75,6 +80,10 @@ class ChangePassword extends Component<{history:any,location:any}> {
 
     }
 
+    /**
+     * 
+     * @param event : update state value
+     */
     handleChangeEvent(event: any) {
     event.preventDefault();
     const state: any = this.state;
@@ -82,6 +91,7 @@ class ChangePassword extends Component<{history:any,location:any}> {
     this.setState(state);
   }
 
+  /** Change Password */
     async ChangePassword() {
         const isValid = this.validate();
         if (isValid) {
@@ -124,6 +134,7 @@ class ChangePassword extends Component<{history:any,location:any}> {
         };
     }
 
+    /** Render DOM */
     render() {
         return (
            

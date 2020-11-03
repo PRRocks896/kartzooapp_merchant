@@ -31,6 +31,8 @@ class MerchantBusiness extends React.Component<{
   history: any;
   location: any;
 }> {
+
+  /** Merchant BusinessPage State */
   businessState: businessState = constant.merchantBussinessPage.state;
   state = {
     merchant: this.businessState.merchant,
@@ -45,6 +47,7 @@ class MerchantBusiness extends React.Component<{
     businessid: this.businessState.businessid,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.handleChangeEvent = this.handleChangeEvent.bind(this);
@@ -57,6 +60,7 @@ class MerchantBusiness extends React.Component<{
     this.onChange = this.onChange.bind(this);
   }
 
+  /** Page render call */
   async componentDidMount() {
     const businessId = this.props.location.pathname.split("/")[2];
     if (businessId !== undefined) {
@@ -83,6 +87,7 @@ class MerchantBusiness extends React.Component<{
     });
   }
 
+  /** Get Merchant business hours data */
   async getHoursById(businessId: any) {
     const obj:getDataByIdRequest = {
       id: businessId,
@@ -109,6 +114,7 @@ class MerchantBusiness extends React.Component<{
     }
   }
 
+  /** Get Merchant list */
   async getMerchantList() {
     var getMerchantList = await MerchantAPI.getMerchantList();
     // console.log("getMerchantList", getMerchantList);
@@ -128,16 +134,26 @@ class MerchantBusiness extends React.Component<{
     }
   }
 
+  /**
+   * 
+   * @param time : time value
+   * @param timeString : time value in string
+   */
   onChange(time: any, timeString: any) {
     this.setState({
       hours:timeString
     })
   }
 
+  /**
+   * 
+   * @param checked : boolean value 
+   */
   handleChange(checked: boolean) {
     this.setState({ isOpen:checked });
   }
 
+  /** Check validate or not */
   validate() {
     let dayserror = "";
     let hourserror = "";
@@ -162,12 +178,20 @@ class MerchantBusiness extends React.Component<{
     return true;
   }
 
+  /**
+   * 
+   * @param e : select day value 
+   */
   onItemSelect(e: any) {
     this.setState({
       days:e.target.value,
     });
   }
 
+  /**
+   * 
+   * @param event : update state value
+   */
   handleChangeEvent(event: any) {
     event.preventDefault();
     const state: any = this.state;
@@ -175,6 +199,7 @@ class MerchantBusiness extends React.Component<{
     this.setState(state);
   }
 
+  /** Add Business merchant */
   async addBusinessMerchant() {
     const isValid = this.validate();
     if (isValid) {
@@ -211,6 +236,7 @@ class MerchantBusiness extends React.Component<{
     }
   }
 
+  /** Update Business merchant */
   async updateBusinessMerchant() {
     const isValid = this.validate();
     if (isValid) {
@@ -250,6 +276,7 @@ class MerchantBusiness extends React.Component<{
     }
   }
 
+  /** Render DOM */
   render() {
     return (
       <>

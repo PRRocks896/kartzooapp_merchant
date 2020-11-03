@@ -21,6 +21,8 @@ import {
 import { DeleteAPI, RoleAPI, StatusAPI } from "../../../service/index.service";
 
 class UserRole extends React.Component<{ history: any }> {
+
+  /** User Role State */
   userState = constant.userPage.state;
   state:roleStateRequest = {
     count: this.userState.count,
@@ -38,6 +40,7 @@ class UserRole extends React.Component<{ history: any }> {
     deleteFlag: this.userState.deleteFlag,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.editRole = this.editRole.bind(this);
@@ -61,6 +64,7 @@ class UserRole extends React.Component<{ history: any }> {
     this.delleteAllData = this.delleteAllData.bind(this);
   }
 
+  /** Page Render Call */
   componentDidMount() {
     document.title =
       constant.userRolePage.title.userRoleTitle + utils.getAppName();
@@ -68,6 +72,12 @@ class UserRole extends React.Component<{ history: any }> {
     this.getRole();
   }
 
+  /**
+   * 
+   * @param searchText : search value
+   * @param page : page number
+   * @param size : per page
+   */
   async getRole(searchText: string = "", page: number = 1, size: number = 10) {
     const obj: getAllTableDataListRequest = {
       searchText: searchText,
@@ -93,10 +103,15 @@ class UserRole extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param pageNumber : page number
+   */
   handlePageChange(pageNumber: number) {
     this.setState({ activePage: pageNumber });
   }
 
+  /** Button next */
   btnIncrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound + this.state.pageBound,
@@ -108,6 +123,7 @@ class UserRole extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /** Button previous */
   btnDecrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound - this.state.pageBound,
@@ -119,10 +135,18 @@ class UserRole extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /**
+   * 
+   * @param data : redirect in edit role
+   */
   editRole(data: any) {
     this.props.history.push("/edituserrole/" + data.roleId);
   }
 
+  /**
+   * 
+   * @param data : redirect in view role
+   */
   viewRole(data: any) {
     this.props.history.push("/viewuserrole/" + data.roleId);
   }
@@ -146,6 +170,10 @@ class UserRole extends React.Component<{ history: any }> {
   //   }
   // }
 
+  /**
+   * 
+   * @param event : Record per page value
+   */
   onItemSelect(event: any) {
     this.setState({
       items_per_page: 
@@ -158,6 +186,10 @@ class UserRole extends React.Component<{ history: any }> {
     );
   }
 
+  /**
+   * 
+   * @param key : sorting value
+   */
   handleSort(key: any) {
     this.setState({
       switchSort: !this.state.switchSort,
@@ -169,6 +201,10 @@ class UserRole extends React.Component<{ history: any }> {
     });
   }
 
+  /**
+   * 
+   * @param event : click on next page
+   */
   async handleClick(event: any) {
     this.setState({
       currentPage: this.state.currentPage = event.target.id,
@@ -183,6 +219,10 @@ class UserRole extends React.Component<{ history: any }> {
     
   }
 
+  /**
+   * 
+   * @param e : search value listing
+   */
   async searchApplicationDataKeyUp(e: any) {
     const obj: getAllTableDataListRequest = {
       searchText: e.target.value,
@@ -192,6 +232,12 @@ class UserRole extends React.Component<{ history: any }> {
     this.getRole(obj.searchText, obj.page, obj.size);
   }
 
+  /**
+   * 
+   * @param data : data
+   * @param text : message
+   * @param btext : button message
+   */
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj: statusChangeRequest = {
@@ -222,6 +268,11 @@ class UserRole extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param text : message
+   * @param btext : button message
+   */
   async delleteAllData(text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj: deleteAllDataRequest = {
@@ -253,6 +304,11 @@ class UserRole extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param item : item
+   * @param e : item select event 
+   */
   handleChange(item: any, e: any) {
     let _id = item.roleId;
     let ind: any = this.state.userrole.findIndex((x: any) => x.roleId === _id);
@@ -297,6 +353,10 @@ class UserRole extends React.Component<{ history: any }> {
     // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
+  /**
+   * 
+   * @param e : main checkbox event
+   */
   handleMainChange(e: any) {
     let _val = e.target.checked;
     this.state.userrole.forEach((element: any) => {
@@ -329,6 +389,10 @@ class UserRole extends React.Component<{ history: any }> {
     // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
+  /**
+   * 
+   * @param pageNumbers : Page number
+   */
   pagination(pageNumbers: any) {
     var res = pageNumbers.map((number: any) => {
       if (number === 1 && parseInt(this.state.currentPage) === 1) {
@@ -371,6 +435,7 @@ class UserRole extends React.Component<{ history: any }> {
     return res;
   }
 
+  /** Get Table List */
   getTable(userrole: any) {
     return (
       <table
@@ -475,6 +540,7 @@ class UserRole extends React.Component<{ history: any }> {
     );
   }
 
+  /** Get Pagiation data */
   getPageData(
     pageDecrementBtn: any,
     renderPageNumbers: any,
@@ -514,6 +580,7 @@ class UserRole extends React.Component<{ history: any }> {
     );
   }
 
+  /** Render DOM */
   render() {
     var pageNumbers = utils.pageNumber(
       this.state.count,

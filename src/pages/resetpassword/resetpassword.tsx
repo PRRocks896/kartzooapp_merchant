@@ -21,10 +21,13 @@ interface resetPasswordState {
 }
 
 class ResetPassword extends React.Component<{ location: any; history: any }> {
+
+  /** Reset Password */
   state : resetPasswordState = {
     password: "",
     passwordError: "",
   };
+
   /** First Constructor Call */
   constructor(props: any) {
     super(props);
@@ -84,6 +87,7 @@ class ResetPassword extends React.Component<{ location: any; history: any }> {
     }
   }
 
+  /** Render DOM */
   render() {
     return (
       <div className="mainclass">

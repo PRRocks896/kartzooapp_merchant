@@ -10,6 +10,11 @@ export default {
     deleteProduct: async function () {
         return await WebReqUrl.delete(Constant.apiUrl + apiUrl.productController.deleteproduct,false);
     },
+
+    /**
+     * 
+     * @param data : delete product inventory
+     */
     deleteProductInventory: async function (data:deleteByIdRequest) {
         return await WebReqUrl.delete(Constant.apiUrl + apiUrl.productController.deleteproductInventory + data.id,false);
     },
@@ -23,6 +28,11 @@ export default {
     addProductImage: async function (data: any) {
         return await WebReqUrl.post(Constant.apiUrl + apiUrl.productController.addImage,data,false);
     },
+
+    /**
+     * 
+     * @param data : add product inventory
+     */
     addProductInventory: async function (data: inventoryCreateRequest) {
         return await WebReqUrl.post(Constant.apiMerchantUrl + apiUrl.productController.addInventory,data,false);
     },
@@ -44,19 +54,24 @@ export default {
     getProductById: async function (data:getDataByIdRequest) {
         return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.productController.getProductById + data,false);
     },
+
+    /** Get All Product */
     getAllProduct: async function () {
         return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.productController.getproductlist,false);
     },
+
+    /** Get Product Inventory Data */
     getProductInventoryData: async function (data:getAllTableDataListRequest) {
         return await WebReqUrl.post(Constant.apiMerchantUrl + apiUrl.productController.getproductinventory,data,false);
     },
+
+    /** Get Inventory Data */
     getInventoryData: async function (data:getDataByIdRequest) {
         return await WebReqUrl.get(Constant.apiMerchantUrl + apiUrl.productController.getInventoryById + data.id,false);
     },
+
+    /** Edit Product Inventory */
     editProductInventory: async function (data: inventoryUpdateRequest) {
         return await WebReqUrl.put(Constant.apiMerchantUrl + apiUrl.productController.editinventory + data.productInventoryId,data,false);
-    },
-    
-    
-    
+    }
 }

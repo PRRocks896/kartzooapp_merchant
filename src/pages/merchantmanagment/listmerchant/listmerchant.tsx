@@ -18,6 +18,7 @@ import {
 import constant from "../../../constant/constant";
 
 class ListMerchant extends React.Component<{ history: any }> {
+
   merchantState = constant.merchantPage.state;
   state = {
     count: this.merchantState.count,

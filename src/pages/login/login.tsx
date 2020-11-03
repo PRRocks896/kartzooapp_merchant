@@ -15,6 +15,8 @@ const interceptor = require("../../intercepter");
 const publicIp = require("public-ip");
 
 class Login extends React.Component<{ history: any }> {
+
+  /** Login state */
   loginState: addLoginStateRequest = constant.loginPage.state;
   state = {
     email: this.loginState.email,
@@ -28,6 +30,7 @@ class Login extends React.Component<{ history: any }> {
     disabled: this.loginState.disabled,
   };
 
+ /** Constructor call  */
   constructor(props: any) {
     super(props);
     this.handleChangeEvent = this.handleChangeEvent.bind(this);
@@ -40,14 +43,17 @@ class Login extends React.Component<{ history: any }> {
     this.handleCloseForgot = this.handleCloseForgot.bind(this);
   }
 
+  /** Forgot Password Model Open */
   forgotmodelOpen() {
     this.setState({ forgot: !this.state.forgot });
   }
 
+  /** Forgot password model close */
   handleCloseForgot() {
     this.setState({ forgot: !this.state.forgot });
   }
 
+  /** Page Render Call */
   async componentDidMount() {
     document.title = constant.loginTitle + utils.getAppName();
     const ipaddress = publicIp.v4();
@@ -57,6 +63,10 @@ class Login extends React.Component<{ history: any }> {
     });
   }
 
+  /**
+   * 
+   * @param event : update state value
+   */
   handleChangeEvent(event: any) {
     event.preventDefault();
     const state: any = this.state;
@@ -64,6 +74,10 @@ class Login extends React.Component<{ history: any }> {
     this.setState(state);
   }
 
+  /**
+   * 
+   * @param event : Update the statein password value
+   */
   handleChangeEventPassword(event: any) {
     event.preventDefault();
     const state: any = this.state;
@@ -71,11 +85,13 @@ class Login extends React.Component<{ history: any }> {
     this.setState(state);
   }
 
+  /** Password type changeable */
   handleClick = () =>
     this.setState(({ type }: any) => ({
       type: type === "password" ? "text" : "password",
     }));
 
+  /** Check Validate or not */
   validate() {
     let emailerror = "";
     let passworderror = "";
@@ -98,6 +114,7 @@ class Login extends React.Component<{ history: any }> {
     return true;
   }
 
+  /** Check password validate */
   validatePassword() {
     let emailerror = "";
 
@@ -115,6 +132,7 @@ class Login extends React.Component<{ history: any }> {
     return true;
   }
 
+  /** Forgot password */
   async forgotpassword() {
     const isValid = this.validatePassword();
     if (isValid) {
@@ -141,6 +159,10 @@ class Login extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param event : enter key login funcation call
+   */
   enterPressed(event: any) {
     var code = event.keyCode || event.which;
     if (code === 13) {
@@ -148,6 +170,7 @@ class Login extends React.Component<{ history: any }> {
     }
   }
 
+  /** Login Funcationality */
   async login() {
     this.setState({
       isButton: true,
@@ -216,6 +239,7 @@ class Login extends React.Component<{ history: any }> {
     }
   }
 
+  /** Render DOM */
   render() {
     return (
       <div className="ms-body ms-primary-theme ms-logged-out">
