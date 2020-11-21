@@ -3,6 +3,12 @@ import Constant from '../constant/constant';
 import utils from '../utils';
 
 const WebReqUrl = {
+
+    /**
+     * 
+     * @param url : get url
+     * @param isMerchant : boolean
+     */
     get: async function (url: string,isMerchant:boolean) {
         try {
             let response;
@@ -32,6 +38,12 @@ const WebReqUrl = {
             console.error(err);
         }
     },
+
+    /**
+     * 
+     * @param url : delete url
+     * @param isMerchant : boolean
+     */
     delete: async function (url: string,isMerchant:boolean) {
         try {
             let response;
@@ -61,6 +73,13 @@ const WebReqUrl = {
             console.error(err);
         }
     },
+
+    /**
+     * 
+     * @param url : put url
+     * @param body : body
+     * @param isMerchant : boolean
+     */
     put: async function (url: string, body: any,isMerchant:boolean) {
         try {
             let response;
@@ -89,6 +108,13 @@ const WebReqUrl = {
             console.error(err);
         }
     },
+
+    /**
+     * 
+     * @param url : get url
+     * @param body : body 
+     * @param isMerchant : boolean
+     */
     post: async function (url: string, body: any,isMerchant:boolean) {
         try {
             let response;

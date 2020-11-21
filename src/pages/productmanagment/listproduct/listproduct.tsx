@@ -18,6 +18,8 @@ import constant from "../../../constant/constant";
 import { getAllTableDataListRequest, statusChangeRequest,productStateRequest } from "../../../modelController";
 
 class ListProduct extends React.Component<{ history: any }> {
+
+  /** Product State */
   productState:productStateRequest = constant.productPage.state;
   state = {
     count: this.productState.count,
@@ -32,6 +34,7 @@ class ListProduct extends React.Component<{ history: any }> {
     isStatus: this.productState.isStatus,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.editProduct = this.editProduct.bind(this);
@@ -50,6 +53,7 @@ class ListProduct extends React.Component<{ history: any }> {
     this.getPageData = this.getPageData.bind(this);
   }
 
+  /** Page Render call */
   async componentDidMount() {
     document.title =
       constant.productPage.title.productTitle + utils.getAppName();
@@ -57,6 +61,12 @@ class ListProduct extends React.Component<{ history: any }> {
     this.getProductData();
   }
 
+  /**
+   * 
+   * @param searchText : search value
+   * @param page : page number
+   * @param size : per page value
+   */
   async getProductData(
     searchText: string = "",
     page: number = 1,
@@ -88,6 +98,7 @@ class ListProduct extends React.Component<{ history: any }> {
     }
   }
 
+  /** Button next */
   btnIncrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound + this.state.pageBound,
@@ -99,6 +110,7 @@ class ListProduct extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /** Button Previous */
   btnDecrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound - this.state.pageBound,
@@ -110,14 +122,20 @@ class ListProduct extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /** Edit Product */
   editProduct(id: any) {
     this.props.history.push("/edit-product/" + id);
   }
 
+  /** Redirect in product view page */
   viewProduct(id: any) {
     this.props.history.push("/view-product/" + id);
   }
 
+  /**
+   * 
+   * @param event : Record per page value
+   */
   onItemSelect(event: any) {
     this.setState({
       items_per_page: this.state.items_per_page =
@@ -131,6 +149,10 @@ class ListProduct extends React.Component<{ history: any }> {
     );
   }
 
+  /**
+   * 
+   * @param event : next page value
+   */
   async handleClick(event: any) {
     this.setState({
       currentPage: this.state.currentPage = event.target.id,
@@ -146,6 +168,10 @@ class ListProduct extends React.Component<{ history: any }> {
     
   }
 
+  /**
+   * 
+   * @param e : search product listing data
+   */
   async searchApplicationDataKeyUp(e: any) {
     const obj:getAllTableDataListRequest = {
       searchText: e.target.value,
@@ -156,6 +182,10 @@ class ListProduct extends React.Component<{ history: any }> {
     this.getProductData(obj.searchText, obj.page, obj.size);
   }
 
+  /**
+   * 
+   * @param key : sorting value
+   */
   handleSort(key: any) {
     this.setState({
       switchSort: !this.state.switchSort,
@@ -167,6 +197,12 @@ class ListProduct extends React.Component<{ history: any }> {
     });
   }
 
+  /**
+   * 
+   * @param data : status data change
+   * @param text : message 
+   * @param btext : button message
+   */
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj:statusChangeRequest = {
@@ -196,6 +232,10 @@ class ListProduct extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param pageNumbers : page numbers
+   */
   pagination(pageNumbers: any) {
     var res = pageNumbers.map((number: any) => {
       if (number === 1 && parseInt(this.state.currentPage) === 1) {
@@ -238,6 +278,7 @@ class ListProduct extends React.Component<{ history: any }> {
     return res;
   }
 
+  /** Get Table Listing */
   getTable(coupondata: any) {
     return (
       <table
@@ -322,6 +363,12 @@ class ListProduct extends React.Component<{ history: any }> {
     );
   }
 
+  /**
+   * 
+   * @param pageDecrementBtn : page decrement
+   * @param renderPageNumbers : page render
+   * @param pageIncrementBtn : page increment
+   */
   getPageData(
     pageDecrementBtn: any,
     renderPageNumbers: any,
@@ -361,6 +408,7 @@ class ListProduct extends React.Component<{ history: any }> {
     );
   }
 
+  /** Render DOM */
   render() {
     var pageNumbers = utils.pageNumber(
       this.state.count,

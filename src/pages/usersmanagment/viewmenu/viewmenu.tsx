@@ -17,6 +17,7 @@ import { addMenuStateRequest, getDataByIdRequest } from "../../../modelControlle
 
 class ViewMenuItem extends React.Component<{ history: any; location: any }> {
 
+    /** View menu state */
     menuState: addMenuStateRequest = constant.menuPage.state;
     state = {
         menuitemname: this.menuState.menuitemname,
@@ -29,13 +30,15 @@ class ViewMenuItem extends React.Component<{ history: any; location: any }> {
         updateTrue: this.menuState.updateTrue,
         menuid: this.menuState.menuid,
         menudata: this.menuState.menudata
-    };
+    }; 
 
+    /** Consructor call */
     constructor(props: any) {
         super(props);
         this.getMenuDataById = this.getMenuDataById.bind(this);
     }
 
+    /** Page Render Call */
     async componentDidMount() {
         document.title = constant.menuPage.title.viewMenuTitle + utils.getAppName();
         const menuId = this.props.location.pathname.split("/")[2];
@@ -44,6 +47,10 @@ class ViewMenuItem extends React.Component<{ history: any; location: any }> {
         }
     }
 
+    /**
+     * 
+     * @param id : Get Menu Data
+     */
     async getMenuDataById(id: any) {
         const obj: getDataByIdRequest = {
             id: id,
@@ -69,6 +76,7 @@ class ViewMenuItem extends React.Component<{ history: any; location: any }> {
         }
     }
 
+    /** Render DOM */
     render() {
         return (
             <>

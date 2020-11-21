@@ -5,6 +5,11 @@ import { deleteByIdRequest, deleteAllDataRequest } from '../modelController';
 import axios from 'axios';
 
 export default {
+
+  /**
+   * 
+   * @param data : delete data
+   */
     deleteData: async function (data:deleteAllDataRequest) {
         let queryString = '';
         data.id.map((id: any, index: number) => {

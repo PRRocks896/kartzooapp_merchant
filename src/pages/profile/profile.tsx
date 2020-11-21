@@ -30,6 +30,8 @@ interface User {
 }
 
 class Profile extends React.Component<{ history: any }> {
+
+  /** Profile State */
   profileState: profileState = constant.profilePage.state;
   state = {
     selectedProfileFile: this.profileState.selectedProfileFile,
@@ -93,6 +95,7 @@ class Profile extends React.Component<{ history: any }> {
     s4:this.profileState.s4,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.onItemSelect = this.onItemSelect.bind(this);
@@ -116,10 +119,15 @@ class Profile extends React.Component<{ history: any }> {
     this.onChangeProfilePicture = this.onChangeProfilePicture.bind(this);
   }
 
+  /**
+   * 
+   * @param checked : boolean value
+   */
   handleChange(checked: boolean) {
     this.setState({ isOpen: this.state.isOpen = checked });
   }
 
+  /** Page Render call */
   async componentDidMount() {
     document.title =
       constant.profilePage.profile.updateprofile + utils.getAppName();
@@ -143,6 +151,7 @@ class Profile extends React.Component<{ history: any }> {
     this.getUserById();
   }
 
+  /** Get User value */
   async getUserById() {
     var user = localStorage.getItem("user");
     if (user) {
@@ -208,6 +217,7 @@ class Profile extends React.Component<{ history: any }> {
     }
   }
 
+  /** Get city value */
   async getCityById(id: any) {
     const obj: getDataByIdRequest = {
       id: id,
@@ -230,18 +240,30 @@ class Profile extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param event : select user value
+   */
   onUserSelect(event: any) {
     this.setState({
       user: this.state.user = event.target.value,
     });
   }
 
+  /**
+   * 
+   * @param event : select city value
+   */
   onItemSelect(event: any) {
     this.setState({
       city: this.state.city = event.target.value,
     });
   }
 
+  /**
+   * 
+   * @param event : profile picture
+   */
   onChangeProfilePicture(event: any) {
     if (this.state.file4true === true) {
       this.setState({
@@ -269,6 +291,7 @@ class Profile extends React.Component<{ history: any }> {
     }
   }
 
+  /** Preview Picture */
   onChangeHandler(event: any) {
     if (this.state.filetrue === true) {
       this.setState({
@@ -296,6 +319,10 @@ class Profile extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param event : ID Proof image
+   */
   onChangeIDProof(event: any) {
     if (this.state.file1true === true) {
       this.setState({
@@ -323,6 +350,10 @@ class Profile extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param event : Document image
+   */
   onChangeDocumentHandler(event: any) {
     if (this.state.file2true === true) {
       this.setState({
@@ -352,29 +383,46 @@ class Profile extends React.Component<{ history: any }> {
     }
   }
 
+  /** Change Password type */
   handleClick = () =>
     this.setState(({ type }: any) => ({
       type: type === "password" ? "text" : "password",
     }));
 
+  /**
+   * 
+   * @param content : editor content
+   * @param editor : editor
+   */
   handleEditorChange = (content: any, editor: any) => {
     this.setState({
       refundpolicy: this.state.refundpolicy = content,
     });
   };
 
+  /**
+   * 
+   * @param content : editor content
+   * @param editor : editor
+   */
   handleEditorMainChange = (content: any, editor: any) => {
     this.setState({
       shoppingpolicy: this.state.shoppingpolicy = content,
     });
   };
 
+  /**
+   * 
+   * @param content : editor content
+   * @param editor : editor
+   */
   handleEditorUpChange = (content: any, editor: any) => {
     this.setState({
       cancellationpolicy: this.state.cancellationpolicy = content,
     });
   };
 
+  /** Check validate or not */
   validate() {
     let firstnameerror = "";
     let lastnameerror = "";
@@ -501,6 +549,10 @@ class Profile extends React.Component<{ history: any }> {
     return true;
   }
 
+  /**
+   * 
+   * @param event : update state value
+   */
   handleChangeEvent(event: any) {
     event.preventDefault();
     const state: any = this.state;
@@ -508,6 +560,7 @@ class Profile extends React.Component<{ history: any }> {
     this.setState(state);
   }
 
+  /** Update Merchant */
   async updateMerchant() {
     const isValid = this.validate();
     if (isValid) {
@@ -634,6 +687,7 @@ class Profile extends React.Component<{ history: any }> {
     }
   }
 
+  /** Remove Icon */
   removeIcon() {
     this.setState({
       file: this.state.file = "",
@@ -641,6 +695,7 @@ class Profile extends React.Component<{ history: any }> {
     });
   }
 
+  /** Remove Document Icon */
   removeDocumentIcon() {
     this.setState({
       file2: this.state.file2 = "",
@@ -648,6 +703,7 @@ class Profile extends React.Component<{ history: any }> {
     });
   }
 
+  /** Remove Id Proof Icon */
   removeProofIcon() {
     this.setState({
       file1: this.state.file1 = "",
@@ -655,6 +711,7 @@ class Profile extends React.Component<{ history: any }> {
     });
   }
 
+  /** Remove Profile Photo Icon */
   removeProfilePhotoIcon() {
     this.setState({
       file4: this.state.file4 = "",
@@ -663,7 +720,7 @@ class Profile extends React.Component<{ history: any }> {
     EventEmitter.dispatch('imageUpload', this.state.file4);
   }
 
-
+  /** Render DOM */
   render() {
     return (
       <>

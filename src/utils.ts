@@ -3,12 +3,16 @@ const $ = require("jquery");
 $.DataTable = require("datatables.net");
 
 const utils = {
+
+  /** Show Success Alert */
   showSuccess: (msg: string) => {
     Swal.fire({
       text: msg,
       icon: "success",
     });
   },
+
+  /** Show Error Alert */
   showError: (msg: string) => {
     Swal.fire({
       // title: "Cancelled",
@@ -16,9 +20,13 @@ const utils = {
       icon: "error",
     });
   },
+
+  /** Get App Name */
   getAppName: () => {
     return " | Merchant Panel";
   },
+
+  /** Get Merchant Header Detail */
   getMerchantHeaderDetail: () => {
     return {
       Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
@@ -26,6 +34,8 @@ const utils = {
       crossdomain: true,
     };
   },
+
+  /** Get Header Detail */
   getHeaderDetail: () => {
     return {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,6 +43,8 @@ const utils = {
       crossdomain: true,
     };
   },
+
+  /** Aleart Message */
   alertMessage: async (text:string,btext:string) => {
     let response = false;
     let result = await Swal.fire({
@@ -52,6 +64,8 @@ const utils = {
     }
     return response;
   },
+
+  /** Data Table */
   dataTable: () => {
   let table = $("#dtBasicExample").DataTable({
       paging: false,
@@ -62,6 +76,8 @@ const utils = {
     });
     return table;
   },
+
+  /** Compare in table */
   compareByDesc(key: any,sort:any) {
     if (sort) {
       return function (a: any, b: any) {
@@ -77,6 +93,8 @@ const utils = {
       };
     }
   },
+
+  /** Page Number */
   pageNumber(count:string,perpage:string) {
     var pageNumbers = [];
     for (

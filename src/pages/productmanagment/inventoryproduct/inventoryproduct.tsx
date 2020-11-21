@@ -28,6 +28,8 @@ class InventoryProduct extends React.Component<{
   history: any;
   location: any;
 }> {
+
+  /** Product Inventory State */
   productState: addInventoryState = constant.productInventoryPage.state;
   state = {
     productid: this.productState.productid,
@@ -40,6 +42,7 @@ class InventoryProduct extends React.Component<{
     product: this.productState.product,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.handleChangeEvent = this.handleChangeEvent.bind(this);
@@ -47,6 +50,8 @@ class InventoryProduct extends React.Component<{
     this.updateInventoryProduct = this.updateInventoryProduct.bind(this);
     this.onProductSelect = this.onProductSelect.bind(this);
   }
+
+  /** Page Render Call */
   async componentDidMount() {
     this.getAllProduct();
     const inventoryId = this.props.location.pathname.split("/")[2];
@@ -68,6 +73,10 @@ class InventoryProduct extends React.Component<{
     }
   }
 
+  /**
+   * 
+   * @param inventoryId : get inventory data
+   */
   async getInventoryData(inventoryId: any) {
     const obj:getDataByIdRequest = {
       id: inventoryId,
@@ -94,6 +103,7 @@ class InventoryProduct extends React.Component<{
     }
   }
 
+  /** Get All product data */
   async getAllProduct() {
     const getAllProduct = await ProductAPI.getAllProduct();
     // console.log("getAllProduct", getAllProduct);
@@ -112,12 +122,17 @@ class InventoryProduct extends React.Component<{
     }
   }
 
+  /**
+   * 
+   * @param event : select product
+   */
   onProductSelect(event: any) {
     this.setState({
       productid: event.target.value,
     });
   }
 
+  /** Check validate or not */
   validate() {
     let productiderror = "";
     let stockqtyerror = "";
@@ -140,6 +155,7 @@ class InventoryProduct extends React.Component<{
     return true;
   }
 
+  /** Check Validate Update */
   validateUpdate() {
    
     let stockqtyerror = "";
@@ -159,6 +175,10 @@ class InventoryProduct extends React.Component<{
     return true;
   }
 
+  /**
+   * 
+   * @param event : update the state value
+   */
   handleChangeEvent(event: any) {
     event.preventDefault();
     const state: any = this.state;
@@ -166,6 +186,7 @@ class InventoryProduct extends React.Component<{
     this.setState(state);
   }
 
+  /** Add Inventory Product */
   async addInventoryProduct() {
     const isValid = this.validate();
     if (isValid) {
@@ -199,6 +220,7 @@ class InventoryProduct extends React.Component<{
     }
   }
 
+  /** Update Inventory Product */
   async updateInventoryProduct() {
     const isValid = this.validateUpdate();
     if (isValid) {
@@ -234,6 +256,7 @@ class InventoryProduct extends React.Component<{
     }
   }
 
+  /** Render DOM */
   render() {
     return (
       <>

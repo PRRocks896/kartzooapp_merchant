@@ -27,6 +27,8 @@ import {
 } from "../../../modelController";
 
 class ListBussinessHours extends React.Component<{ history: any }> {
+
+  /** List Business Hours State */
   merchantBusinessHoursState: listBusinessState =
     constant.merchantBussinessPage.state;
   userState: allStateRequest = constant.userPage.state;
@@ -46,6 +48,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     deleteFlag: this.userState.deleteFlag,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.editBusinessHours = this.editBusinessHours.bind(this);
@@ -68,6 +71,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.handleMainChange = this.handleMainChange.bind(this);
   }
 
+  /** Page Render Call */
   async componentDidMount() {
     document.title =
       constant.merchantBussinessPage.title.merchantHoursTitle +
@@ -76,6 +80,12 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.getBusinessHoursData();
   }
 
+  /**
+   * 
+   * @param searchText : search value
+   * @param page : page number
+   * @param size : per page size
+   */
   async getBusinessHoursData(
     searchText: string = "",
     page: number = 1,
@@ -107,6 +117,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     }
   }
 
+  /** Button next in pagination */
   btnIncrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound + this.state.pageBound,
@@ -118,6 +129,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /** Button Previous in pagination */
   btnDecrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound - this.state.pageBound,
@@ -129,10 +141,18 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /**
+   * 
+   * @param id : redirect in edit functionality
+   */
   editBusinessHours(id: any) {
     this.props.history.push("/edit-merchant-business/" + id);
   }
 
+  /**
+   * 
+   * @param id : view merchant business hours data
+   */
   viewBusinessHours(id: any) {
     this.props.history.push("/view-merchant-business/" + id);
   }
@@ -156,6 +176,11 @@ class ListBussinessHours extends React.Component<{ history: any }> {
   //   }
   // }
 
+  /**
+   * 
+   * @param text : message
+   * @param btext : button message
+   */
   async deleteAllData(text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj: deleteAllDataRequest = {
@@ -190,6 +215,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param event : Record per page value
+   */
   onItemSelect(event: any) {
     this.setState({
       items_per_page:
@@ -203,6 +232,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     );
   }
 
+  /**
+   * 
+   * @param event : next page call functionality
+   */
   async handleClick(event: any) {
     this.setState({
       currentPage:event.target.id,
@@ -218,6 +251,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     
   }
 
+  /**
+   * 
+   * @param e : search listing value
+   */
   async searchApplicationDataKeyUp(e: any) {
     const obj: getAllTableDataListRequest = {
       searchText: e.target.value,
@@ -228,6 +265,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     this.getBusinessHoursData(obj.searchText, obj.page, obj.size);
   }
 
+  /**
+   * 
+   * @param key : sorting in listing
+   */
   handleSort(key: any) {
     this.setState({
       switchSort: !this.state.switchSort,
@@ -239,6 +280,12 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     });
   }
 
+  /**
+   * 
+   * @param data : status change data
+   * @param text : message
+   * @param btext : button message
+   */
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj: statusChangeRequest = {
@@ -268,6 +315,11 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     }
   }
 
+  /**
+   * 
+   * @param item : change value of checkbox listing
+   * @param e : change event of checkbox
+   */
   handleChange(item: any, e: any) {
     let _id = item.merchantBusinessHoursId;
     let ind: any = this.state.businessdata.findIndex(
@@ -314,6 +366,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
+  /**
+   * 
+   * @param e : main checkbox value check
+   */
   handleMainChange(e: any) {
     let _val = e.target.checked;
     this.state.businessdata.forEach((element: any) => {
@@ -346,6 +402,10 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     // console.log("deleteuserdata array", this.state.deleteuserdata);
   }
 
+  /**
+   * 
+   * @param pageNumbers : page numbers display
+   */
   pagination(pageNumbers: any) {
     var res = pageNumbers.map((number: any) => {
       if (number === 1 && parseInt(this.state.currentPage) === 1) {
@@ -388,6 +448,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     return res;
   }
 
+  /** Get Table Listing */
   getTable(merchantdata: any) {
     return (
       <table
@@ -503,6 +564,12 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     );
   }
 
+  /**
+   * 
+   * @param pageDecrementBtn : page decrement
+   * @param renderPageNumbers : page number
+   * @param pageIncrementBtn : page increment
+   */
   getPageData(
     pageDecrementBtn: any,
     renderPageNumbers: any,
@@ -542,6 +609,7 @@ class ListBussinessHours extends React.Component<{ history: any }> {
     );
   }
 
+  /** Render DOM */
   render() {
     var pageNumbers = utils.pageNumber(
       this.state.count,

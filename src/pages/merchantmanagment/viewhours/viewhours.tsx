@@ -21,6 +21,7 @@ class ViewBusinessHours extends React.Component<{
   history: any;
   location: any;
 }> {
+  /** Business State */
   businessState : businessState = constant.merchantBussinessPage.state;
   state = {
     days: this.businessState.days,
@@ -28,11 +29,13 @@ class ViewBusinessHours extends React.Component<{
     name: this.businessState.merchant,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.getBusinessById = this.getBusinessById.bind(this);
   }
 
+  /** Page Render Call */
   async componentDidMount() {
     document.title =
       constant.merchantBussinessPage.viewmerchantbusinesshoursdetails
@@ -43,6 +46,10 @@ class ViewBusinessHours extends React.Component<{
     }
   }
 
+  /**
+   * 
+   * @param id : get business hours by id 
+   */
   async getBusinessById(id: getDataByIdRequest) {
     const getBusinessById: any = await MerchantAPI.getBusinessById(id);
     // console.log("getBusinessById", getBusinessById);
@@ -63,6 +70,7 @@ class ViewBusinessHours extends React.Component<{
     }
   }
 
+  /** Render DOM */
   render() {
     return (
       <>

@@ -19,6 +19,8 @@ import constant from "../../../constant/constant";
 import { deleteByIdRequest, getAllTableDataListRequest, getDataByIdRequest, statusChangeRequest, allStateRequest , listInventoryState,deleteAllDataRequest} from "../../../modelController";
 
 class ListProductInventory extends React.Component<{ history: any }> {
+
+  /** Product Inventory Listing State */
   productState : listInventoryState= constant.productInventoryPage.state;
   userState : allStateRequest= constant.userPage.state;
   state = {
@@ -38,6 +40,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
     deleteFlag: this.userState.deleteFlag,
   };
 
+  /** Constructor call */
   constructor(props: any) {
     super(props);
     this.editProductInventory = this.editProductInventory.bind(this);
@@ -60,6 +63,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
     // this.handleMainChange = this.handleMainChange.bind(this);
   }
 
+  /** Page Render Call */
   async componentDidMount() {
     document.title =
       constant.productInventoryPage.title.productInventoryTitle + utils.getAppName();
@@ -67,8 +71,12 @@ class ListProductInventory extends React.Component<{ history: any }> {
     this.getProductInventoryData();
   }
 
-
-
+  /**
+   * 
+   * @param searchText : search value
+   * @param page : page number
+   * @param size : per page size
+   */
   async getProductInventoryData(
     searchText: string = "",
     page: number = 1,
@@ -100,6 +108,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
     }
   }
 
+  /** Button next */
   btnIncrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound + this.state.pageBound,
@@ -111,6 +120,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /** Button previous */
   btnDecrementClick() {
     this.setState({
       upperPageBound: this.state.upperPageBound - this.state.pageBound,
@@ -122,10 +132,18 @@ class ListProductInventory extends React.Component<{ history: any }> {
     this.setState({ currentPage: listid });
   }
 
+  /**
+   * 
+   * @param id : redirect in edit inventory
+   */
   editProductInventory(id: any) {
     this.props.history.push("/edit-product-inventory/" + id);
   }
 
+  /**
+   * 
+   * @param id : redirect in product inventory view page 
+   */
   viewProductInventory(id: any) {
     this.props.history.push("/view-product-inventory/" + id);
   }
@@ -149,6 +167,11 @@ class ListProductInventory extends React.Component<{ history: any }> {
   //   }
   // }
 
+  /**
+   * 
+   * @param text : message 
+   * @param btext : button message
+   */
   async deleteAllData(text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj: deleteAllDataRequest = {
@@ -178,7 +201,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
   }
 
 
-
+/**
+ * 
+ * @param event : Record per page
+ */
   onItemSelect(event: any) {
     this.setState({
       items_per_page: this.state.items_per_page =
@@ -192,6 +218,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
     );
   }
 
+  /**
+   * 
+   * @param event : click on next page
+   */
   async handleClick(event: any) {
     this.setState({
       currentPage: this.state.currentPage = event.target.id,
@@ -207,6 +237,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
     
   }
 
+  /**
+   * 
+   * @param e : search inventory listing value
+   */
   async searchApplicationDataKeyUp(e: any) {
     const obj:getAllTableDataListRequest = {
       searchText: e.target.value,
@@ -217,6 +251,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
     this.getProductInventoryData(obj.searchText, obj.page, obj.size);
   }
 
+  /**
+   * 
+   * @param key : list sorting
+   */
   handleSort(key: any) {
     this.setState({
       switchSort: !this.state.switchSort,
@@ -228,6 +266,12 @@ class ListProductInventory extends React.Component<{ history: any }> {
     });
   }
 
+  /**
+   * 
+   * @param data : data
+   * @param text : message
+   * @param btext : button message
+   */
   async statusChange(data: any, text: string, btext: string) {
     if (await utils.alertMessage(text, btext)) {
       const obj:statusChangeRequest = {
@@ -333,6 +377,10 @@ class ListProductInventory extends React.Component<{ history: any }> {
   //   // console.log("deleteuserdata array", this.state.deleteuserdata);
   // }
 
+  /**
+   * 
+   * @param pageNumbers : page number
+   */
   pagination(pageNumbers: any) {
     var res = pageNumbers.map((number: any) => {
       if (number === 1 && parseInt(this.state.currentPage) === 1) {
@@ -375,6 +423,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
     return res;
   }
 
+  /** Get Table Listing */
   getTable(coupondata: any) {
     return (
       <table
@@ -448,6 +497,12 @@ class ListProductInventory extends React.Component<{ history: any }> {
     );
   }
 
+  /**
+   * 
+   * @param pageDecrementBtn : page decrement
+   * @param renderPageNumbers : page number
+   * @param pageIncrementBtn : page increment
+   */
   getPageData(
     pageDecrementBtn: any,
     renderPageNumbers: any,
@@ -487,6 +542,7 @@ class ListProductInventory extends React.Component<{ history: any }> {
     );
   }
 
+  /** Render DOM */
   render() {
     var pageNumbers = utils.pageNumber(
       this.state.count,

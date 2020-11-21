@@ -6,6 +6,8 @@ import EventEmitter from '../../event';
 import { navBarStateRequest } from '../../modelController';
 
 class NavBar extends React.Component {
+
+    /** NavBar State */
     navbarState = constant.navbarPage.state
     state: navBarStateRequest = {
         isOpen: this.navbarState.isOpen,
@@ -16,6 +18,7 @@ class NavBar extends React.Component {
         classshow:this.navbarState.classshow
     };
 
+    /** Constructor call */
     constructor(props:any) {
         super(props);
         this.activeRoute = this.activeRoute.bind(this);
@@ -41,6 +44,7 @@ class NavBar extends React.Component {
         });
     }
 
+    /** Page Render Call */
     componentDidMount() {
         var user = localStorage.getItem("user");
         if (user) {
@@ -53,28 +57,37 @@ class NavBar extends React.Component {
         }
     }
 
+    /**
+     * 
+     * @param routeName : route name
+     */
     activeRoute(routeName:any) {
         const route = window.location.hash.split('#')[1];
         return route === routeName ? `active collapsed sidebar-manage` : `collapsed sidebar-manage`;
     
       }
 
+      /** Redirect in URL */
       handleClick(url:any) {
           window.location.href=`/#${url}`;
       }
 
+    /** Collapse Open */
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     }
 
+    /** Collapse Right open */
     toggleCollapseRight = () => {
         this.setState({ side: !this.state.side });
     }
 
+    /** Close navbar */
     closeNav = () => {
         this.setState({ isOpen: !this.state.isOpen });
     }
 
+    /** Logout */
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -83,6 +96,7 @@ class NavBar extends React.Component {
         window.location.href="/#/login";
     }
 
+    /** Render DOM */
     render() {
 
         return (
