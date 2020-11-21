@@ -1882,7 +1882,7 @@ textarea{
   background-color: #ebebed;
 }
 .input-group{
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 .custom-file-label{
   color: #778087;
