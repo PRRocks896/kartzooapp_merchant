@@ -59,9 +59,9 @@ class Login extends React.Component<{ history: any }> {
   /** Page Render Call */
   async componentDidMount() {
     document.title = constant.loginTitle + utils.getAppName();
-    // const ipaddress = await publicIp.v4();
+    const ipaddress = await publicIp.v4();
     this.setState({
-      ipAddress: this.state.ipAddress = "125.123.126.141",
+      ipAddress: this.state.ipAddress = ipaddress,
       isButton: this.state.isButton = false,
     });
   }
@@ -143,7 +143,7 @@ class Login extends React.Component<{ history: any }> {
     const isValid = this.validatePassword();
     if (isValid) {
       this.setState({
-        forgotemail: this.state.forgotemail = "",
+        forgotemailerror: this.state.forgotemailerror = "",
       });
       if (this.state.forgotemail) {
         const obj = {
