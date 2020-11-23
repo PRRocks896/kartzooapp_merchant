@@ -107,7 +107,9 @@ class NavBar extends React.Component {
                 <aside id="ms-side-nav" className="side-nav fixed ms-aside-scrollable ms-aside-left">
 
                     <div className="logo-sn ms-d-block-lg">
-                        <Link className="pl-0 ml-0 text-center" to="/dashboard"><img src="./assets/images/logo1.svg" alt="logo" /></Link>
+                    <Link className="pl-0 ml-0 text-center" to="/dashboard">
+              <img src="./assets/images/logo1.svg" alt="logo" />
+            </Link>
                     </div>
 
                     <ul className="accordion ms-main-aside fs-14" id="side-nav-accordion">
