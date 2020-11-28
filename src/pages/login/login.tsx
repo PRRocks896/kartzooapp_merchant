@@ -59,9 +59,9 @@ class Login extends React.Component<{ history: any }> {
   /** Page Render Call */
   async componentDidMount() {
     document.title = constant.loginTitle + utils.getAppName();
-    const ipaddress = await publicIp.v4();
+    // const ipaddress = await publicIp.v4();
     this.setState({
-      ipAddress: this.state.ipAddress = ipaddress,
+      ipAddress: this.state.ipAddress = "123.125.23.425",
       isButton: this.state.isButton = false,
     });
   }

@@ -21,6 +21,7 @@ import {
   getDataByIdRequest,
   addUserRoleState,
 } from "../../../modelController";
+import './adduserrole.css';
 
 class AddUserRole extends React.Component<{ history: any; location: any }> {
 
@@ -218,11 +219,11 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
                     <Row>
                       {this.state.updateTrue === true ? (
                         <Col xs="12" sm="6" md="9" lg="9" xl="9">
-                          <h1>{constant.userRolePage.title.updateRoleTitle}</h1>
+                          <h1 className="userbutton1">{constant.userRolePage.title.updateRoleTitle}</h1>
                         </Col>
                       ) : (
                         <Col xs="12" sm="6" md="9" lg="9" xl="9">
-                          <h1>{constant.userRolePage.title.updateRoleTitle}</h1>
+                          <h1 className="userbutton1">{constant.userRolePage.title.updateRoleTitle}</h1>
                         </Col>
                       )}
                       <Col
@@ -231,7 +232,7 @@ class AddUserRole extends React.Component<{ history: any; location: any }> {
                         md="3"
                         lg="3"
                         xl="3"
-                        className="search_right"
+                        className="userbutton"
                       >
                         <Link to="/userrole">
                           <Button

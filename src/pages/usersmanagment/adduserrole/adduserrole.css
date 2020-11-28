@@ -1,0 +1,19 @@
+
+.userbutton1 {
+    text-align: left;
+}
+
+.userbutton {
+    text-align: right;
+}
+
+@media(max-width: 768px)  {
+
+    .userbutton {
+        text-align: center;
+    }
+
+    .userbutton1 {
+        text-align: center;
+    }
+}

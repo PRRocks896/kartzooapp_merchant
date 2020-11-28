@@ -4,3 +4,18 @@ input.form-control.custom_text_width.search {
 .centers {
     text-align: center;
 }
+
+@media screen and (max-width: 768px) {
+    .filter {
+        display: block;
+        text-align: center;
+        padding-top: 20px;
+    }
+    .pagination {
+        justify-content: center;
+    }
+
+    .right, .card-title {
+        text-align: center;
+    }
+}

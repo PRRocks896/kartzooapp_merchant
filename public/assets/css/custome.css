@@ -127,12 +127,12 @@ div#dtBasicExample_wrapper .row {
     height: calc(1.5em + .75rem + 2px);
 }
 .pagination {
-    display: flex;
-    padding-left: 0;
-    list-style: none;
-    border-radius: .25rem;
-    justify-content: flex-end;
-    /* padding-top: 11px; */
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: .25rem;
+  justify-content: flex-end;
+  /* padding-top: 11px; */
 }
 table.dataTable.table-sm .sorting:after, table.dataTable.table-sm .sorting_asc:after, table.dataTable.table-sm .sorting_desc:after {
     top: 5px;

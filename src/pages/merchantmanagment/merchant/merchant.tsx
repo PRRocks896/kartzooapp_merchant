@@ -505,13 +505,13 @@ class Merchant extends React.Component<{ history: any }> {
                     <Row>
                       {this.state.updateTrue === true ? (
                         <Col xs="12" sm="6" md="9" lg="9" xl="9">
-                          <h1>
+                          <h1 className="userbutton1">
                             {constant.merchantPage.title.updateMerchantTitle}
                           </h1>
                         </Col>
                       ) : (
                         <Col xs="12" sm="6" md="9" lg="9" xl="9">
-                          <h1>
+                          <h1 className="userbutton1">
                             {constant.merchantPage.title.addMerchantTitle}
                           </h1>
                         </Col>
@@ -523,7 +523,7 @@ class Merchant extends React.Component<{ history: any }> {
                         md="3"
                         lg="3"
                         xl="3"
-                        className="search_right"
+                        className="userbutton"
                       >
                         <Link to="/list-merchant">
                           <Button

@@ -6,6 +6,9 @@
 .custom_text_width {
     width: 20% !important;
 }
+.r-per-page{
+    width: 182px !important;
+}
 @media(max-width:400px){
     .filter{
       display: block;
@@ -17,6 +20,14 @@
         margin-bottom: 10px;
     }
   }
+  @media screen and (max-width: 768px) {
+
+    .userClass {
+        display: block !important;
+        overflow: hidden;
+        overflow-x: scroll;
+    }
+}
   @media(max-width:1024px){
     .custom_text_width {
         width: 100% !important;

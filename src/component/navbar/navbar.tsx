@@ -119,14 +119,11 @@ class NavBar extends React.Component {
                                    nav.items.map((menu:any,index:any) => (
                                     menu.type === 'header' ? (
                                         <div key={index} className="menu_name">
-
                                             <span  className="header_side">{menu.name}</span>
                                         </div>
                                     ): (
-                                      
                                         <a  key={index} href="#" id={`dropdown-${menu.id}`} className={this.activeRoute(menu.url)} data-toggle="collapse" data-target={`#${menu.id}`} aria-expanded="false" aria-controls={`${menu.id}`}  onClick={() => this.handleClick(menu.url)}> <span><i className={menu.icon}></i>{menu.name} </span>
                                         </a>
-                                   
                                     )
                                    ))
                                }
@@ -587,12 +584,11 @@ class NavBar extends React.Component {
                                 </ul>
                             </li>
                         </ul>
-                        <div className="ms-toggler ms-d-block-sm pr-0 ms-nav-toggler" data-toggle="slideDown" data-target="#ms-nav-options" onClick={this.toggleCollapseRight}>
+                        {/* <div className="ms-toggler ms-d-block-sm pr-0 ms-nav-toggler" data-toggle="slideDown" data-target="#ms-nav-options" onClick={this.toggleCollapseRight}>
                             <span className="ms-toggler-bar bg-primary l-color"></span>
                             <span className="ms-toggler-bar bg-primary l-color"></span>
                             <span className="ms-toggler-bar bg-primary l-color"></span>
-                        </div>
-
+                        </div> */}
                     </nav>
                     {this.props.children}
                 </main>
