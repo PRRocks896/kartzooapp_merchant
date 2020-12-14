@@ -70,133 +70,118 @@ axios.interceptors.response.use(
         }
         else if (err.response.data.status === 401 || err.response.status === 401) {
           return new Promise(async (resolve, reject) => {
-          const msg1 = err.response.data.message;
-          utils.showError(msg1);
-          // const usertoken: any = localStorage.getItem("token");
-          // console.log('usertoken',usertoken);
-          // const userrefreshtoken: any = localStorage.getItem("refreshtoken");
-          // console.log('userrefreshtoken',userrefreshtoken);
-          const users: any = localStorage.getItem("user");
-          let user = JSON.parse(users);
-          // const users1: any = localStorage.getItem("refreshtoken");
-          // let usertoken1 = JSON.parse(users1);
-            const ipaddress = publicIp.v4();
-            const originalReq = err.config;
-            originalReq._retry = true;
-            let oldCount = 0;
-
-            // if(err.response)
-            const data = {
-              deviceType: 1,
-              deviceId: "deviceId",
-              ipAddress: await ipaddress,
-              loginToken: user.token,
-              refreshToken: user.refreshToken,
-            };
-
-            // localStorage.removeItem("token");
-            // localStorage.removeItem("user");
-            // localStorage.removeItem("merchantToken");
-            // localStorage.removeItem("rolePreveliges");
-            // localStorage.removeItem("menuItems");
-            // window.location.href = "/#/login";
-            setTimeout(() => {
-
-            
-            let res = axios
-              .post(constant.apiUrl + "token", data)
-              .then((res: any) => {
-                console.log("res", res);
-                const users: any = localStorage.getItem("user");
-                let user = JSON.parse(users);
-                user.token = res.data.token;
-                user.refreshToken =  res.data.refreshToken;
-                localStorage.setItem("user",JSON.stringify(user));
-                localStorage.setItem("token",res.data.token);
-                window.location.reload();
+            const msg1 = err.response.data.message;
+            utils.showError(msg1);
+      
+              const originalReq = err.config;
+              originalReq._retry = true;
+              let oldCount = 0;
+  
               
-                // oldRequest
-                if (oldCount === 0) {
-                  oldCount = 1;
-                  oldRequest.headers["Authorization"] =
-                    "Barier " + (res.data ? res.data.token : "");
-                  // console.log("oldRequest", oldRequest);
-                  // // console.log("oldRequest.url",oldRequest.url)
-                  switch (oldRequest['method']) {
-                    case "GET":
-                      axios
-                        .get(oldRequest.url, { headers: oldRequest.headers })
-                        .then((result: any) => {
-                          console.log("oldrequest result ", result)
-                          // // console.log("oldrequest result response", response)
-                          //return result1;
-                          return result;
-                        })
-                        .catch((error1: any) => {
-                          // // console.log("oldrequest error ", error1)
-                          return error1;
-                        });
-                      break;
-                    case "POST":
-                      axios
-                        .post(oldRequest.url, oldRequest.body, {
-                          headers: oldRequest.headers,
-                        })
-                        .then((result: any) => {
-                          console.log("oldrequest result ", result)
-                          // // console.log("oldrequest result response", response)
-                          //return result1;
-                          return result;
-                        })
-                        .catch((error1: any) => {
-                          // // console.log("oldrequest error ", error1)
-                          return error1;
-                        });
-                      break;
-                    case "PUT":
-                      axios
-                        .put(oldRequest.url, oldRequest.body, {
-                          headers: oldRequest.headers,
-                        })
-                        .then((result: any) => {
-                          // // console.log("oldrequest result ", result1)
-                          // // console.log("oldrequest result response", response)
-                          //return result1;
-                          return result;
-                        })
-                        .catch((error1: any) => {
-                          // // console.log("oldrequest error ", error1)
-                          return error1;
-                        });
-                      break;
-                    case "DELETE":
-                      axios
-                        .delete(oldRequest.url, {
-                          headers: oldRequest.headers,
-                        })
-                        .then((result: any) => {  
-                          // // console.log("oldrequest result ", result1)
-                          // // console.log("oldrequest result response", response)
-                          //return result1;
-                          return result;
-                        })
-                        .catch((error1: any) => {
-                          // // console.log("oldrequest error ", error1)
-                          return error1;
-                        });
-                      break;
+              const data = {
+                id:'2120d758-b8bd-42cd-a265-a3ca30845e2f',
+                userName: 'b3EB+9LJEVMrXNFQ6ZekiPGVTSAirzq1xcYlUViCxic=',
+                password:'O8QziWH1Sq75LO+lH9Q9AqB/HbgvlglvDYPUXykFRvM=',
+                key:'digitalvicharcommonkartzoapi'
+              };
+  
+  
+              setTimeout(() => {
+  
+              
+              let res = axios
+                .post(constant.apiUrl + "token/get-common-token", data)
+                .then((res: any) => {
+                  console.log("res", res);
+                  const users: any = localStorage.getItem("user");
+                  let user = JSON.parse(users);
+                  user.token = res.data.token;
+                  localStorage.setItem("user",JSON.stringify(user));
+                  localStorage.setItem("token",res.data.token);
+                  window.location.reload();
+                
+                  // oldRequest
+                  if (oldCount === 0) {
+                    oldCount = 1;
+                    oldRequest.headers["Authorization"] =
+                      "Barier " + (res.data ? res.data.token : "");
+                    // console.log("oldRequest", oldRequest);
+                    // // console.log("oldRequest.url",oldRequest.url)
+                    switch (oldRequest['method']) {
+                      case "GET":
+                        axios
+                          .get(oldRequest.url, { headers: oldRequest.headers })
+                          .then((result: any) => {
+                            console.log("oldrequest result ", result)
+                            // // console.log("oldrequest result response", response)
+                            //return result1;
+                            return result;
+                          })
+                          .catch((error1: any) => {
+                            // // console.log("oldrequest error ", error1)
+                            return error1;
+                          });
+                        break;
+                      case "POST":
+                        axios
+                          .post(oldRequest.url, oldRequest.body, {
+                            headers: oldRequest.headers,
+                          })
+                          .then((result: any) => {
+                            console.log("oldrequest result ", result)
+                            // // console.log("oldrequest result response", response)
+                            //return result1;
+                            return result;
+                          })
+                          .catch((error1: any) => {
+                            // // console.log("oldrequest error ", error1)
+                            return error1;
+                          });
+                        break;
+                      case "PUT":
+                        axios
+                          .put(oldRequest.url, oldRequest.body, {
+                            headers: oldRequest.headers,
+                          })
+                          .then((result: any) => {
+                            // // console.log("oldrequest result ", result1)
+                            // // console.log("oldrequest result response", response)
+                            //return result1;
+                            return result;
+                          })
+                          .catch((error1: any) => {
+                            // // console.log("oldrequest error ", error1)
+                            return error1;
+                          });
+                        break;
+                      case "DELETE":
+                        axios
+                          .delete(oldRequest.url, {
+                            headers: oldRequest.headers,
+                          })
+                          .then((result: any) => {  
+                            // // console.log("oldrequest result ", result1)
+                            // // console.log("oldrequest result response", response)
+                            //return result1;
+                            return result;
+                          })
+                          .catch((error1: any) => {
+                            // // console.log("oldrequest error ", error1)
+                            return error1;
+                          });
+                        break;
+                    }
                   }
-                }
-                return axios(originalReq);
-              })
-              .catch((error) => {
-                // window.location.href = "/#/login";
-                return Promise.reject(error);
-              });
-              
-            resolve(res);
-          }, 5000);
-          });
+                  return axios(originalReq);
+                })
+                .catch((error) => {
+                  // window.location.href = "/#/login";
+                  return Promise.reject(error);
+                });
+                
+              resolve(res);
+            },1000);
+            });
         } else {
           const msg1 = "Internal server error";
           utils.showError(msg1);
