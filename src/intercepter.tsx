@@ -88,7 +88,6 @@ axios.interceptors.response.use(
   
               setTimeout(() => {
   
-              
               let res = axios
                 .post(constant.apiUrl + "token/get-common-token", data)
                 .then((res: any) => {
